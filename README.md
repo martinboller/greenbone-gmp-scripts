@@ -59,7 +59,7 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-reports.gmp.py
 - There are no reports generated before at least one scan task has completed.  <br/><br/> 
 
-### list-scanner-configs.gmp.py ###<br/><br/> 
+### list-scanner-configs.gmp.py ### 
 **Lists all scan configs.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scanner-configs.gmp.py  <br/><br/> 
 
