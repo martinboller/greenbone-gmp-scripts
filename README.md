@@ -12,7 +12,8 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.  <b
 
 ## Running Python GVM Scripts
 For details on Python GVM, please refer to https://gvm-tools.readthedocs.io/en/latest/scripting.html#gvm-scripts
-
+When you just want to get the XML from Greenbone to look for values/value names, it's easy to use gvm-cli, like this: <br/><br/> 
+- gvm-cli --gmp-username *admin-user* --gmp-password *password* socket --xml="<get_alerts/>"
 
 ## Python Scripts in this repo:
 ### clean-sensor.gmp.py ###
@@ -46,6 +47,10 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 - Get the *report_uuid* with list-reports.gmp.py or find it in the UI. If the output is not specified it will be named *report_uuid.pdf*
 - Note the only changes to this script is an added ignore_pagination=True, details=True to get the full report.  <br/><br/> 
 
+## list-alerts.gmp.py ###
+**Lists all alerts configured with name and uuid.**<br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-alerts.gmp.py  <br/><br/> 
+
 ## list-credentials.gmp.py ###
 **Lists all credentials configured with name and uuid.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-credentials.gmp.py  <br/><br/> 
@@ -66,6 +71,10 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 ### list-scanners.gmp.py ###
 **Lists all scanners currently configured.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scanners.gmp.py  <br/><br/> 
+
+## list-schedules.gmp.py ###
+**Lists all schedules configured with name and uuid.**<br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-schediles.gmp.py  <br/><br/> 
 
 ### list-targets.gmp.py ###
 **Lists all targets currently configured.**<br/><br/> 

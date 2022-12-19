@@ -42,12 +42,12 @@ def check_args(args):
         This script lists all reports depending on status.
         One parameter after the script name is required.
 
-        1. Status -- Either Requested, Running, or Done
+        1. Status -- Either Queued, Requested, Running, or Done
 
         Example:
             $ gvm-script --gmp-username name --gmp-password pass \
 socket list-reports.gmp.py Done \n
-Don't forget that case matters
+Don't forget that case matters - E.g. done won't work, but Done will
         """
         print(message)
         sys.exit()
@@ -72,7 +72,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "status_cmd",
         type=str,
-        help=("Status Requested, Running, Done"),
+        help=("Status: Queued, Requested, Running, Done"),
     )
     script_args, _ = parser.parse_known_args(args)
     return script_args
