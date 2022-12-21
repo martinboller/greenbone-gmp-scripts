@@ -30,8 +30,8 @@ from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 HELP_TEXT = (
     "This script list reports with the status "
     "defined on the commandline. Status can be: \n"
-    "Requested, Running, or Done \n"
-    "Note: Case matters"
+    "Requested, Queued, Interrupted, Running, or Done \n"
+    "Note: Case matters. E.g.  - done - won't work, but - Done - will"
 )
 
 
@@ -42,12 +42,12 @@ def check_args(args):
         This script lists all reports depending on status.
         One parameter after the script name is required.
 
-        1. Status -- Either Queued, Requested, Running, or Done
+        1. Status -- Either Requested, Queued, Interrupted, Running, or Done
 
         Example:
             $ gvm-script --gmp-username name --gmp-password pass \
 socket list-reports.gmp.py Done \n
-Don't forget that case matters - E.g. done won't work, but Done will
+Don't forget that case matters - E.g.  - done - won't work, but - Done - will
         """
         print(message)
         sys.exit()
@@ -72,7 +72,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "status_cmd",
         type=str,
-        help=("Status: Queued, Requested, Running, Done"),
+        help=("Status: Queued, Requested, Interrupted, Running, or Done"),
     )
     script_args, _ = parser.parse_known_args(args)
     return script_args
@@ -82,7 +82,7 @@ def list_reports (
     status: str,
 ):
     str_status = status
-    print("Status: " + str_status + "\n")
+    print("Reports with status: " + str_status + "\n")
 
     response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="status=" + str_status + "  and sort-reverse=name")
     reports_xml = response_xml.xpath("report")
