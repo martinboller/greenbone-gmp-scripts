@@ -42,7 +42,7 @@ def check_args(args):
         This script lists all reports depending on status.
         One parameter after the script name is required.
 
-        1. Status -- Either Requested, Queued, Interrupted, Running, or Done
+        1. Status -- Either \"Requested\", \"Queued\", \"Interrupted\", \"Running\", \"Stop Requested\", \"Stopped\", or \"Done\"
 
         Example:
             $ gvm-script --gmp-username name --gmp-password pass \
@@ -72,7 +72,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "status_cmd",
         type=str,
-        help=("Status: Queued, Requested, Interrupted, Running, or Done"),
+        help=("Status: \"Queued\", \"Requested\", \"Interrupted\", \"Running\", \"Stop Requested\", \"Stopped\" or \"Done\""),
     )
     script_args, _ = parser.parse_known_args(args)
     return script_args

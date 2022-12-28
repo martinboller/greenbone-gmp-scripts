@@ -60,9 +60,11 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-report-formats.gmp.py  <br/><br/> 
 
 ### list-reports.gmp.py ###
-**Lists all reports that have finished (status=done)**<br/><br/> 
-- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-reports.gmp.py
-- There are no reports generated before at least one scan task has completed.  <br/><br/> 
+**Lists all reports that have specified status**<br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-reports.gmp.py *Status*
+- where status is "Requested", "Queued", "Interrupted", "Running", "Stop Requested", "Stopped", or "Done"
+- Case matters, so "Done" or "Stopped" will work while "done" or "stopped" will not.
+- There are no reports generated before at least one scan task has been started.  <br/><br/> 
 
 ### list-scanner-configs.gmp.py ### 
 **Lists all scan configs.**<br/><br/> 
