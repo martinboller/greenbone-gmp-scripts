@@ -4,3 +4,4 @@
 "Target_Labnet_3","192.168.30.0/24","Cred_Labnet_SMB","Cred_Labnet_SSH_ED25519",,
 "Target_Labnet_4","192.168.40.0/24","Cred_Labnet_SMB","Cred_Labnet_SSH_ED25519",,
 "Target_Labnet_WRT","aabwl001,aabwl002,aabwl003","","Cred_Labnet_SSH_ED25519",,
+"Dummy_Target_Localhost","127.0.0.1",,,,
