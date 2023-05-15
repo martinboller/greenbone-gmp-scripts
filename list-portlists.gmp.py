@@ -33,7 +33,6 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     response_xml = gmp.get_port_lists()
     portlists_xml = response_xml.xpath("port_list")
-    print(portlists_xml)
 
     heading = ["#", "Name", "ID"]
 
