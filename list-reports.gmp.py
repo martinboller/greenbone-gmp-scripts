@@ -18,7 +18,9 @@
 #
 # Based on other Greenbone scripts 
 #
-# Martin Boller
+# Martin Boller 2023-05-15
+#
+# run script with e.g. gvm-script --gmp-username username --gmp-password password socket list-reports.gmp.py All
 #
 
 from gvm.protocols.gmp import Gmp
@@ -26,8 +28,6 @@ from gvm.protocols.gmp import Gmp
 from gvmtools.helper import Table
 
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
-
-from gvm.xml import pretty_print
 
 HELP_TEXT = (
     "This script list reports with the status "
@@ -92,23 +92,23 @@ def list_reports (
         response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="status=" + str_status + "  and sort-reverse=name")
 
     reports_xml = response_xml.xpath("report")
-    heading = ["#", "ID", "Creation Time", "Modification Time", "Task Name", "In use"]
+    heading = ["#", "ID", "Creation Time", "Modification Time", "Task Name", "Status", "Progress"]
     rows = []
     numberRows = 0
 
     for report in reports_xml:
-        #pretty_print(report)
         # Count number of reports
         numberRows = numberRows + 1
         # Cast/convert to text to show in list
         rowNumber = str(numberRows)
         creation_time = "".join(report.xpath("creation_time/text()"))
-        #report_name = "".join(report.xpath("name/text()"))
+        #report_name = "".join(report.xpath("name/text()")) # Report name is the same as Creation Time
         report_id = report.get("id")
         report_task = "".join(report.xpath("task/name/text()"))
         mod_time = "".join(report.xpath("modification_time/text()"))
-        report_in_use = "".join(report.xpath("report/scan_run_status/text()"))
-        rows.append([rowNumber, report_id, creation_time, mod_time, report_task, report_in_use])
+        report_status = "".join(report.xpath("report/scan_run_status/text()"))
+        report_progress = "".join(report.xpath("report/task/progress/text()")) + "%"
+        rows.append([rowNumber, report_id, creation_time, mod_time, report_task, report_status, report_progress])
 
     print(Table(heading=heading, rows=rows))
 
