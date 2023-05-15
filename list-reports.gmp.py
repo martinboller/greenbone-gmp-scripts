@@ -27,6 +27,8 @@ from gvmtools.helper import Table
 
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 
+from gvm.xml import pretty_print
+
 HELP_TEXT = (
     "This script list reports with the status "
     "defined on the commandline. Status can be: \n"
@@ -42,7 +44,7 @@ def check_args(args):
         This script lists all reports depending on status.
         One parameter after the script name is required.
 
-        1. Status -- Either \"Requested\", \"Queued\", \"Interrupted\", \"Running\", \"Stop Requested\", \"Stopped\", or \"Done\"
+        1. Status -- Either \"All\", \"Requested\", \"Queued\", \"Interrupted\", \"Running\", \"Stop Requested\", \"Stopped\", or \"Done\"
 
         Example:
             $ gvm-script --gmp-username name --gmp-password pass \
@@ -72,7 +74,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "status_cmd",
         type=str,
-        help=("Status: \"Queued\", \"Requested\", \"Interrupted\", \"Running\", \"Stop Requested\", \"Stopped\" or \"Done\""),
+        help=("Status: \"All\", \"Queued\", \"Requested\", \"Interrupted\", \"Running\", \"Stop Requested\", \"Stopped\" or \"Done\""),
     )
     script_args, _ = parser.parse_known_args(args)
     return script_args
@@ -84,22 +86,29 @@ def list_reports (
     str_status = status
     print("Reports with status: " + str_status + "\n")
 
-    response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="status=" + str_status + "  and sort-reverse=name")
+    if str_status == "All":
+        response_xml = gmp.get_reports(ignore_pagination=True, details=True)
+    else:
+        response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="status=" + str_status + "  and sort-reverse=name")
+
     reports_xml = response_xml.xpath("report")
-    heading = ["#", "ID", "Date"]
+    heading = ["#", "ID", "Creation Time", "Modification Time", "Task Name", "In use"]
     rows = []
     numberRows = 0
 
     for report in reports_xml:
+        #pretty_print(report)
         # Count number of reports
         numberRows = numberRows + 1
         # Cast/convert to text to show in list
         rowNumber = str(numberRows)
-
-        name = "".join(report.xpath("name/text()"))
+        creation_time = "".join(report.xpath("creation_time/text()"))
+        #report_name = "".join(report.xpath("name/text()"))
         report_id = report.get("id")
-        status = report.get("status")
-        rows.append([rowNumber, report_id, name])
+        report_task = "".join(report.xpath("task/name/text()"))
+        mod_time = "".join(report.xpath("modification_time/text()"))
+        report_in_use = "".join(report.xpath("report/scan_run_status/text()"))
+        rows.append([rowNumber, report_id, creation_time, mod_time, report_task, report_in_use])
 
     print(Table(heading=heading, rows=rows))
 
@@ -116,3 +125,4 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
 if __name__ == "__gmp__":
     main(gmp, args)
+
