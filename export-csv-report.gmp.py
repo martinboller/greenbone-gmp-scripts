@@ -60,7 +60,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     report_id = args.argv[1]
     if len(args.argv) == 3:
-        csv_filename = args.argv[2]
+        csv_filename = args.argv[2] + ".csv"
     else:
         csv_filename = args.argv[1] + ".csv"
 

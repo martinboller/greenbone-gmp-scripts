@@ -108,8 +108,8 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     )
 
     ports.set_defaults(
-        port_list_id="4a4717fe-57d2-11e1-9a26-406186ea4fc5"
-    )  # All IANA assigned TCP and UDP
+        port_list_id="730ef368-57e2-11e1-a90f-406186ea4fc5"
+    )  # All IANA assigned TCP and Top 100 UDP
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
