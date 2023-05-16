@@ -18,7 +18,7 @@
 #
 # Based on other Greenbone scripts 
 #
-# Martin Boller
+# Martin Boller 2023-05-16
 #
 
 from argparse import Namespace
@@ -26,8 +26,6 @@ from argparse import Namespace
 from gvm.protocols.gmp import Gmp
 
 from gvmtools.helper import Table
-
-from gvm.xml import pretty_print
 
 
 def main(gmp: Gmp, args: Namespace) -> None:
@@ -41,12 +39,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     heading = ["Type", "Name", "Version"]
     rows = []
-    #pretty_print(feeds_xml)
 
     for feed_type in feed_types:
         response_xml = gmp.get_feed(feed_type)
         feeds_xml = response_xml.xpath("feed")
-        pretty_print(feeds_xml)
     
         for feed in feeds_xml:
             name = "".join(feed.xpath("name/text()"))
@@ -56,7 +52,6 @@ def main(gmp: Gmp, args: Namespace) -> None:
         rows.append([type, name, version])
 
     print(Table(heading=heading, rows=rows))
-
 
 if __name__ == "__gmp__":
     main(gmp, args)
