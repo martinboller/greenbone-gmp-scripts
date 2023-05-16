@@ -35,7 +35,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     GVMD_DATA = gmp.types.FeedType.from_string('GVMD_DATA')
     NVT = gmp.types.FeedType.from_string('NVT')
     SCAP = gmp.types.FeedType.from_string('SCAP')
-    feed_types = [SCAP, NVT, CERT, GVMD_DATA]
+    feed_types = [NVT, SCAP, CERT, GVMD_DATA]
 
     heading = ["Type", "Name", "Version"]
     rows = []
