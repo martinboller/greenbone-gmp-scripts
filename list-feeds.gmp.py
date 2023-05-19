@@ -16,9 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 # Based on other Greenbone scripts 
 #
-# Martin Boller 2023-05-16
+# Martin Boller
 #
 
 from argparse import Namespace
@@ -27,31 +28,37 @@ from gvm.protocols.gmp import Gmp
 
 from gvmtools.helper import Table
 
+from gvm.xml import pretty_print
 
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
 
-    CERT = gmp.types.FeedType.from_string('CERT')
-    GVMD_DATA = gmp.types.FeedType.from_string('GVMD_DATA')
-    NVT = gmp.types.FeedType.from_string('NVT')
-    SCAP = gmp.types.FeedType.from_string('SCAP')
-    feed_types = [NVT, SCAP, CERT, GVMD_DATA]
-
-    heading = ["Type", "Name", "Version"]
+    response_xml = gmp.get_feeds()
+    feeds_xml = response_xml.xpath("feed")
+    heading = ["#", "Name", "Version", "Status"]
     rows = []
+    numberRows = 0
+    pretty_print(feeds_xml)
 
-    for feed_type in feed_types:
-        response_xml = gmp.get_feed(feed_type)
-        feeds_xml = response_xml.xpath("feed")
-    
-        for feed in feeds_xml:
-            name = "".join(feed.xpath("name/text()"))
-            version = "".join(feed.xpath("version/text()"))
-            type = "".join(feed.xpath("type/text()"))
+    for feed in feeds_xml:
+        # Count number of reports
+        numberRows = numberRows + 1
+        # Cast/convert to text to show in list
+        rowNumber = str(numberRows)
+        name = "".join(feed.xpath("name/text()"))
+        version = "".join(feed.xpath("version/text()"))
+        type = "".join(feed.xpath("type/text()"))
+        status = "".join(feed.xpath("currently_syncing/timestamp/text()"))
+        if not status:
+            status = "Up-to-date..."
+        else:
+            status = "Update in progress..."
 
-        rows.append([type, name, version])
+
+        rows.append([rowNumber, name, version, status])
 
     print(Table(heading=heading, rows=rows))
+
 
 if __name__ == "__gmp__":
     main(gmp, args)
