@@ -7,6 +7,11 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.  <b
 
 ## Latest changes ##
 
+### 2023-05-20 - Additional script for feeds ###
+- Adjustments to export-*xxx*-report scripts to add extension
+- Added list-feeds.gmp.py
+- Script list-reports.gmp.py now show finish percentage and you can now specify "All".
+
 ### 2022-12-17 - Scripts and updated readme ###
 - First version of Python code
 
@@ -55,6 +60,10 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 **Lists all credentials configured with name and uuid.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-credentials.gmp.py  <br/><br/> 
 
+### list-feeds.gmp.py ###
+**Lists feeds and their status.**<br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-feeds.gmp.py  <br/><br/> 
+
 ### list-report-formats.gmp.py ###
 **Lists all report formats with name and uuid.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-report-formats.gmp.py  <br/><br/> 
@@ -62,8 +71,9 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 ### list-reports.gmp.py ###
 **Lists all reports that have specified status**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-reports.gmp.py *Status*
-- where status is "Requested", "Queued", "Interrupted", "Running", "Stop Requested", "Stopped", or "Done"
+- where status is "All", "Requested", "Queued", "Interrupted", "Running", "Stop Requested", "Stopped", or "Done"
 - Case matters, so "Done" or "Stopped" will work while "done" or "stopped" will not.
+- Script now shows, in percentage, how far the scan/report is.
 - There are no reports generated before at least one scan task has been started.  <br/><br/> 
 
 ### list-scanner-configs.gmp.py ### 
