@@ -64,6 +64,10 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 **Lists feeds and their status.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-feeds.gmp.py  <br/><br/> 
 
+### list-portlists.gmp.py ###
+**Lists port lists.**<br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-portlists.gmp.py  <br/><br/> 
+
 ### list-report-formats.gmp.py ###
 **Lists all report formats with name and uuid.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-report-formats.gmp.py  <br/><br/> 
