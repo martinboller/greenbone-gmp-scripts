@@ -28,7 +28,7 @@ from gvm.protocols.gmp import Gmp
 
 from gvmtools.helper import Table
 
-from gvm.xml import pretty_print
+#from gvm.xml import pretty_print
 
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
@@ -38,7 +38,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     heading = ["#", "Name", "Version", "Status"]
     rows = []
     numberRows = 0
-    pretty_print(feeds_xml)
+#    pretty_print(feeds_xml)
 
     for feed in feeds_xml:
         # Count number of reports
