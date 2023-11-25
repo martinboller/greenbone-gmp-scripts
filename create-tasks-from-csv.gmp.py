@@ -162,6 +162,19 @@ def scanner_id(
         scanner_id = scanner.get("id")
     return scanner_id
 
+def schedule_id(
+    gmp: Gmp,
+    schedule_name: str,
+):
+    response_xml = gmp.get_schedules(filter_string="name=" + schedule_name)
+    schedules_xml = response_xml.xpath("schedule")
+    schedule_id = ""
+
+    for schedule in schedules_xml:
+        name = "".join(schedule.xpath("name/text()"))
+        schedule_id = schedule.get("id")
+    return schedule_id
+
 def create_tasks(   
     gmp: Gmp,
     task_csv_file: Path,
@@ -178,10 +191,11 @@ def create_tasks(
                 scannerId = scanner_id(gmp, row[2])
                 alterable = "True"
                 configId = config_id(gmp, row[3])
+                scheduleId = schedule_id(gmp, row[4])
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
 
                 gmp.create_task(
-                   name=name, comment=comment, config_id=configId, target_id=targetId, scanner_id=scannerId, alterable=alterable 
+                   name=name, comment=comment, config_id=configId, target_id=targetId, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId 
                 )
         csvFile.close()   #close the csv file
     except IOError as e:

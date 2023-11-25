@@ -6,6 +6,11 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.  <b
 ----
 
 ## Latest changes ##
+### 2023-11-25 - Additional script to create schedules ###
+- Added create-schedules-from-csv.gmp.py
+- Updated create-tasks-from.csv.gmp.py to lookup schedule Ids from schedule name to add to tasks created.
+- Created sample schedules.csv for reference.
+- Updated tasks.csv with schedules.
 
 ### 2023-05-20 - Additional script for feeds ###
 - Adjustments to export-*xxx*-report scripts to add extension
@@ -26,10 +31,16 @@ When you just want to get the XML from Greenbone to look for values/value names,
 - Usage: gvm-script --gmp-username admin --gmp-password '0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00' socket export-csv-report.gmp.py *report_uuid* ./output.csv
 - Other example scripts from Greenbone can be found here: https://github.com/greenbone/gvm-tools/tree/main/scripts <br/><br/> 
 
+### create-schedules-from-csv.gmp.py ###
+**Creates schedules as specified in a csv-file. See schedules.csv for file format/contents.**<br/><br/> 
+Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-schedules-from-csv.gmp.py ./schedules.csv
+Note: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
+The sample files should serve as examples.<br/><br/> 
+
 ### create-credentials-from-csv.gmp.py ###
 **Creates credentials as specified in a csv-file. See credentials.csv for file format/contents.**<br/><br/> 
 Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-credentials-from-csv.gmp.py ./credentials.csv
-Note: create credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
+Note: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
 The sample files should serve as an example.<br/><br/> 
 
 ### create-targets-from-csv.gmp.py ###
@@ -39,6 +50,8 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 ### create-tasks-from-csv.gmp.py ###
 **Creates tasks as specified in a csv-file. See tasks.csv for file format/contents**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-tasks-from-csv.gmp.py ./task.csv  <br/><br/> 
+Note: Make sure that all other configurations that the tasks may rely on are already created, including schedules, credentials, and targets,
+in other words if it is referenced in tasks.csv it must already exist.
 
 ### export-csv-report.gmp.py ###
 **Requests the report specified and exports it as a csv formatted report locally.**<br/><br/> 
