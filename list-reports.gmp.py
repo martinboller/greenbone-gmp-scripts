@@ -87,9 +87,9 @@ def list_reports (
     print("Reports with status: " + str_status + "\n")
 
     if str_status == "All":
-        response_xml = gmp.get_reports(ignore_pagination=True, details=True)
+        response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="rows=-1")
     else:
-        response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="status=" + str_status + "  and sort-reverse=name")
+        response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="status=" + str_status + "  and sort-reverse=name and rows=-1")
 
     reports_xml = response_xml.xpath("report")
     heading = ["#", "ID", "Creation Time", "Modification Time", "Task Name", "Status", "Progress"]

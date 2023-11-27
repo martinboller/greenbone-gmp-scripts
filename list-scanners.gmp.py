@@ -31,7 +31,7 @@ from gvmtools.helper import Table
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
 
-    response_xml = gmp.get_scanners()
+    response_xml = gmp.get_scanners(filter_string="rows=-1")
     scanners_xml = response_xml.xpath("scanner")
 
     heading = ["#", "Name", "ID", "host"]

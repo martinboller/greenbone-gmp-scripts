@@ -32,7 +32,7 @@ from gvmtools.helper import Table
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
 
-    response_xml = gmp.get_report_formats(details=True)
+    response_xml = gmp.get_report_formats(details=True, filter_string="rows=-1")
     report_formats_xml = response_xml.xpath("report_format")
     heading = ["#", "Id", "Name"]
     rows = []

@@ -31,7 +31,7 @@ from gvmtools.helper import Table
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
 
-    response_xml = gmp.get_credentials()
+    response_xml = gmp.get_credentials(filter_string="rows=-1")
     credentials_xml = response_xml.xpath("credential")
 
     heading = ["#", "ID", "Name", "Severity"]

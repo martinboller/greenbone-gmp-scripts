@@ -31,7 +31,7 @@ from gvmtools.helper import Table
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
 
-    response_xml = gmp.get_tasks(details=True)
+    response_xml = gmp.get_tasks(details=True, filter_string="rows=-1")
     tasks_xml = response_xml.xpath("task")
 
     heading = ["#", "Name", "ID", "Target", "Scanner", "Severity"]
