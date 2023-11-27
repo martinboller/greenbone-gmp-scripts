@@ -115,7 +115,7 @@ in other words if it is referenced in tasks.csv it must already exist.
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scanners.gmp.py  <br/><br/> 
 
 ## list-schedules.gmp.py ###
-**Lists all schedules configured with name and uuid.**<br/><br/> 
+**Lists all schedules configured with name, uuid, timezone, and iCalendar information.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-schediles.gmp.py  <br/><br/> 
 
 ### list-targets.gmp.py ###

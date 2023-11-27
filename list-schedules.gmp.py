@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_schedules()
     schedules_xml = response_xml.xpath("schedule")
 
-    heading = ["#", "Name", "ID"]
+    heading = ["#", "Name", "ID", "TZ", "iCalendar"]
 
     rows = []
     numberRows = 0
@@ -47,10 +47,14 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
         name = "".join(schedule.xpath("name/text()"))
         schedule_id = schedule.get("id")
-        rows.append([rowNumber, name, schedule_id])
+        icalendar = "".join(schedule.xpath("icalendar/text()"))
+        timezone = "".join(schedule.xpath("timezone/text()"))
+        rows.append([rowNumber, name, schedule_id, timezone, icalendar])
+        #print(icalendar)
 
     print(Table(heading=heading, rows=rows))
 
 
 if __name__ == "__gmp__":
     main(gmp, args)
+
