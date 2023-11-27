@@ -35,7 +35,7 @@ When you just want to get the XML from Greenbone to look for values/value names,
 **Creates schedules as specified in a csv-file. See schedules.csv for file format/contents.**<br/><br/> 
 Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-schedules-from-csv.gmp.py ./schedules.csv
 Note: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
-The sample files should serve as examples, however a short explanation below
+The sample files should serve as examples, however a short explanation of a VCALENDAR stream exported from Greenbone below¹.
 
 Example Key:Value pair | Comment
 ---|---
@@ -49,6 +49,8 @@ RRULE:FREQ=HOURLY;INTERVAL=4 | Frequency; Yearly, Monthly, Weekly, Hourly. Optio
 DTSTAMP:20231125T212042Z | Date stamp created
 END:VEVENT | End Vevent
 END:VCALENDAR | End VCalendar Entry
+
+¹ See also https://www.rfc-editor.org/rfc/rfc5545.txt Internet Calendaring and Scheduling Core Object Specification (iCalendar)
 
 ### create-credentials-from-csv.gmp.py ###
 **Creates credentials as specified in a csv-file. See credentials.csv for file format/contents.**<br/><br/> 
