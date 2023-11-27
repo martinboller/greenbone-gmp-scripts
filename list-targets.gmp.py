@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_targets()
     targets_xml = response_xml.xpath("target")
 
-    heading = ["#", "Name", "ID"]
+    heading = ["#", "Name", "ID", "# Hosts", "SSH Credential", "SMB Credential", "ESXi Credential", "SNMP Credential"]
 
     rows = []
     numberRows = 0
@@ -46,8 +46,13 @@ def main(gmp: Gmp, args: Namespace) -> None:
         rowNumber = str(numberRows)
 
         name = "".join(target.xpath("name/text()"))
+        maxhosts = "".join(target.xpath("max_hosts/text()"))
+        sshcred = "".join(target.xpath("ssh_credential/name/text()"))
+        smbcred = "".join(target.xpath("smb_credential/name/text()"))
+        esxicred = "".join(target.xpath("esxi_credential/name/text()"))
+        snmpcred = "".join(target.xpath("snmp_credential/name/text()"))
         target_id = target.get("id")
-        rows.append([rowNumber, name, target_id])
+        rows.append([rowNumber, name, target_id, maxhosts, sshcred, smbcred, esxicred, snmpcred])
 
     print(Table(heading=heading, rows=rows))
 

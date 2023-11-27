@@ -112,7 +112,8 @@ in other words if it is referenced in tasks.csv it must already exist.
 
 ### list-scanners.gmp.py ###
 **Lists all scanners currently configured.**<br/><br/> 
-- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scanners.gmp.py  <br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scanners.gmp.py
+- Returns the scanners Name, uuid, & the host on which it resides (note CVE scanner does not return a host and sockets are local)
 
 ## list-schedules.gmp.py ###
 **Lists all schedules configured with name, uuid, timezone, and iCalendar information.**<br/><br/> 
@@ -121,13 +122,15 @@ in other words if it is referenced in tasks.csv it must already exist.
 ### list-targets.gmp.py ###
 **Lists all targets currently configured.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-targets.gmp.py
-- No targets configured by default, however using the provided files in this repo, you should now have a few (5).<br/><br/> 
+- No targets configured by default, however using the provided files in this repo, you should now have a few (5).
+- Returns targets Name, uuid, number of Hosts, and credentials (SSH, SMB, ESXi, & SNMP Credentials)
+
 
 ### list-tasks.gmp.py ###
 **Lists all tasks configured**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-tasks.gmp.py
-- No tasks configured by default, however using the provided files in this repo, you should now have some (9).<br/><br/> 
-
+- No tasks configured by default, however using the provided files in this repo, you should now have some (9).
+- Returns the tasks Name, uuid, Target, Scanner, and the highest severity (empty if no reports)
 ----
 
 ## Other files
