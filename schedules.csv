@@ -1,6 +1,6 @@
 Schedule_Weekly,UTC,"BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Greenbone.net//NONSGML Greenbone Security Manager 23.1.0//EN
+PRODID:-//Greenbone.net//NONSGML Greenbone Community Edition//EN
 BEGIN:VEVENT
 DTSTART:20231125T200000Z
 DURATION:PT0S
@@ -10,7 +10,7 @@ END:VEVENT
 END:VCALENDAR"
 Schedule_Daily,UTC,"BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Greenbone.net//NONSGML Greenbone Security Manager 23.1.0//EN
+PRODID:-//Greenbone.net//NONSGML Greenbone Community Edition//EN
 BEGIN:VEVENT
 DTSTART:20231125T200000Z
 DURATION:PT0S
@@ -20,7 +20,7 @@ END:VEVENT
 END:VCALENDAR"
 Schedule_2_Hourly,UTC,"BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Greenbone.net//NONSGML Greenbone Security Manager 23.1.0//EN
+PRODID:-//Greenbone.net//NONSGML Greenbone Community Edition//EN
 BEGIN:VEVENT
 DTSTART:20231125T200000Z
 DURATION:PT0S
@@ -30,7 +30,7 @@ END:VEVENT
 END:VCALENDAR"
 Schedule_4h_Duration_1h,UTC,"BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Greenbone.net//NONSGML Greenbone Security Manager 23.1.0//EN
+PRODID:-//Greenbone.net//NONSGML Greenbone Community Edition//EN
 BEGIN:VEVENT
 DTSTART:20231125T220000Z
 DURATION:PT1H
@@ -40,7 +40,7 @@ END:VEVENT
 END:VCALENDAR"
 Schedule_Workweek,UTC,"BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Greenbone.net//NONSGML Greenbone Security Manager 23.1.0//EN
+PRODID:-//Greenbone.net//NONSGML Greenbone Community Edition//EN
 BEGIN:VEVENT
 DTSTART:20231127T070000Z
 DURATION:PT0S
