@@ -136,6 +136,19 @@ def config_id(
         config_id = scan_config.get("id")
     return config_id
 
+def alert_id(
+    gmp: Gmp,
+    alert_name: str,
+):
+    response_xml = gmp.get_alerts(filter_string="name=" + alert_name)
+    alerts_xml = response_xml.xpath("alert")
+    alert_id = ""
+
+    for alert in alerts_xml:
+        name = "".join(alert.xpath("name/text()"))
+        alert_id = alert.get("id")
+    return alert_id
+
 def target_id(
     gmp: Gmp,
     target_name: str,
@@ -193,9 +206,14 @@ def create_tasks(
                 configId = config_id(gmp, row[3])
                 scheduleId = schedule_id(gmp, row[4])
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
-
+                alert0 = alert_id(gmp, row[8])
+                alert1 = alert_id(gmp, row[6])
+                alert2 = alert_id(gmp, row[7])
+                alert3 = alert_id(gmp, row[5])                
+                #print(alert0, alert1, alert2, alert3)
+                
                 gmp.create_task(
-                   name=name, comment=comment, config_id=configId, target_id=targetId, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId 
+                   name=name, comment=comment, config_id=configId, target_id=targetId, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=[alert0,alert1,alert2,alert3]
                 )
         csvFile.close()   #close the csv file
     except IOError as e:

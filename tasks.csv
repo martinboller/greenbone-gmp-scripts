@@ -1,9 +1,9 @@
-"Task_Labnet_All_Full","Target_Labnet_All","OpenVAS Default"," Full and fast","Schedule_Weekly"
-"Tasks_Labnet_1_Full","Target_Labnet_1","OpenVAS Default"," Full and fast","Schedule_Daily"
-"Tasks_Labnet_2_Full","Target_Labnet_2","OpenVAS Default"," Full and fast","Schedule_Daily"
-"Tasks_Labnet_3_Full","Target_Labnet_3","OpenVAS Default"," Full and fast","Schedule_Daily"
-"Tasks_Labnet_4_Full","Target_Labnet_4","OpenVAS Default"," Full and fast","Schedule_Daily"
-"Task_Labnet_All_Host_Discovery","Target_Labnet_All","OpenVAS Default","Host Discovery",
-"Tasks_Labnet_All_Discovery","Target_Labnet_All","OpenVAS Default","Discovery",
-"Tasks_Labnet_All_Base","Target_Labnet_All","OpenVAS Default","Base","Schedule_2_Hourly"
-"Tasks_Labnet_All_Log4Shell","Target_Labnet_All","OpenVAS Default","Log4Shell",
+"Task_Labnet_All_Full","Target_Labnet_All","OpenVAS Default"," Full and fast","Schedule_Weekly","Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Tasks_Labnet_1_Full","Target_Labnet_1","OpenVAS Default"," Full and fast","Schedule_Daily","Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Tasks_Labnet_2_Full","Target_Labnet_2","OpenVAS Default"," Full and fast","Schedule_Daily","Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Tasks_Labnet_3_Full","Target_Labnet_3","OpenVAS Default"," Full and fast","Schedule_Daily","Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Tasks_Labnet_4_Full","Target_Labnet_4","OpenVAS Default"," Full and fast","Schedule_Daily","Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Task_Labnet_All_Host_Discovery","Target_Labnet_All","OpenVAS Default","Host Discovery",,"Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Tasks_Labnet_All_Discovery","Target_Labnet_All","OpenVAS Default","Discovery",,"Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Tasks_Labnet_All_Base","Target_Labnet_All","OpenVAS Default","Base","Schedule_2_Hourly","Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",
+"Tasks_Labnet_All_Log4Shell","Target_Labnet_All","OpenVAS Default","Log4Shell",,"Alert_EMAIL_Done","Alert_EMAIL_Requested","Alert_SMB_Done","Alert_EMAIL_Stop",

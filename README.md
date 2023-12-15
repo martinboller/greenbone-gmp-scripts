@@ -1,6 +1,6 @@
 # Greenbone Vulnerability Manager 22.4.x Python tools #
 
-### Python scripts that can be used to configure your Greenbone Source Edition (OpenVAS) Scanner ###
+## Python scripts that can be used to configure your Greenbone Source Edition (OpenVAS) Scanner ###
 I hope these will make your life a little easier managing Greenbone/OpenVAS.
 
 [API Reference for GVM 22.4](https://docs.greenbone.net/API/GMP/gmp-22.4.html)
@@ -8,6 +8,12 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 ----
 
 ## Latest changes ##
+### 2023-12-15 - Script to create alerts ###
+- Added create-alerts-from-csv.gmp.py
+- Added template alerts.csv
+- Updated credentials.csv to add SMB credentials for "storage" as this should be different from the credentials used for scanning
+- Updated create_tasks_from_csv.gmp.py and template tasks.csv to add up to 4 alerts per task.
+
 ### 2023-11-25 - Additional script to create schedules ###
 - Added create-schedules-from-csv.gmp.py
 - Updated create-tasks-from.csv.gmp.py to lookup schedule Ids from schedule name to add to tasks created.
@@ -76,8 +82,13 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 ### create-tasks-from-csv.gmp.py ###
 **Creates tasks as specified in a csv-file. See tasks.csv for file format/contents**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-tasks-from-csv.gmp.py ./task.csv  <br/><br/> 
-Note: Make sure that all other configurations that the tasks may rely on are already created, including schedules, credentials, and targets,
+Note: Make sure that all other configurations that the tasks may rely on are already created, including alerts, schedules, credentials, and targets,
 in other words if it is referenced in tasks.csv it must already exist.
+
+### empty-trash.gmp.py ###
+- Does what is says on the tin, empties the trashcan in Greenbone.
+- Use it when you're testing like crazy and have a trashcan with ~ a gazillion objects
+- You can also just use gvm-cli --gmp-username *admin-user* --gmp-password *password* socket --pretty --xml="<empty_trashcan/>"
 
 ### export-csv-report.gmp.py ###
 **Requests the report specified and exports it as a csv formatted report locally.**<br/><br/> 
@@ -155,3 +166,7 @@ in other words if it is referenced in tasks.csv it must already exist.
 
 ### tasks.csv ###
 - Example csv-file to use with create-tasks-from-csv.gmp.py  <br/><br/> 
+
+## Tips and tricks
+### Using filters with gvm-cli
+- gvm-cli --gmp-username *admin-user* --gmp-password *password* socket --pretty --xml="<get_alerts filter='name=Alert_Email_Done'/>"
