@@ -1,7 +1,9 @@
 # Greenbone Vulnerability Manager 22.4.x Python tools #
 
 ### Python scripts that can be used to configure your Greenbone Source Edition (OpenVAS) Scanner ###
-I hope these will make your life a little easier managing Greenbone/OpenVAS.  <br/><br/> 
+I hope these will make your life a little easier managing Greenbone/OpenVAS.
+
+[API Reference for GVM 22.4](https://docs.greenbone.net/API/GMP/gmp-22.4.html)
 
 ----
 
@@ -21,7 +23,9 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.  <b
 - First version of Python code
 
 ## Running Python GVM Scripts
-For details on Python GVM, please refer to https://gvm-tools.readthedocs.io/en/latest/scripting.html#gvm-scripts
+For details on Python GVM, please refer to https://gvm-tools.readthedocs.io/en/latest/scripting.html#gvm-scripts, but for these scripts, use
+- gvm-script --gmp-username *admin-user* --gmp-password *password* socket *script-name* - Example:
+- gvm-script --gmp-username admin --gmp-password SecretPassword socket list-alerts.gmp.py
 When you just want to get the XML from Greenbone to look for values/value names, it's easy to use gvm-cli, like this: <br/><br/> 
 - gvm-cli --gmp-username *admin-user* --gmp-password *password* socket --xml="<get_alerts/>"
 
@@ -30,6 +34,13 @@ When you just want to get the XML from Greenbone to look for values/value names,
 **Script provided by Greenbone as part of GVM-Tools. Used when cleaning up after testing scripts (or starting over)**<br/><br/> 
 - Usage: gvm-script --gmp-username admin --gmp-password '0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00' socket export-csv-report.gmp.py *report_uuid* ./output.csv
 - Other example scripts from Greenbone can be found here: https://github.com/greenbone/gvm-tools/tree/main/scripts <br/><br/> 
+
+### create-Alerts-from-csv.gmp.py ###
+**Creates alerts as specified in a csv-file. See alerts.csv for file format/contents.**<br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-alerts-from-csv.gmp.py alerts.csv
+- For SMB Alerts use something like %N_%CT%z in the naming of the report, as shown in the example alerts.csv
+- %N is the name for the object or the associated task for reports, %C is the creation date in the format YYYYMMDD, and %c is the creation time in the format HHMMSS.
+- The script only support EMAIL and SMB Alerts, please note that the fields are quite different between the two alert types, but refer to the sample alerts.csv
 
 ### create-schedules-from-csv.gmp.py ###
 **Creates schedules as specified in a csv-file. See schedules.csv for file format/contents.**<br/><br/> 

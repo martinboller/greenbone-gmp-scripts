@@ -1,0 +1,25 @@
+Alert_EMAIL_Done,EMAIL,"martin@bollers.dk","noc@bollers.dk","[Greenbone] Scanning","Task '$n': $e
+
+This email escalation is configured to attach report format '$r'.
+
+Note:
+This email was sent to you as a configured security scan information.
+Please contact your Vulnerability Management team if you think you
+should not have received it.",0,"CSV Results","Done"
+Alert_EMAIL_Requested,EMAIL,"martin@bollers.dk","noc@bollers.dk","[Greenbone] Scanning","Task '$n': $e
+
+This email escalation is configured to attach report format '$r'.
+
+Note:
+This email was sent to you as a configured security scan information.
+Please contact your Vulnerability Management team if you think you
+should not have received it.",0,"CSV Results","Requested"
+Test_Alert_EMAIL,EMAIL,"martin@bollers.dk","noc@bollers.dk","[Greenbone] Scanning","Task '$n': $e
+
+This email escalation is configured to attach report format '$r'.
+
+Note:
+This email was sent to you as a configured security scan information.
+Please contact your Vulnerability Management team if you think you
+should not have received it.",0,"CSV Results","Stop Requested"
+Test_Alert_SMB,SMB,"Cred_Storage_SMB","\\testrig002\media","%N_%CT%cZ","Reports",,"CSV Results","Done"
