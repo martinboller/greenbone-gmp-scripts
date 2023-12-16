@@ -47,7 +47,15 @@ When you just want to get the XML from Greenbone to look for values/value names,
 - For SMB Alerts use something like %N_%CT%z in the naming of the report, as shown in the example alerts.csv
 - %N is the name for the object or the associated task for reports, %C is the creation date in the format YYYYMMDD, and %c is the creation time in the format HHMMSS.
 - The script only support EMAIL and SMB Alerts, please note that the fields are quite different between the two alert types, but refer to the sample alerts.csv
+- The CSV must starts with name, type (EMAIL or SMB). The remaining fields then depend on the type chosen, specifically:
+- EMAIL; *senders email*, *recipients email*, *mail subject*, *message body*, *notice type* (0 1 or 2), *Report Type* (e.g. CSV Results), *Status* (Done, Requested)
+- SMB; *SMB Credentials*,*SMB Share Path*,*Report Name*, *Report Folder* (if not stored in the root of the share), *Not used*, *Report Type* (e.g. CSV Results), *Status* (Done, Requested)
+- A simple example below with 1 EMAIL alert and 1 SMB Alert.
+Alert_EMAIL_Stop,EMAIL,"martin@bollers.dk","noc@bollers.dk","Message Subject","Message Body",0,"CSV Results","Stop Requested"
+Alert_SMB_Done,SMB,"Cred_Storage_SMB","\\smbserver\share","%N_%CT%cZ","Reports",,"CSV Results","Done"
+
 **Note**: This script relies on credentials as/if specified in alerts.csv as well as a working SMTP server on the Greenbone primary server. If you're using SMB add the required credentials first using [create-credentials-from-csv.gmp.py](#create-credentials-from-csvgmppy).
+
 
 ### create-schedules-from-csv.gmp.py ###
 **Creates schedules as specified in a csv-file. See schedules.csv for file format/contents.**<br/><br/> 
@@ -131,9 +139,9 @@ in other words if it is referenced in tasks.csv it must already exist.
 - Script now shows, in percentage, how far the scan/report is.
 - There are no reports generated before at least one scan task has been started.  <br/><br/> 
 
-### list-scanner-configs.gmp.py ### 
+### list-scan-configs.gmp.py ### 
 **Lists all scan configs.**<br/><br/> 
-- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scanner-configs.gmp.py  <br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scan-configs.gmp.py  <br/><br/> 
 
 ### list-scanners.gmp.py ###
 **Lists all scanners currently configured.**<br/><br/> 
@@ -150,15 +158,18 @@ in other words if it is referenced in tasks.csv it must already exist.
 - No targets configured by default, however using the provided files in this repo, you should now have a few (5).
 - Returns targets Name, uuid, number of Hosts, and credentials (SSH, SMB, ESXi, & SNMP Credentials)
 
-
 ### list-tasks.gmp.py ###
 **Lists all tasks configured**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-tasks.gmp.py
 - No tasks configured by default, however using the provided files in this repo, you should now have some (9).
 - Returns the tasks Name, uuid, Target, Scanner, and the highest severity (empty if no reports)
+
 ----
 
 ## Other files
+### alerts.csv
+- Example csv-file to use with create-alerts-from-csv.gmp.py
+
 ### credentials.csv ###
 - Example csv-file to use with create-credentials-from-csv.gmp.py  <br/><br/> 
 
