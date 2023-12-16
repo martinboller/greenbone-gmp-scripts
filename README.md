@@ -47,11 +47,12 @@ When you just want to get the XML from Greenbone to look for values/value names,
 - For SMB Alerts use something like %N_%CT%z in the naming of the report, as shown in the example alerts.csv
 - %N is the name for the object or the associated task for reports, %C is the creation date in the format YYYYMMDD, and %c is the creation time in the format HHMMSS.
 - The script only support EMAIL and SMB Alerts, please note that the fields are quite different between the two alert types, but refer to the sample alerts.csv
+**Note**: This script relies on credentials as/if specified in alerts.csv as well as a working SMTP server on the Greenbone primary server. If you're using SMB add the required credentials first using [create-credentials-from-csv.gmp.py](#create-credentials-from-csvgmppy).
 
 ### create-schedules-from-csv.gmp.py ###
 **Creates schedules as specified in a csv-file. See schedules.csv for file format/contents.**<br/><br/> 
 Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-schedules-from-csv.gmp.py ./schedules.csv
-Note: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
+**Note**: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
 The sample files should serve as examples, however a short explanation of a VCALENDAR stream exported from Greenbone below¹.
 
 Example Key:Value pair | Comment
@@ -72,7 +73,7 @@ END:VCALENDAR | End VCalendar Entry
 ### create-credentials-from-csv.gmp.py ###
 **Creates credentials as specified in a csv-file. See credentials.csv for file format/contents.**<br/><br/> 
 Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-credentials-from-csv.gmp.py ./credentials.csv
-Note: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
+**Note**: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
 The sample files should serve as an example.<br/><br/> 
 
 ### create-targets-from-csv.gmp.py ###
@@ -82,7 +83,7 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 ### create-tasks-from-csv.gmp.py ###
 **Creates tasks as specified in a csv-file. See tasks.csv for file format/contents**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-tasks-from-csv.gmp.py ./task.csv  <br/><br/> 
-Note: Make sure that all other configurations that the tasks may rely on are already created, including alerts, schedules, credentials, and targets,
+**Note**: Make sure that all other configurations that the tasks may rely on are already created, including alerts, schedules, credentials, and targets,
 in other words if it is referenced in tasks.csv it must already exist.
 
 ### empty-trash.gmp.py ###
@@ -100,7 +101,7 @@ in other words if it is referenced in tasks.csv it must already exist.
 **Requests the report specified and exports it as a pdf formatted report locally.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket export-pdf-report.gmp.py *report_uuid* ./output.pdf
 - Get the *report_uuid* with list-reports.gmp.py or find it in the UI. If the output is not specified it will be named *report_uuid.pdf*
-- Note the only changes to this script is an added ignore_pagination=True, details=True to get the full report.  <br/><br/> 
+**Note**: the only changes to this script is an added ignore_pagination=True, details=True to get the full report.  <br/><br/> 
 
 ## list-alerts.gmp.py ###
 **Lists all alerts configured with name and uuid.**<br/><br/> 
