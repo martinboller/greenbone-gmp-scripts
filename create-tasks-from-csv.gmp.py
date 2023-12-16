@@ -125,7 +125,7 @@ def config_id(
     config_name: str,
 ):
     filterName = ""
-    filterName = "name=" + config_name
+    filterName = "rows=-1, name=" + config_name
 
     response_xml = gmp.get_scan_configs(filter_string=filterName)
     scan_configs_xml = response_xml.xpath("config")
@@ -140,7 +140,7 @@ def alert_id(
     gmp: Gmp,
     alert_name: str,
 ):
-    response_xml = gmp.get_alerts(filter_string="name=" + alert_name)
+    response_xml = gmp.get_alerts(filter_string="rows=-1, name=" + alert_name)
     alerts_xml = response_xml.xpath("alert")
     alert_id = ""
 
@@ -153,7 +153,7 @@ def target_id(
     gmp: Gmp,
     target_name: str,
 ):
-    response_xml = gmp.get_targets(filter_string="name=" + target_name)
+    response_xml = gmp.get_targets(filter_string="rows=-1, name=" + target_name)
     targets_xml = response_xml.xpath("target")
     target_id = ""
 
@@ -166,7 +166,7 @@ def scanner_id(
     gmp: Gmp,
     scanner_name: str,
 ):
-    response_xml = gmp.get_scanners(filter_string="name=" + scanner_name)
+    response_xml = gmp.get_scanners(filter_string="rows=-1, name=" + scanner_name)
     scanners_xml = response_xml.xpath("scanner")
     scanner_id = ""
 
@@ -179,7 +179,7 @@ def schedule_id(
     gmp: Gmp,
     schedule_name: str,
 ):
-    response_xml = gmp.get_schedules(filter_string="name=" + schedule_name)
+    response_xml = gmp.get_schedules(filter_string="rows=-1, name=" + schedule_name)
     schedules_xml = response_xml.xpath("schedule")
     schedule_id = ""
 
