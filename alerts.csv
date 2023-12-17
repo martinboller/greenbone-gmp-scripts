@@ -1,6 +1,6 @@
 Alert_EMAIL_Done,EMAIL,"sender@example.com","recipient@example.com","[Greenbone] $n: $e","Task '$n': $e
 
-This email escalation is configured to attach report format '$r'.
+This email is configured to attach report format '$r'.
 
 Note:
 This email was sent to you as a configured security scan information.
@@ -8,15 +8,11 @@ Please contact your Vulnerability Management team if you think you
 should not have received it.",2,"CSV Results","Done"
 Alert_EMAIL_Requested,EMAIL,"sender@example.com","recipient@example.com","[Greenbone] $n: $e","Task '$n': $e
 
-This email escalation is configured to attach report format '$r'.
-
 Note:
 This email was sent to you as a configured security scan information.
 Please contact your Vulnerability Management team if you think you
 should not have received it.",0,"CSV Results","Requested"
 Alert_EMAIL_Stop,EMAIL,"sender@example.com","recipient@example.com","[Greenbone] $n: $e","Task '$n': $e
-
-This email escalation is configured to attach report format '$r'.
 
 Note:
 This email was sent to you as a configured security scan information.
