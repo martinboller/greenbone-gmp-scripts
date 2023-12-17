@@ -73,22 +73,22 @@ def main(gmp: Gmp, args: Namespace) -> None:
     report_element = response.find("report")
     data = pretty_print(report_element)
     # get the full content of the report element
-    #content = report_element.find("report_format").tail
+    content = report_element.find("report_format").tail
 
-    # if not content:
-    #     print(
-    #         "Requested report is empty. Either the report does not contain any"
-    #         " results or the necessary tools for creating the report are "
-    #         "not installed.",
-    #         file=sys.stderr,
-    #     )
-    #     sys.exit(1)
+    if not content:
+        print(
+            "Requested report is empty. Either the report does not contain any"
+            " results or the necessary tools for creating the report are "
+            "not installed.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     # convert content to 8-bit ASCII bytes
-    #binary_base64_encoded_xml = content.encode("ascii")
+    binary_base64_encoded_xml = content.encode("ascii")
 
     # decode base64
-#    binary_xml = b64decode(binary_base64_encoded_xml)
+    binary_xml = b64decode(binary_base64_encoded_xml)
 
     # write to file and support ~ in filename path
     xml_path = Path(xml_filename).expanduser()
