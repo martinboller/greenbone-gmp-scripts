@@ -165,6 +165,7 @@ def create_alerts(
                             "from_address": sender_email,
                             "subject": subject,
                             "notice_report_format": report_format,
+                            "notice_attach_format": report_format,
                             "to_address": recipient_email,
                         },
                     )
