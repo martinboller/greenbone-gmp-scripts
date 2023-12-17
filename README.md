@@ -164,6 +164,12 @@ in other words if it is referenced in tasks.csv it must already exist.
 - No tasks configured by default, however using the provided files in this repo, you should now have some (9).
 - Returns the tasks Name, uuid, Target, Scanner, and the highest severity (empty if no reports)
 
+### start-scans-from-csv.gmp.py ###
+**starts scans (tasks) specified in csv file**<br/><br/> 
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket start-scans-from-csv.gmp.py *csv-file with task names*
+- Starts the tasks specified in the file (example startscan.csv)
+- Returns the number of tasks started.
+
 ----
 
 ## Other files
