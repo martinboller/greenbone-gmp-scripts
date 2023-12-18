@@ -2,7 +2,7 @@ def alert_id(
     gmp: Gmp,
     alert_name: str,
 ):
-    response_xml = gmp.get_alerts(filter_string="name=" + alert_name)
+    response_xml = gmp.get_alerts(filter_string="rows=-1, name=" + alert_name)
     alerts_xml = response_xml.xpath("alert")
     alert_id = ""
 

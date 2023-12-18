@@ -76,7 +76,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     if not content:
         print(
             "Requested report is empty. Either the report does not contain any "
-            " results or the necessary tools for creating the report are "
+            "results or the necessary tools for creating the report are "
             "not installed.",
             file=sys.stderr,
         )

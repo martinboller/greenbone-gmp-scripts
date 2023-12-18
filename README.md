@@ -188,3 +188,6 @@ in other words if it is referenced in tasks.csv it must already exist.
 ## Tips and tricks
 ### Using filters with gvm-cli
 - gvm-cli --gmp-username *admin-user* --gmp-password *password* socket --pretty --xml="<get_alerts filter='name=Alert_Email_Done'/>"
+
+### Creating reports with gvm-cli
+gvm-cli --gmp-username admin --gmp-password 8274105c-dabc-4223-8e5c-3eceb812477f socket --pretty --xml='<get_reports report_id="a248c4e1-f098-4ea9-888b-b3455e9880fa" report_format_id="c402cc3e-b531-11e1-9163-406186ea4fc5" filter="rows=-1"/>'
