@@ -1,4 +1,4 @@
-Alert_EMAIL_Done,EMAIL,"sender@example.com","recipient@example.com","[Greenbone] $n: $e","Task '$n': $e
+Alert_EMAIL_Done,EMAIL,"sender@example.com","recipient@example.com","[Greenbone] $n: $e","Task '$n': $e.
 
 This email is configured to attach report format '$r'.
 
@@ -17,5 +17,5 @@ Alert_EMAIL_Stop,EMAIL,"sender@example.com","recipient@example.com","[Greenbone]
 Note:
 This email was sent to you as a configured security scan information.
 Please contact your Vulnerability Management team if you think you
-should not have received it.",0,"CSV Results","Stop Requested"
+should not have received it.",0,"CSV Results","Stopped"
 Alert_SMB_Done,SMB,"Cred_Storage_SMB","\\smbserver\data","%N_%CT%cZ","Reports",,"CSV Results","Done"
