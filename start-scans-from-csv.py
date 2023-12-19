@@ -95,7 +95,7 @@ def task_id(
     for task in tasks_xml:
         name = "".join(task.xpath("name/text()"))
         task_id = task.get("id")
-        print(task_id)
+        #print("Requesting start of task: " + task_name + " Task UUID: " + task_id)
     return task_id
 
 def start_tasks(   

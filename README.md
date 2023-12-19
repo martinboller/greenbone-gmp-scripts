@@ -191,3 +191,18 @@ in other words if it is referenced in tasks.csv it must already exist.
 
 ### Creating reports with gvm-cli
 gvm-cli --gmp-username admin --gmp-password 8274105c-dabc-4223-8e5c-3eceb812477f socket --pretty --xml='<get_reports report_id="a248c4e1-f098-4ea9-888b-b3455e9880fa" report_format_id="c402cc3e-b531-11e1-9163-406186ea4fc5" filter="rows=-1"/>'
+
+### Some PostGreSql stuff
+Checking size of gvmd Postgres db
+- sudo -u postgres -i psql
+- SELECT pg_size_pretty( pg_database_size('gvmd'));
+
+ pg_size_pretty 
+----------------
+ 2847 MB
+(1 row)
+
+Other db stuff
+- \l+ - lists databases
+- \c gvmd - connects to the gvmd database
+- SELECT * FROM alerts; - shows all data in table alerts
