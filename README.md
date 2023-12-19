@@ -48,10 +48,10 @@ When you just want to get the XML from Greenbone to look for values/value names,
 - %N is the name for the object or the associated task for reports, %C is the creation date in the format YYYYMMDD, and %c is the creation time in the format HHMMSS.
 - The script only support EMAIL and SMB Alerts, please note that the fields are quite different between the two alert types, but refer to the sample alerts.csv
 - The CSV must starts with name, type (EMAIL or SMB). The remaining fields then depend on the type chosen, specifically:
-- EMAIL; *senders email*, *recipients email*, *mail subject*, *message body*, *notice type* (0=Simple Notice 1=Report in message or 2=Attach Report), *Report Type* (e.g. CSV Results), *Status* (Done, Requested)
+- EMAIL; *senders email*, *recipients email*, *mail subject*, *message body*, *notice type* (0=Report in message 1=Simple Notice or 2=Attach Report), *Report Type* (e.g. CSV Results), *Status* (Done, Requested)
 - SMB; *SMB Credentials*,*SMB Share Path*,*Report Name*, *Report Folder* (if not stored in the root of the share), *Not used*, *Report Type* (e.g. CSV Results), *Status* (Done, Requested)
 - A simple example below with 1 EMAIL alert and 1 SMB Alert.
-Alert_EMAIL_Stop,EMAIL,"martin@bollers.dk","noc@bollers.dk","Message Subject","Message Body",0,"CSV Results","Stop Requested"
+Alert_EMAIL_Stop,EMAIL,"martin@bollers.dk","noc@bollers.dk","Message Subject","Message Body",1,"CSV Results","Stop Requested"
 Alert_SMB_Done,SMB,"Cred_Storage_SMB","\\smbserver\share","%N_%CT%cZ","Reports",,"CSV Results","Done"
 
 **Note**: This script relies on credentials as/if specified in alerts.csv as well as a working SMTP server on the Greenbone primary server. If you're using SMB add the required credentials first using [create-credentials-from-csv.gmp.py](#create-credentials-from-csvgmppy).
