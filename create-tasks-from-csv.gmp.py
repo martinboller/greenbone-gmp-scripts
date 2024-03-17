@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Looseæy based on the create-targets-from-host-list
+# Loosely based on the create-targets-from-host-list
 # As provided by Greenbone in the gvm-tools repo
 #
 # Martin Boller
@@ -34,7 +34,7 @@ import csv
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
-
+from gvm.protocols.gmpv208.entities.hosts import HostsOrdering #Only available in version 20.8
 from gvm.protocols.gmp import Gmp
 
 from gvmtools.helper import error_and_exit
@@ -209,11 +209,11 @@ def create_tasks(
                 alert0 = alert_id(gmp, row[8])
                 alert1 = alert_id(gmp, row[6])
                 alert2 = alert_id(gmp, row[7])
-                alert3 = alert_id(gmp, row[5])                
-                #print(alert0, alert1, alert2, alert3)
+                alert3 = alert_id(gmp, row[5])
+                scanOrder = HostsOrdering.RANDOM # Use SEQUENTIAL, REVERSE, or RANDOM
                 
                 gmp.create_task(
-                   name=name, comment=comment, config_id=configId, target_id=targetId, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=[alert0,alert1,alert2,alert3]
+                   name=name, comment=comment, config_id=configId, target_id=targetId, hosts_ordering=scanOrder, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=[alert0,alert1,alert2,alert3]
                 )
         csvFile.close()   #close the csv file
     except IOError as e:
