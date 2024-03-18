@@ -163,7 +163,9 @@ in other words if it is referenced in tasks.csv it must already exist.
 **Lists all tasks configured**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-tasks.gmp.py
 - No tasks configured by default, however using the provided files in this repo, you should now have some (9).
-- Returns the tasks Name, uuid, Target, Scanner, and the highest severity (empty if no reports)
+- Returns the tasks Name, uuid, Target, Scanner, the order in which hosts are scanned¹, and the highest severity (empty if no reports)
+
+¹ The default order is "None" which equals sequential, meaning that if this field is empty scanning will be sequential as it will be if specifically set to sequential. Possible results are None, Sequential, Reverse, or Random.
 
 ### start-scans-from-csv.gmp.py ###
 **starts scans (tasks) specified in csv file**<br/><br/> 

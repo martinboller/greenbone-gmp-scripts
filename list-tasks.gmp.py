@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_tasks(details=True, filter_string="rows=-1")
     tasks_xml = response_xml.xpath("task")
 
-    heading = ["#", "Name", "ID", "Target", "Scanner", "Severity"]
+    heading = ["#", "Name", "ID", "Target", "Scanner", "Scan Order", "Severity"]
 
     rows = []
     numberRows = 0
@@ -50,8 +50,8 @@ def main(gmp: Gmp, args: Namespace) -> None:
         targetname = "".join(task.xpath("target/name/text()"))
         scanner = "".join(task.xpath("scanner/name/text()"))
         severity = "".join(task.xpath("last_report/report/severity/text()"))
-
-        rows.append([rowNumber, name, task_id, targetname, scanner, severity])
+        order = "".join(task.xpath("hosts_ordering/text()"))
+        rows.append([rowNumber, name, task_id, targetname, scanner, order, severity])
 
     print(Table(heading=heading, rows=rows))
 
