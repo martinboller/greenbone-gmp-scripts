@@ -91,7 +91,8 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 ### create-tasks-from-csv.gmp.py ###
 **Creates tasks as specified in a csv-file. See tasks.csv for file format/contents**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-tasks-from-csv.gmp.py ./task.csv  <br/><br/>
-- Scans all hosts in Random order by default. Change HostsOrdering.RANDOM to .SEQUENTIAL or .REVERSE in script
+- Change Hosts Scan Ordering by changing #5 within CSV to Random, Sequential or Reverse in script.
+- Specify up to 5 alerts in CSV, blanks will be discarded.
 **Note**: Make sure that all other configurations that the tasks may rely on are already created, including alerts, schedules, credentials, and targets,
 in other words if it is referenced in tasks.csv it must already exist.
 

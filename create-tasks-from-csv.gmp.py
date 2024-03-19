@@ -205,15 +205,38 @@ def create_tasks(
                 alterable = "True"
                 configId = config_id(gmp, row[3])
                 scheduleId = schedule_id(gmp, row[4])
+
+                if row[5].upper == "RANDOM":
+                    order = HostsOrdering.RANDOM
+                elif row[5].upper == "SEQUENTIAL":
+                    order = HostsOrdering.SEQUENTIAL
+                elif row[5].upper == "REVERSE":
+                    order = HostsOrdering.REVERSE
+                else:
+                    order = HostsOrdering.SEQUENTIAL
+
+                alerts = []
+                if len(row[6]) > 1:
+                    alert = alert_id(gmp, row[6])
+                    alerts.append(alert)
+                if len(row[7]) > 1:
+                    alert = alert_id(gmp, row[7])
+                    alerts.append(alert)
+                if len (row[8]) > 1:
+                    alert = alert_id(gmp, row[8])
+                    alerts.append(alert)
+                if len(row[9]) > 1:
+                    alert = alert_id(gmp, row[9])
+                    alerts.append(alert)
+                if len(row[10]) > 1:
+                    alert = alert_id(gmp, row[10])
+                    alerts.append(alert)
+
+                scanOrder = order # Use SEQUENTIAL, REVERSE, or RANDOM
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
-                alert0 = alert_id(gmp, row[8])
-                alert1 = alert_id(gmp, row[6])
-                alert2 = alert_id(gmp, row[7])
-                alert3 = alert_id(gmp, row[5])
-                scanOrder = HostsOrdering.RANDOM # Use SEQUENTIAL, REVERSE, or RANDOM
                 
                 gmp.create_task(
-                   name=name, comment=comment, config_id=configId, target_id=targetId, hosts_ordering=scanOrder, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=[alert0,alert1,alert2,alert3]
+                   name=name, comment=comment, config_id=configId, target_id=targetId, hosts_ordering=scanOrder, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=alerts
                 )
         csvFile.close()   #close the csv file
     except IOError as e:
