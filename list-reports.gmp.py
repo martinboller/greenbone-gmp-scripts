@@ -44,12 +44,11 @@ def check_args(args):
         This script lists all reports depending on status.
         One parameter after the script name is required.
 
-        1. Status -- Either \"All\", \"Requested\", \"Queued\", \"Interrupted\", \"Running\", \"Stop Requested\", \"Stopped\", or \"Done\"
+        1. Status -- Either \"All\", \"Requested\", \"Queued\", \"Interrupted\", \"Running\", \"StopRequested\", \"Stopped\", or \"Done\"
 
         Example:
             $ gvm-script --gmp-username name --gmp-password pass \
 socket list-reports.gmp.py Done \n
-Don't forget that case matters - E.g.  - done - won't work, but - Done - will
         """
         print(message)
         sys.exit()
@@ -84,6 +83,25 @@ def list_reports (
     status: str,
 ):
     str_status = status
+    if status.upper() == "ALL":
+        status = "All"
+    elif status.upper() == "REQUESTED":
+        str_status = "Requested"
+    elif status.upper() == "INTERRUPTED":
+        str_status = "Interrupted"
+    elif status.upper() == "QUEUED":
+        str_status = "Queued"
+    elif status.upper() == "STOPREQUESTED":
+        str_status = "Stop Requested"
+    elif status.upper() == "DONE":
+        str_status = "Done"
+    elif status.upper() == "RUNNING":
+        str_status = "Running"
+    elif status.upper() == "STOPPED":
+        str_status = "Stopped"
+    #else:
+    #    str_status="All"
+
     print("Reports with status: " + str_status + "\n")
 
     if str_status == "All":
