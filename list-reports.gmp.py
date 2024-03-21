@@ -91,7 +91,9 @@ def list_reports (
         str_status = "Interrupted"
     elif status.upper() == "QUEUED":
         str_status = "Queued"
-    elif status.upper() == "STOPREQUESTED":
+    elif status.upper()[:6] == "STOPRE":
+        str_status = "Stop Requested"
+    elif status.upper()[:6] == "STOP R":
         str_status = "Stop Requested"
     elif status.upper() == "DONE":
         str_status = "Done"
@@ -99,8 +101,8 @@ def list_reports (
         str_status = "Running"
     elif status.upper() == "STOPPED":
         str_status = "Stopped"
-    #else:
-    #    str_status="All"
+    else:
+        str_status="All"
 
     print("Reports with status: " + str_status + "\n")
 
