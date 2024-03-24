@@ -87,7 +87,21 @@ The sample files should serve as an example.<br/><br/>
 ### create-targets-from-csv.gmp.py ###
 **Creates targets as specified in a csv-file. See targets.csv for file format/contents.**<br/><br/> 
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-targets-from-csv.gmp.py ./targets.csv  <br/><br/> 
-- Alive test can be: ICMP Ping | ICMP & TCP-ACK Service Ping | TCP-ACK Service & ARP Ping | ICMP & ARP Ping | ICMP & TCP-ACK Service Ping | ICMP, TCP-ACK Service & ARP Ping | ARP Ping | ICMP & ARP Ping | TCP-ACK Service Ping | TCP-SYN Service Ping | ICMP Ping | Scan Config Default | Consider Alive
+- Alive test can be:
+
+No | Alive Test 
+---|---
+01 | ICMP Ping 
+02 | ARP Ping
+03 | ICMP & ARP Ping
+04 | ICMP & TCP-ACK Service Ping
+05 | TCP-ACK Service Ping
+06 | TCP-SYN Service Ping
+07 | TCP-ACK Service & ARP Ping
+08 | ICMP, TCP-ACK Service & ARP Ping
+09 | Scan Config Default
+10 | Consider Alive
+
 
 ### create-tasks-from-csv.gmp.py ###
 **Creates tasks as specified in a csv-file. See tasks.csv for file format/contents**<br/><br/> 
