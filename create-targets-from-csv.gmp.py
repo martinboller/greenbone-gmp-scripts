@@ -147,10 +147,16 @@ def create_targets(
                 sshCred = credential_id(gmp, row[3])
                 snmpCred = credential_id(gmp, row[4])
                 esxCred = credential_id(gmp, row[5])
+                aliveTest = row[6]
+                if not aliveTest:
+                    aliveTest = "Scan Config Default" 
+                alive_test = gmp.types.AliveTest(
+                    (aliveTest)
+                )
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
 
                 gmp.create_target(
-                   name=name, comment=comment, hosts=hosts, port_list_id=port_list_id, smb_credential_id=smbCred, ssh_credential_id=sshCred
+                   name=name, comment=comment, hosts=hosts, port_list_id=port_list_id, smb_credential_id=smbCred, ssh_credential_id=sshCred, alive_test=alive_test
                 )
         csvFile.close()   #close the csv file
     except IOError as e:
