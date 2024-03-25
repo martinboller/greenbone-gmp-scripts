@@ -206,14 +206,15 @@ def create_tasks(
                 configId = config_id(gmp, row[3])
                 scheduleId = schedule_id(gmp, row[4])
 
-                if row[5].upper == "RANDOM":
+                newOrder = row[5].upper()
+                if newOrder == "RANDOM":
                     order = HostsOrdering.RANDOM
-                elif row[5].upper == "SEQUENTIAL":
+                elif newOrder == "SEQUENTIAL":
                     order = HostsOrdering.SEQUENTIAL
-                elif row[5].upper == "REVERSE":
+                elif newOrder == "REVERSE":
                     order = HostsOrdering.REVERSE
                 else:
-                    order = HostsOrdering.SEQUENTIAL
+                    order = HostsOrdering.RANDOM
 
                 alerts = []
                 if len(row[6]) > 1:
