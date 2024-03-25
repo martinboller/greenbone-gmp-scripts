@@ -89,18 +89,17 @@ The sample files should serve as an example.<br/><br/>
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-targets-from-csv.gmp.py ./targets.csv  <br/><br/> 
 - Alive test can be:
 
-No | Alive Test 
----|---
-01 | ICMP Ping 
-02 | ARP Ping
-03 | ICMP & ARP Ping
-04 | ICMP & TCP-ACK Service Ping
-05 | TCP-ACK Service Ping
-06 | TCP-SYN Service Ping
-07 | TCP-ACK Service & ARP Ping
-08 | ICMP, TCP-ACK Service & ARP Ping
-09 | Scan Config Default
-10 | Consider Alive
+No | Alive Test | Notes
+---|---|---
+1 | Scan Config Default | ICMP Ping is used by default with the Built-in Scan Configurations
+2 | ICMP Ping | ICMP echo request and echo reply messages
+3 | TCP-ACK Service Ping | Sends TCP packets with only the ACK bit set. Target is required by [RFC 793](http://www.rfc-editor.org/rfc/rfc793.txt) to respond with a RST packet
+4 | TCP-SYN Service Ping | SYN only scans (never sends an ACK even if target replies with SYN/ACK)
+5 | ICMP & TCP-ACK Service Ping | ICMP & TCP-ACK tests combined
+6 | ICMP & ARP Ping | ICMP Ping & sends a broadcast ARP request to solicit a reply from the host that uses the specified IP address
+7 | TCP-ACK Service & ARP Ping | TCP-ACK and ARP Ping combined
+8 | ICMP, TCP-ACK Service & ARP Ping | ICMP, TCP-ACK, and ARP Ping combined
+9 | Consider Alive | Consider the target alive. This may take considerably longer to finish.
 
 
 ### create-tasks-from-csv.gmp.py ###
