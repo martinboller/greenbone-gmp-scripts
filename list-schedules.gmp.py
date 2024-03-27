@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_schedules(filter_string="rows=-1")
     schedules_xml = response_xml.xpath("schedule")
 
-    heading = ["#", "Name", "ID", "TZ", "iCalendar"]
+    heading = ["#", "Name", "Id", "TZ", "iCalendar"]
 
     rows = []
     numberRows = 0

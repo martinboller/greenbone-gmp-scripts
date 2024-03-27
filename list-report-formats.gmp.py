@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     response_xml = gmp.get_report_formats(details=True, filter_string="rows=-1")
     report_formats_xml = response_xml.xpath("report_format")
-    heading = ["#", "Id", "Name", "Summary"]
+    heading = ["#", "Name", "Id", "Summary"]
     rows = []
     numberRows = 0
 
@@ -48,7 +48,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         report_format_summary = "".join(report_format.xpath("summary/text()"))
         report_format_description = "".join(report_format.xpath("description/text()"))
 
-        rows.append([rowNumber, report_format_id, name, report_format_summary])
+        rows.append([rowNumber, name, report_format_id, report_format_summary])
 
     print(Table(heading=heading, rows=rows))
 

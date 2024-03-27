@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_targets(filter_string="rows=-1")
     targets_xml = response_xml.xpath("target")
 
-    heading = ["#", "Name", "ID", "Count", "SSH Credential", "SMB Cred", "ESXi Cred", "SNMP Cred", "Alive test"]
+    heading = ["#", "Name", "Id", "Count", "SSH Credential", "SMB Cred", "ESXi Cred", "SNMP Cred", "Alive test"]
 
     rows = []
     numberRows = 0

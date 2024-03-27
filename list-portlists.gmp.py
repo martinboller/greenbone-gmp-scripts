@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_port_lists(filter_string="rows=-1")
     portlists_xml = response_xml.xpath("port_list")
 
-    heading = ["#", "Name", "ID", "Ports All", "Ports TCP", "Ports UDP"]
+    heading = ["#", "Name", "Id", "Ports All", "Ports TCP", "Ports UDP"]
 
     rows = []
     numberRows = 0

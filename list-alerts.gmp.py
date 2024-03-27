@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_alerts(filter_string="rows=-1")
     alerts_xml = response_xml.xpath("alert")
 
-    heading = ["#", "Name", "Event", "Method", "ID", "Condition", "In use"]
+    heading = ["#", "Name", "Id", "Event", "Method", "Condition", "In use"]
 
     rows = []
     numberRows = 0
@@ -56,7 +56,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         else:
             alert_inuse = "No"
 
-        rows.append([rowNumber, name, alert_event, alert_method, alert_id, alert_condition, alert_inuse])
+        rows.append([rowNumber, name, alert_id, alert_event, alert_method, alert_condition, alert_inuse])
 
     print(Table(heading=heading, rows=rows))
 

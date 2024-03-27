@@ -134,6 +134,7 @@ in other words if it is referenced in tasks.csv it must already exist.
 ## list-credentials.gmp.py ###
 **Lists all credentials configured with name and uuid.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-credentials.gmp.py  
+- returns Credential uuid, Name, Type, & if insecure use is allowed
 
 ### list-feeds.gmp.py ###
 **Lists feeds and their status.**

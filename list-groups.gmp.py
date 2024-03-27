@@ -48,13 +48,6 @@ def main(gmp: Gmp, args: Namespace) -> None:
         name = "".join(group.xpath("name/text()"))
         group_id = group.get("id")
         group_members = "".join(group.xpath("users/text()"))
-        group_roleid = "".join(group.xpath("role/id"))
-        group_event = "".join(group.xpath("event/text()"))
-        group_inuse = "".join(group.xpath("in_use/text()"))
-        if group_inuse == "1":
-            group_inuse = "Yes"
-        else:
-            group_inuse = "No"
 
         rows.append([rowNumber, name, group_id, group_members])
 

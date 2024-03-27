@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_scanners(filter_string="rows=-1")
     scanners_xml = response_xml.xpath("scanner")
 
-    heading = ["#", "Name", "ID", "host"]
+    heading = ["#", "Name", "Id", "host"]
 
     rows = []
     numberRows = 0

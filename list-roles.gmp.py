@@ -48,13 +48,6 @@ def main(gmp: Gmp, args: Namespace) -> None:
         name = "".join(role.xpath("name/text()"))
         role_id = role.get("id")
         role_members = "".join(role.xpath("users/text()"))
-        role_roleid = "".join(role.xpath("role/id"))
-        role_event = "".join(role.xpath("event/text()"))
-        role_inuse = "".join(role.xpath("in_use/text()"))
-        if role_inuse == "1":
-            role_inuse = "Yes"
-        else:
-            role_inuse = "No"
 
         rows.append([rowNumber, name, role_id, role_members])
 

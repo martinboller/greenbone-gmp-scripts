@@ -112,7 +112,7 @@ def list_reports (
         response_xml = gmp.get_reports(ignore_pagination=True, details=True, filter_string="status=" + str_status + "  and sort-reverse=name and rows=-1")
 
     reports_xml = response_xml.xpath("report")
-    heading = ["#", "ID", "Creation Time", "Modification Time", "Task Name", "Status", "Progress"]
+    heading = ["#", "Id", "Creation Time", "Modification Time", "Task Name", "Status", "Progress"]
     rows = []
     numberRows = 0
 

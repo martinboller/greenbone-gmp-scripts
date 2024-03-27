@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_credentials(filter_string="rows=-1")
     credentials_xml = response_xml.xpath("credential")
 
-    heading = ["#", "ID", "Name", "type", "Insecure use"]
+    heading = ["#", "Id", "Name", "Type", "Insecure use"]
 
     rows = []
     numberRows = 0
