@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_scan_configs(filter_string="rows=-1")
     scan_configs_xml = response_xml.xpath("config")
 
-    heading = ["#", "Name", "ID"]
+    heading = ["#", "Name", "ID", "NVT Count"]
 
     rows = []
     numberRows = 0
@@ -47,7 +47,9 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
         name = "".join(scan_config.xpath("name/text()"))
         scan_config_id = scan_config.get("id")
-        rows.append([rowNumber, name, scan_config_id])
+        scan_config_nvt = "".join(scan_config.xpath("nvt_count/text()"))
+
+        rows.append([rowNumber, name, scan_config_id, scan_config_nvt])
 
     print(Table(heading=heading, rows=rows))
 
