@@ -18,31 +18,24 @@ else
 	GMPPASSWORD=$2
 fi
 
-# Create Credentials
-gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-credentials-from-csv.gmp.py credentials.csv
-
-# Create Schedules
-gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-schedules-from-csv.gmp.py schedules.csv
-
-# Create Alerts
-gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-alerts-from-csv.gmp.py alerts.csv
-
-# Create Targets
-## Make sure that required (default) port lists are available before creating targets
-PORTLISTS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-portlists.gmp.py)
-if [[ -z $PORTLISTS ]]; then
-    echo -e "\e[1;31mNo portlists, exiting\e[1;0m"
-else
-    ## Now create the targets
-    gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-targets-from-csv.gmp.py targets.csv
-fi
-
 # Create Tasks
 ## Make sure that the required Scan Configurations are available before creating tasks
 SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py)
-if [[ -z $SCANCONFIGS ]]; then
-    echo -e "\e[1;31mNo scan configs, exiting\e[1;0m"
+if [[ $SCANCONFIGS ]]; then
+    echo -e "\e[1;31mNo scan configs. Waiting 60 seconds, then trying again\e[1;0m"
+    sleep 60;
+    ./$(basename $0) $GMPUSERNAME $GMPPASSWORD && exit
 else
-    ## Now create the Tasks
-    gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tasks-from-csv.gmp.py tasks.csv
+    ## Prepares scanner
+    echo -e "\e[1;32mScan Configs now available, preparing scanner\e[1;0m"
+	# Create Credentials
+	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-credentials-from-csv.gmp.py credentials.csv
+	# Create Schedules
+	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-schedules-from-csv.gmp.py schedules.csv
+	# Create Alerts
+	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-alerts-from-csv.gmp.py alerts.csv
+	# Create Targets
+	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-targets-from-csv.gmp.py targets.csv
+	## Now create the Tasks
+	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tasks-from-csv.gmp.py tasks.csv
 fi
