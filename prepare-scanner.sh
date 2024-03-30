@@ -34,13 +34,13 @@ if [[ -z $PORTLISTS ]]; then
     echo -e "\e[1;31mNo portlists, exiting\e[1;0m"
 else
     ## Now create the targets
-    gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-alerts-from-csv.gmp.py alerts.csv
+    gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-targets-from-csv.gmp.py targets.csv
 fi
 
 # Create Tasks
 ## Make sure that the required Scan Configurations are available before creating tasks
 SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py)
-if [[ -z $PORTLISTS ]]; then
+if [[ -z $SCANCONFIGS ]]; then
     echo -e "\e[1;31mNo scan configs, exiting\e[1;0m"
 else
     ## Now create the Tasks
