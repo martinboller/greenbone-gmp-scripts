@@ -20,7 +20,7 @@ fi
 
 # Create Tasks
 ## Make sure that the required Scan Configurations are available before creating tasks
-SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py)
+SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
 if [[ -z $SCANCONFIGS ]]; then
     echo -e "\e[1;31mNo scan configs. Waiting 60 seconds, then trying again\e[1;0m"
     sleep 60;

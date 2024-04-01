@@ -3,11 +3,18 @@
 ## Python scripts that can be used to configure your Greenbone Source Edition (OpenVAS) Scanner ###
 I hope these will make your life a little easier managing Greenbone/OpenVAS.
 
-[API Reference for GVM 22.4](https://docs.greenbone.net/API/GMP/gmp-22.4.html)
+[API Reference for GVM 22.5](https://docs.greenbone.net/API/GMP/gmp-22.5.html)
 
 ----
 
 ## Latest changes ##
+
+### 2024-04-01 - Additional scripts and further details from list-* 
+- list-users, list-groups, list-roles are new.
+- Most other list-* scripts provide further details
+- prepare-scanner.sh will add credentials, schedules, alerts, targets, and tasks as defined in the csv files for each of those, running the associated create-* scripts.
+
+
 ### 2023-12-15 - Script to create alerts ###
 - Added create-alerts-from-csv.gmp.py
 - Added template alerts.csv
@@ -51,7 +58,7 @@ When you just want to get the XML from Greenbone to look for values/value names,
 - EMAIL; *senders email*, *recipients email*, *mail subject*, *message body*, *notice type* (0=Report in message 1=Simple Notice or 2=Attach Report), *Report Type* (e.g. CSV Results), *Status* (Done, Requested)
 - SMB; *SMB Credentials*,*SMB Share Path*,*Report Name*, *Report Folder* (if not stored in the root of the share), *Not used*, *Report Type* (e.g. CSV Results), *Status* (Done, Requested)
 - A simple example below with 1 EMAIL alert and 1 SMB Alert.
-Alert_EMAIL_Stop,EMAIL,"martin@bollers.dk","noc@bollers.dk","Message Subject","Message Body",1,"CSV Results","Stop Requested"
+Alert_EMAIL_Stop,EMAIL,"martin@example.org","noc@example.org","Message Subject","Message Body",1,"CSV Results","Stop Requested"
 Alert_SMB_Done,SMB,"Cred_Storage_SMB","\\smbserver\share","%N_%CT%cZ","Reports",,"CSV Results","Done"
 
 **Note**: This script relies on credentials as/if specified in alerts.csv as well as a working SMTP server on the Greenbone primary server. If you're using SMB add the required credentials first using [create-credentials-from-csv.gmp.py](#create-credentials-from-csvgmppy).
@@ -211,14 +218,22 @@ in other words if it is referenced in tasks.csv it must already exist.
 ### alerts.csv
 - Example csv-file to use with create-alerts-from-csv.gmp.py
 
-### credentials.csv ###
-- Example csv-file to use with create-credentials-from-csv.gmp.py  
+### credentials.csv
+- Example csv-file to use with create-credentials-from-csv.gmp.py 
 
-### targets.csv ###
+### schedules.csv
+- example csv-file to use with create-schedules-from-csv.gmp.py
+
+### targets.csv
 - Example csv-file to use with create-targets-from-csv.gmp.py  
 
-### tasks.csv ###
+### tasks.csv
 - Example csv-file to use with create-tasks-from-csv.gmp.py  
+
+### prepare-scanner.sh
+- Usage: provide GMP Username and Password and the script will add credentials, schedules, alerts, targets, and tasks as defined in the csv files for each of those.
+- Provide your own files csv-files together with other relevant files, such as SSH-keys before executing the script.
+- **Important** Delete all of the above after running the script as they contain critical information (the GVM database encrypts the information, but these files are clear-text)
 
 ## Tips and tricks
 ### Using filters with gvm-cli
