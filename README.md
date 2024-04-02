@@ -95,6 +95,7 @@ The sample files should serve as an example.
 **Creates tags as specified in a csv-file. See tags.csv for file format/contents.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-tags-from-csv.gmp.py ./tags.csv 
 - May contain up to 10 resources to assign to tag. Currently only creates tags for Credential, Target, and Tasks
+- Use tag:*searchforthis* as filter. Example: *tag:bsecure*
 - Will add reports when I've figured out if tags are really dynamic and a filter will do it for new reports. 
 
 ### create-targets-from-csv.gmp.py ###
