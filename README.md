@@ -91,6 +91,12 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 **Note**: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
 The sample files should serve as an example.
 
+### create-tags-from-csv.gmp.py ###
+**Creates tags as specified in a csv-file. See tags.csv for file format/contents.**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-tags-from-csv.gmp.py ./tags.csv 
+- May contain up to 10 resources to assign to tag. Currently only creates tags for Credential, Target, and Tasks
+- Will add reports when I've figured out if tags are really dynamic and a filter will do it for new reports. 
+
 ### create-targets-from-csv.gmp.py ###
 **Creates targets as specified in a csv-file. See targets.csv for file format/contents.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-targets-from-csv.gmp.py ./targets.csv  
@@ -223,6 +229,9 @@ in other words if it is referenced in tasks.csv it must already exist.
 
 ### schedules.csv
 - example csv-file to use with create-schedules-from-csv.gmp.py
+
+### tags.csv
+- Example csv-file to use with create-tags-from-csv.gmp.py
 
 ### targets.csv
 - Example csv-file to use with create-targets-from-csv.gmp.py  
