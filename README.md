@@ -8,6 +8,9 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 ----
 
 ## Latest changes ##
+### 2024-04-02 - create tags and list tags 
+- Creates tags and assigns the to resources.
+- Filters are evaluated at creation time, so new reports from the same task created after script is run won't be tagged. Would've been nice if they were re-evaluated at regular intervals.
 
 ### 2024-04-01 - Additional scripts and further details from list-* 
 - list-users, list-groups, list-roles are new.
