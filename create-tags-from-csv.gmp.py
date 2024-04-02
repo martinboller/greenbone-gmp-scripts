@@ -88,6 +88,32 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
+def config_id(
+    gmp: Gmp,
+    config_name: str,
+):
+    response_xml = gmp.get_scan_configs(filter_string="rows=-1, name=" + config_name)
+    scan_configs_xml = response_xml.xpath("config")
+    config_id = ""
+
+    for scan_config in scan_configs_xml:
+        name = "".join(scan_config.xpath("name/text()"))
+        config_id = scan_config.get("id")
+    return config_id
+
+def alert_id(
+    gmp: Gmp,
+    alert_name: str,
+):
+    response_xml = gmp.get_alerts(filter_string="rows=-1, name=" + alert_name)
+    alerts_xml = response_xml.xpath("alert")
+    alert_id = ""
+
+    for alert in alerts_xml:
+        name = "".join(alert.xpath("name/text()"))
+        alert_id = alert.get("id")
+    return alert_id
+
 def credential_id(
     gmp: Gmp,
     credName: str,
@@ -184,11 +210,17 @@ def create_tags(
                 elif tagType.upper() == "SCHEDULE":
                     getUUID=schedule_id
                     resource_type=gmp.types.EntityType.SCHEDULE
+                elif tagType.upper() == "CONFIG":
+                    getUUID=config_id
+                    resource_type=gmp.types.EntityType.SCAN_CONFIG
+                elif tagType.upper() == "ALERT":
+                    getUUID=alert_id
+                    resource_type=gmp.types.EntityType.ALERT
                 elif tagType.upper() == "REPORT":
                     filter = "~" + tagName
                     resource_type=gmp.types.EntityType.REPORT 
                 else:
-                    print("Only credential, report, scanner, schedule, target, and task supported")
+                    print("Only alert, config, credential, report, scanner, schedule, target, and task supported")
                     exit()
                 
                 if len(row[3]) >= 1:
@@ -212,8 +244,8 @@ def create_tags(
                 if len(row[9]) >= 1:
                     tagResource = (getUUID(gmp, row[9]))
                     tagResources.append(tagResource)
-                if len(row[10]) >= 1:
                     tagResource = (getUUID(gmp, row[10]))
+                if len(row[10]) >= 1:
                     tagResources.append(tagResource)
                 if len(row[11]) >= 1:
                     tagResource = (getUUID(gmp, row[11]))
