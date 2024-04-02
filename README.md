@@ -193,6 +193,11 @@ in other words if it is referenced in tasks.csv it must already exist.
 **Lists all schedules configured with name, uuid, timezone, and iCalendar information.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-schedules.gmp.py  
 
+### list-tags.gmp.py ###
+**Lists all tags currently configured.**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-tags.gmp.py
+- Returns Tag name, uuid, Modified Date, Value, Type, and Count of ressources assigned to tag.
+
 ### list-targets.gmp.py ###
 **Lists all targets currently configured.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-targets.gmp.py

@@ -127,6 +127,32 @@ def task_id(
         task_id = task.get("id")
     return task_id
 
+def scanner_id(
+    gmp: Gmp,
+    scanner_name: str,
+):
+    response_xml = gmp.get_scanners(filter_string="rows=-1, name=" + scanner_name)
+    scanners_xml = response_xml.xpath("scanner")
+    scanner_id = ""
+
+    for scanner in scanners_xml:
+        name = "".join(scanner.xpath("name/text()"))
+        scanner_id = scanner.get("id")
+    return scanner_id
+
+def schedule_id(
+    gmp: Gmp,
+    schedule_name: str,
+):
+    response_xml = gmp.get_schedules(filter_string="rows=-1, name=" + schedule_name)
+    schedules_xml = response_xml.xpath("schedule")
+    schedule_id = ""
+
+    for schedule in schedules_xml:
+        name = "".join(schedule.xpath("name/text()"))
+        schedule_id = schedule.get("id")
+    return schedule_id
+
 def create_tags(   
     gmp: Gmp,
     tag_csv_file: Path,
@@ -152,8 +178,17 @@ def create_tags(
                 elif tagType.upper() == "TASK":
                     getUUID=task_id
                     resource_type=gmp.types.EntityType.TASK
+                elif tagType.upper() == "SCANNER":
+                    getUUID=scanner_id
+                    resource_type=gmp.types.EntityType.SCANNER
+                elif tagType.upper() == "SCHEDULE":
+                    getUUID=schedule_id
+                    resource_type=gmp.types.EntityType.SCHEDULE
+                elif tagType.upper() == "REPORT":
+                    filter = "~" + tagName
+                    resource_type=gmp.types.EntityType.REPORT 
                 else:
-                    print("Only credential, target, and task supported")
+                    print("Only credential, report, scanner, schedule, target, and task supported")
                     exit()
                 
                 if len(row[3]) >= 1:
@@ -188,9 +223,16 @@ def create_tags(
                     tagResources.append(tagResource)
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
 
-                gmp.create_tag(
-                   name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_ids=tagResources,
-                )
+                if tagType.upper() == "REPORT":
+                   gmp.create_tag(
+                      name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_filter=filter,
+                   )
+                else:
+                   gmp.create_tag(
+                      name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_ids=tagResources,
+                   )
+
+
         csvFile.close()   #close the csv file
     except IOError as e:
         error_and_exit(f"Failed to read tag_csv_file: {str(e)} (exit)")
