@@ -1,0 +1,5 @@
+target,company,internal,"~Labnet"
+report,company,internal,"~Labnet"
+task,company,internal,"~Labnet"
+alert,companyb,customer,"~companyb
+config,company,customer,"~Full"

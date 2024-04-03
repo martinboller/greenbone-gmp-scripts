@@ -7,6 +7,9 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 
 ----
 
+### 2024-04-03 - create filters and list filters
+- Creates filters and assign them to different types (alerts, tasks, targets, reports, etc.)
+
 ## Latest changes ##
 ### 2024-04-02 - create tags and list tags 
 - Creates tags and assigns the to resources.
@@ -16,7 +19,6 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 - list-users, list-groups, list-roles are new.
 - Most other list-* scripts provide further details
 - prepare-scanner.sh will add credentials, schedules, alerts, targets, and tasks as defined in the csv files for each of those, running the associated create-* scripts.
-
 
 ### 2023-12-15 - Script to create alerts ###
 - Added create-alerts-from-csv.gmp.py
@@ -94,6 +96,15 @@ Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket c
 **Note**: create schedules, then credentials, then targets, then tasks and make sure to use the same names between the input csv-files.
 The sample files should serve as an example.
 
+### create-filters-from-csv.gmp.py ###
+**Creates filters as specified in a csv-file. See filters.csv for file format/contents.**
+-  Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-filters-from-csv.gmp.py ./filters.csv
+- CSV-file; filterType, filterName, filterDescription, filterTerm, where
+    - filterType is one of Alert, Config (scan-config), Credential, Report, Scanner, Schedule, Target, or Task.
+    - filterName is the name of the filter.
+    - filterDescription is your description of the filter.
+    - FilterTerm is the actual term used to define the filter, such as \~Labnet.
+
 ### create-tags-from-csv.gmp.py ###
 **Creates tags as specified in a csv-file. See tags.csv for file format/contents.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket create-tags-from-csv.gmp.py ./tags.csv 
@@ -156,6 +167,11 @@ in other words if it is referenced in tasks.csv it must already exist.
 ### list-feeds.gmp.py ###
 **Lists feeds and their status.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-feeds.gmp.py  
+
+### list-filters.gmp.py ###
+**Lists filters.**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-filters.gmp.py
+- Returns Filter Name, uuid, type, and the term (filter)  
 
 ### list-groups.gmp.py ###
 **Lists all groups**
