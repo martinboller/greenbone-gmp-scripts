@@ -38,4 +38,8 @@ else
 	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-targets-from-csv.gmp.py targets.csv
 	## Now create the Tasks
 	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tasks-from-csv.gmp.py tasks.csv
+    
+	## Create Filters and Tags
+	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-filters-from-csv.gmp.py filters.csv
+    gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tags-from-csv.gmp.py tags.csv
 fi
