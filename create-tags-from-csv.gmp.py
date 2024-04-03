@@ -92,7 +92,7 @@ def config_id(
     gmp: Gmp,
     config_name: str,
 ):
-    response_xml = gmp.get_scan_configs(filter_string="rows=-1, name=" + config_name)
+    response_xml = gmp.get_scan_configs(filter_string="rows=-1, name= " + config_name)
     scan_configs_xml = response_xml.xpath("config")
     config_id = ""
 
@@ -195,30 +195,30 @@ def create_tags(
                 tagNameFull = tagType + ":" + tagDescription + ":" + tagName
                 # Up to ten resources (rows 3 - 12)
                 tagResources = []
-                if tagType.upper() == "TARGET":
-                    getUUID=target_id
-                    resource_type=gmp.types.EntityType.TARGET
+                if tagType.upper() == "ALERT":
+                    getUUID=alert_id
+                    resource_type=gmp.types.EntityType.ALERT
+                elif tagType.upper() == "CONFIG":
+                    getUUID=config_id
+                    resource_type=gmp.types.EntityType.SCAN_CONFIG
                 elif tagType.upper() == "CREDENTIAL":
                     getUUID=credential_id
                     resource_type=gmp.types.EntityType.CREDENTIAL
-                elif tagType.upper() == "TASK":
-                    getUUID=task_id
-                    resource_type=gmp.types.EntityType.TASK
+                elif tagType.upper() == "REPORT":
+                    filter = "~" + tagName
+                    resource_type=gmp.types.EntityType.REPORT 
                 elif tagType.upper() == "SCANNER":
                     getUUID=scanner_id
                     resource_type=gmp.types.EntityType.SCANNER
                 elif tagType.upper() == "SCHEDULE":
                     getUUID=schedule_id
                     resource_type=gmp.types.EntityType.SCHEDULE
-                elif tagType.upper() == "CONFIG":
-                    getUUID=config_id
-                    resource_type=gmp.types.EntityType.SCAN_CONFIG
-                elif tagType.upper() == "ALERT":
-                    getUUID=alert_id
-                    resource_type=gmp.types.EntityType.ALERT
-                elif tagType.upper() == "REPORT":
-                    filter = "~" + tagName
-                    resource_type=gmp.types.EntityType.REPORT 
+                elif tagType.upper() == "TARGET":
+                    getUUID=target_id
+                    resource_type=gmp.types.EntityType.TARGET
+                elif tagType.upper() == "TASK":
+                    getUUID=task_id
+                    resource_type=gmp.types.EntityType.TASK
                 else:
                     print("Only alert, config, credential, report, scanner, schedule, target, and task supported")
                     exit()

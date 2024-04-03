@@ -124,10 +124,8 @@ def config_id(
     gmp: Gmp,
     config_name: str,
 ):
-    filterName = ""
-    filterName = "rows=-1, name=" + config_name
-
-    response_xml = gmp.get_scan_configs(filter_string=filterName)
+    response_xml = gmp.get_scan_configs(filter_string="rows=-1, name= " + config_name
+)
     scan_configs_xml = response_xml.xpath("config")
     config_id = ""
 

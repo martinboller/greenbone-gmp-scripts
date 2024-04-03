@@ -105,22 +105,22 @@ def create_filters(
                 filterNameFull = filterType + ":" + filterDescription + ":" + filterName
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 filterResources = []
-                if filterType.upper() == "TARGET":
-                   resource_type=gmp.types.FilterType.TARGET
+                if filterType.upper() == "ALERT":
+                    resource_type=gmp.types.FilterType.ALERT
+                elif filterType.upper() == "CONFIG":
+                    resource_type=gmp.types.FilterType.SCAN_CONFIG
                 elif filterType.upper() == "CREDENTIAL":
                     resource_type=gmp.types.FilterType.CREDENTIAL
-                elif filterType.upper() == "TASK":
-                    resource_type=gmp.types.FilterType.TASK
+                elif filterType.upper() == "REPORT":
+                    resource_type=gmp.types.FilterType.REPORT 
                 elif filterType.upper() == "SCANNER":
                     resource_type=gmp.types.FilterType.SCANNER
                 elif filterType.upper() == "SCHEDULE":
                     resource_type=gmp.types.FilterType.SCHEDULE
-                elif filterType.upper() == "CONFIG":
-                    resource_type=gmp.types.FilterType.SCAN_CONFIG
-                elif filterType.upper() == "ALERT":
-                    resource_type=gmp.types.FilterType.ALERT
-                elif filterType.upper() == "REPORT":
-                    resource_type=gmp.types.FilterType.REPORT 
+                elif filterType.upper() == "TARGET":
+                   resource_type=gmp.types.FilterType.TARGET
+                elif filterType.upper() == "TASK":
+                    resource_type=gmp.types.FilterType.TASK
                 else:
                     print("Only alert, config, credential, report, scanner, schedule, target, and task supported")
                     exit()
