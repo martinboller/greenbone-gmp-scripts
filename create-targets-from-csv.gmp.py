@@ -31,9 +31,8 @@ import csv
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
-
+from gvm.errors import GvmResponseError
 from gvm.protocols.gmp import Gmp
-
 from gvmtools.helper import error_and_exit
 
 HELP_TEXT = (
@@ -155,9 +154,13 @@ def create_targets(
                 )
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
 
-                gmp.create_target(
-                   name=name, comment=comment, hosts=hosts, port_list_id=port_list_id, smb_credential_id=smbCred, ssh_credential_id=sshCred, alive_test=alive_test
-                )
+                try:
+                    gmp.create_target(
+                    name=name, comment=comment, hosts=hosts, port_list_id=port_list_id, smb_credential_id=smbCred, ssh_credential_id=sshCred, alive_test=alive_test
+                    )
+                except GvmResponseError as gvmerr:
+                    print(f"{gvmerr=}, name: {name}")
+                    pass
         csvFile.close()   #close the csv file
     except IOError as e:
         error_and_exit(f"Failed to read target_csv_file: {str(e)} (exit)")

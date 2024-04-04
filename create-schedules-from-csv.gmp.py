@@ -31,6 +31,7 @@ import csv
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
+from gvm.errors import GvmResponseError
 
 from gvm.protocols.gmp import Gmp
 
@@ -104,12 +105,16 @@ def create_schedules(
                 sched_tz = row[1]
                 sched_ical = row[2]
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
-                gmp.create_schedule(
-                        name=sched_name,
-                        timezone=sched_tz,
-                        icalendar=sched_ical,
-                        comment=comment
-                )
+                try:
+                    gmp.create_schedule(
+                            name=sched_name,
+                            timezone=sched_tz,
+                            icalendar=sched_ical,
+                            comment=comment
+                    )
+                except GvmResponseError as gvmerr:
+                    print(f"{gvmerr=}, name: {sched_name}")
+                    pass
         csvFile.close()   #close the csv file
 
     except IOError as e:

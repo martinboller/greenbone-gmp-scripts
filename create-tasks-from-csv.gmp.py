@@ -36,7 +36,7 @@ from pathlib import Path
 from typing import List
 from gvm.protocols.gmpv208.entities.hosts import HostsOrdering #Only available in version 20.8
 from gvm.protocols.gmp import Gmp
-
+from gvm.errors import GvmResponseError
 from gvmtools.helper import error_and_exit
 
 HELP_TEXT = (
@@ -234,10 +234,15 @@ def create_tasks(
                 scanOrder = order # Use SEQUENTIAL, REVERSE, or RANDOM
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 
-                gmp.create_task(
-                   name=name, comment=comment, config_id=configId, target_id=targetId, hosts_ordering=scanOrder, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=alerts
-                )
+                try:
+                    gmp.create_task(
+                    name=name, comment=comment, config_id=configId, target_id=targetId, hosts_ordering=scanOrder, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=alerts
+                    )
+                except GvmResponseError as gvmerr:
+                    print(f"{gvmerr=}, name: {name}")
+                    pass
         csvFile.close()   #close the csv file
+
     except IOError as e:
         error_and_exit(f"Failed to read task_csv_file: {str(e)} (exit)")
 

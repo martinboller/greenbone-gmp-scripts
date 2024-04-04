@@ -34,6 +34,7 @@ import json
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
+from gvm.errors import GvmResponseError
 
 from gvm.protocols.gmp import Gmp
 
@@ -151,24 +152,27 @@ def create_alerts(
                     subject = strRow4
                     message = strRow5
                     notice_type = strRow6
-
-                    gmp.create_alert(
-                        name=alert_name,
-                        comment=comment,
-                        event=gmp.types.AlertEvent.TASK_RUN_STATUS_CHANGED,
-                        event_data={"status": event_data},
-                        condition=gmp.types.AlertCondition.ALWAYS,
-                        method=alert_type,
-                        method_data={
-                            "message": message,
-                            "notice": notice_type,
-                            "from_address": sender_email,
-                            "subject": subject,
-                            "notice_report_format": report_format,
-                            "notice_attach_format": report_format,
-                            "to_address": recipient_email,
-                        },
-                    )
+                    try:
+                        gmp.create_alert(
+                            name=alert_name,
+                            comment=comment,
+                            event=gmp.types.AlertEvent.TASK_RUN_STATUS_CHANGED,
+                            event_data={"status": event_data},
+                            condition=gmp.types.AlertCondition.ALWAYS,
+                            method=alert_type,
+                            method_data={
+                                "message": message,
+                                "notice": notice_type,
+                                "from_address": sender_email,
+                                "subject": subject,
+                                "notice_report_format": report_format,
+                                "notice_attach_format": report_format,
+                                "to_address": recipient_email,
+                            },
+                        )
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {alert_name}")
+                        pass 
                 else:
                     smb_credential = credential_id(gmp, strRow2)
                     smb_share_path = strRow3
@@ -176,20 +180,24 @@ def create_alerts(
                     smb_folder = strRow5
                     smb_file_path = smb_folder + "/" + smb_report_name
 
-                    gmp.create_alert(
-                    name=alert_name,
-                    comment=comment,
-                    event=gmp.types.AlertEvent.TASK_RUN_STATUS_CHANGED,
-                    event_data={"status": event_data},
-                    condition=gmp.types.AlertCondition.ALWAYS,
-                    method=alert_type,
-                    method_data={
-                        "smb_credential": smb_credential,
-                        "smb_share_path": smb_share_path,
-                        "smb_report_format": report_format,
-                        "smb_file_path": smb_file_path,
-                    },
-                    )
+                    try:
+                        gmp.create_alert(
+                        name=alert_name,
+                        comment=comment,
+                        event=gmp.types.AlertEvent.TASK_RUN_STATUS_CHANGED,
+                        event_data={"status": event_data},
+                        condition=gmp.types.AlertCondition.ALWAYS,
+                        method=alert_type,
+                        method_data={
+                            "smb_credential": smb_credential,
+                            "smb_share_path": smb_share_path,
+                            "smb_report_format": report_format,
+                            "smb_file_path": smb_file_path,
+                        },
+                        )
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {alert_name}")
+                        pass 
         csvFile.close()   #close the csv file
 
     except IOError as e:

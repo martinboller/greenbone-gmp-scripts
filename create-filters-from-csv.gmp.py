@@ -31,6 +31,7 @@ import csv
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
+from gvm.errors import GvmResponseError
 
 from gvm.protocols.gmp import Gmp
 
@@ -102,7 +103,7 @@ def create_filters(
                 filterName = row[1]
                 filterDescription = row[2]
                 filterTerm = row[3]
-                filterNameFull = filterType + ":" + filterDescription + ":" + filterName
+                filterNameFull = filterName + ":" + filterDescription + ":" + filterType
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 filterResources = []
                 if filterType.upper() == "ALERT":
@@ -124,10 +125,13 @@ def create_filters(
                 else:
                     print("Only alert, config, credential, report, scanner, schedule, target, and task supported")
                     exit()
-                gmp.create_filter(
-                   name=filterNameFull, comment=comment, filter_type=resource_type, term=filterTerm,
-                )
-
+                try:
+                    gmp.create_filter(
+                    name=filterNameFull, comment=comment, filter_type=resource_type, term=filterTerm,
+                    )
+                except GvmResponseError as gvmerr:
+                    print(f"{gvmerr=}, name: {filterNameFull}")
+                    pass
         csvFile.close()   #close the csv file
     except IOError as e:
         error_and_exit(f"Failed to read filter_csv_file: {str(e)} (exit)")

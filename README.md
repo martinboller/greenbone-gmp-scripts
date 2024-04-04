@@ -11,6 +11,10 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 - Creates filters and assign them to different types (alerts, tasks, targets, reports, etc.)
 
 ## Latest changes ##
+### 2024-04-04 - Additional error-handling of GvmResponseErrors + clean-sensor updates 
+- GvmResponseErrors handled in create-* scripts.
+- clean-sensor.gmp.py now also deletes alerts, filters, schedules, and tags
+
 ### 2024-04-02 - create tags and list tags 
 - Creates tags and assigns the to resources.
 - Filters are evaluated at creation time, so new reports from the same task created after script is run won't be tagged. Would've been nice if they were re-evaluated at regular intervals.

@@ -31,6 +31,7 @@ import csv
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
+from gvm.errors import GvmResponseError
 
 from gvm.protocols.gmp import Gmp
 
@@ -107,6 +108,7 @@ def create_credentials(
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
 
                 if cred_type == "UP":
+                    try:
                         gmp.create_credential(
                         name=cred_name,
                         credential_type=gmp.types.CredentialType.USERNAME_PASSWORD,
@@ -114,22 +116,28 @@ def create_credentials(
                         password=userPW,
                         comment=comment,
                         )
-
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {cred_name}")
+                        pass
                 elif cred_type == "SSH":
                     with open(row[4]) as key_file:
                         key = key_file.read()
-                    
-                    gmp.create_credential(
-                        name=cred_name,
-                        credential_type=gmp.types.CredentialType.USERNAME_SSH_KEY,
-                        login=userName,
-                        key_phrase=userPW,
-                        private_key=key,
-                        comment=comment,
-                        )
 
+                    try:                    
+                        gmp.create_credential(
+                            name=cred_name,
+                            credential_type=gmp.types.CredentialType.USERNAME_SSH_KEY,
+                            login=userName,
+                            key_phrase=userPW,
+                            private_key=key,
+                            comment=comment,
+                            )
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {cred_name}")
+                        pass
                 elif cred_type == "SNMP":
                         # Unfinished, copy of UP for now
+                    try:
                         gmp.create_credential(
                         name=cred_name,
                         credential_type=gmp.types.CredentialType.USERNAME_SSH_KEY,
@@ -138,9 +146,13 @@ def create_credentials(
                         private_key=key,
                         comment=comment,
                         )
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {cred_name}")
+                        pass
 
                 elif cred_type == "ESX":
                         # Unfinished, copy of UP for now
+                    try:
                         gmp.create_credential(
                         name=cred_name,
                         credential_type=gmp.types.CredentialType.USERNAME_SSH_KEY,
@@ -149,7 +161,9 @@ def create_credentials(
                         private_key=key,
                         comment=comment,
                         )
-
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {cred_name}")
+                        pass
         csvFile.close()   #close the csv file
 
     except IOError as e:

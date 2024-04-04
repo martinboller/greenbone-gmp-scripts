@@ -33,7 +33,7 @@ from pathlib import Path
 from typing import List
 
 from gvm.protocols.gmp import Gmp
-
+from gvm.errors import GvmResponseError
 from gvmtools.helper import error_and_exit
 
 HELP_TEXT = (
@@ -192,7 +192,7 @@ def create_tags(
                 tagType = row[0]
                 tagName = row[1]
                 tagDescription = row[2]
-                tagNameFull = tagType + ":" + tagDescription + ":" + tagName
+                tagNameFull = tagName + ":" + tagDescription + ":" + tagType
                 # Up to ten resources (rows 3 - 12)
                 tagResources = []
                 if tagType.upper() == "ALERT":
@@ -256,15 +256,21 @@ def create_tags(
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
 
                 if tagType.upper() == "REPORT":
-                   gmp.create_tag(
-                      name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_filter=filter,
-                   )
+                    try:
+                        gmp.create_tag(
+                            name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_filter=filter,
+                        )
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {tagNameFull}")
+                        pass
                 else:
-                   gmp.create_tag(
-                      name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_ids=tagResources,
-                   )
-
-
+                    try:
+                        gmp.create_tag(
+                            name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_ids=tagResources,
+                        )
+                    except GvmResponseError as gvmerr:
+                        print(f"{gvmerr=}, name: {tagNameFull}")
+                        pass
         csvFile.close()   #close the csv file
     except IOError as e:
         error_and_exit(f"Failed to read tag_csv_file: {str(e)} (exit)")
