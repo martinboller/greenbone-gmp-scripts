@@ -5,6 +5,8 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 
 [API Reference for GVM 22.5](https://docs.greenbone.net/API/GMP/gmp-22.5.html)
 
+[Python GVM API](https://greenbone.github.io/python-gvm/api/api.html)
+
 ----
 ### 2024-04-05 - create filters and list filters
 - list-tickets and list-policies.
