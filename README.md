@@ -6,6 +6,8 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 [API Reference for GVM 22.5](https://docs.greenbone.net/API/GMP/gmp-22.5.html)
 
 ----
+### 2024-04-05 - create filters and list filters
+- list-tickets and list-policies.
 
 ### 2024-04-03 - create filters and list filters
 - Creates filters and assign them to different types (alerts, tasks, targets, reports, etc.)
@@ -182,6 +184,10 @@ in other words if it is referenced in tasks.csv it must already exist.
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-groups.gmp.py
 - Returns Group Name, uuid, members
 
+### list-policies.gmp.py ###
+**Lists compliance policies.**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-policies.gmp.py  
+
 ### list-portlists.gmp.py ###
 **Lists port lists.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-portlists.gmp.py  
@@ -232,6 +238,11 @@ in other words if it is referenced in tasks.csv it must already exist.
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-tasks.gmp.py
 - No tasks configured by default, however using the provided files in this repo, you should now have some (9).
 - Returns the tasks Name, uuid, Target, Scanner, the order in which hosts are scanned¹, and the highest severity (empty if no reports)
+
+### list-tickets.gmp.py ###
+**Lists all tickets created**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-tickets.gmp.py
+- Returns the tickets name, Host, Associated Task, Status, and Note (depending on status either Open-, Fixed-, or Closed note).
 
 ### list-users.gmp.py ###
 **Lists all users**
