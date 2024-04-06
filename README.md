@@ -264,6 +264,18 @@ in other words if it is referenced in tasks.csv it must already exist.
 - Starts the tasks specified in the file (example startscan.csv)
 - Returns the number of tasks started.
 
+### stop-all-scans.gmp.py ###
+**stops scans (tasks) that are in status running, queued, or requested**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket stop-all-scans.gmp.py
+- Stops all scans
+- Returns the number of tasks stopped.
+
+### stop-scans-from-csv.gmp.py ###
+**stops scans (tasks) specified in csv file**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket stop-scans-from-csv.gmp.py *csv-file with task names*
+- Stops the tasks specified in the file (example startscan.csv works for both scripts)
+- Returns the number of tasks stopped.
+
 ----
 
 ## Other files

@@ -29,7 +29,7 @@ from gvmtools.helper import Table
 
 def stop_tasks(gmp: Gmp) -> None:
     tasks = gmp.get_tasks(
-            filter_string="rows=-1 status=Running or status=Requested"
+            filter_string="rows=-1 status=Running or status=Requested or status=Queued"
         )
     try:
         for task_id in tasks.xpath("task/@id"):
