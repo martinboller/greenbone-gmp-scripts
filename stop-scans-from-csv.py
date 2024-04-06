@@ -53,7 +53,7 @@ task for each row in the csv file.
 
         Example:
             $ gvm-script --gmp-username name --gmp-password pass \
-ssh --hostname <gsm> scripts/start_tasks_from_csv.gmp.py \
+ssh --hostname <gsm> scripts/stop_tasks_from_csv.gmp.py \
 <tasks-csvfile>
         """
         print(message)
@@ -99,7 +99,7 @@ def task_id(
         #print("Requesting start of task: " + task_name + " Task UUID: " + task_id)
     return task_id
 
-def start_tasks(   
+def stop_tasks(   
     gmp: Gmp,
     task_file: Path,
 ):
@@ -110,9 +110,9 @@ def start_tasks(
             try:
                 for row in content:   #loop through each row
                     numbertasks = numbertasks + 1
-                    task_start = task_id(gmp, row[0])
-                    print("Starting task: " + task_start)
-                    status_text = gmp.start_task(task_start).xpath(
+                    task_stop = task_id(gmp, row[0])
+                    print("Stopping task: " + task_stop)
+                    status_text = gmp.stop_task(task_stop).xpath(
                     "@status_text"
                     )[0]
                     print(status_text)
@@ -136,7 +136,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     parsed_args = parse_args(args=args)
 
-    numbertasks = start_tasks(
+    numbertasks = stop_tasks(
         gmp,
         parsed_args.task_file,
     )

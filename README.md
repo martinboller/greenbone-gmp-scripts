@@ -8,6 +8,10 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 [Python GVM API](https://greenbone.github.io/python-gvm/api/api.html)
 
 ----
+### 2024-04-06 - stop scans from csv or stop all running or requested scans
+- stop-all-scans.gmp.py, stop-scans-from-csv.gmp.py.
+- GvmResponseErrors handled in those scripts + start-scans-from-csv.gmp.py
+
 ### 2024-04-05 - create filters and list filters
 - list-tickets and list-policies.
 
