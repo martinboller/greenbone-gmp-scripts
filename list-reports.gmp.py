@@ -138,6 +138,11 @@ def main(gmp: Gmp, args: Namespace) -> None:
         args = args.script[1:]
 
     parsed_args = parse_args(args = args)
+
+    print(
+        "Listing reports"
+    )
+
     list_reports (
         gmp,
         parsed_args.status_cmd

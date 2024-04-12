@@ -132,6 +132,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     parsed_args = parse_args(args=args)
 
+    print(
+        "Creating schedules"
+    )
+
     numberschedules = create_schedules(
         gmp,
         parsed_args.sched_file,

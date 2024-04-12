@@ -259,6 +259,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args=args)
     #port_list_id="4a4717fe-57d2-11e1-9a26-406186ea4fc5"
 
+    print(
+        "Creating tasks"
+    )
+
     numberTasks = create_tasks(
         gmp,
         parsed_args.tasks_csv_file,

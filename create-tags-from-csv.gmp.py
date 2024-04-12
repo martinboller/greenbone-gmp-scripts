@@ -287,6 +287,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     parsed_args = parse_args(args=args)
 
+    print(
+        "Creating tags"
+    )
+
     numbertags = create_tags(
         gmp,
         parsed_args.tags_csv_file,

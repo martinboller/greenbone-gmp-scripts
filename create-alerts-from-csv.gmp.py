@@ -215,6 +215,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     parsed_args = parse_args(args=args)
 
+    print(
+        "Creating alerts"
+    )
+
     numberalerts = create_alerts(
         gmp,
         parsed_args.alert_file,

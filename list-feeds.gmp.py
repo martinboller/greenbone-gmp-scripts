@@ -40,6 +40,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 #    pretty_print(feeds_xml)
 
+    print(
+        "Listing feeds and their status"
+    )
+
     for feed in feeds_xml:
         # Count number of reports
         numberRows = numberRows + 1

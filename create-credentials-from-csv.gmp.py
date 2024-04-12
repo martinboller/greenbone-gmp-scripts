@@ -181,6 +181,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     parsed_args = parse_args(args=args)
 
+    print(
+        "Creating credentials"
+    )
+
     numberCredentials = create_credentials(
         gmp,
         parsed_args.cred_file,

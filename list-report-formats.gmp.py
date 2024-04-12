@@ -38,6 +38,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
     rows = []
     numberRows = 0
 
+    print(
+        "Listing report-formats"
+    )
+
     for report_format in report_formats_xml:
         # Count number of reports
         numberRows = numberRows + 1

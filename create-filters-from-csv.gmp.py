@@ -148,6 +148,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     parsed_args = parse_args(args=args)
 
+    print(
+        "Creating filters"
+    )
+
     numberfilters = create_filters(
         gmp,
         parsed_args.filters_csv_file,

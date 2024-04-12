@@ -39,6 +39,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
     rows = []
     numberRows = 0
 
+    print(
+        "Listing filters"
+    )
+
     for filter in filters_xml:
         # Count number of reports
         numberRows = numberRows + 1
