@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing credentials"
+        "Listing credentials.\n"
     )
 
     for credential in credentials_xml:

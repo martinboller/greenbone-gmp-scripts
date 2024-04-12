@@ -288,7 +288,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args=args)
 
     print(
-        "Creating tags"
+        "Creating tags.\n"
     )
 
     numbertags = create_tags(
@@ -297,7 +297,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numbertags = str(numbertags)
-    print("   \n [" + numbertags + "] tag(s) created!\n")
+    print("    [" + numbertags + "] tag(s) created!\n")
 
 
 if __name__ == "__gmp__":

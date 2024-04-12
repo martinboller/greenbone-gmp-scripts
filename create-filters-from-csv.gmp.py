@@ -149,7 +149,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args=args)
 
     print(
-        "Creating filters"
+        "Creating filters.\n"
     )
 
     numberfilters = create_filters(
@@ -158,7 +158,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numberfilters = str(numberfilters)
-    print("   \n [" + numberfilters + "] filter(s) created!\n")
+    print("    [" + numberfilters + "] filter(s) created!\n")
 
 
 if __name__ == "__gmp__":

@@ -19,6 +19,7 @@
 from argparse import Namespace
 
 from gvm.protocols.gmp import Gmp
+from gvm.errors import GvmResponseError
 
 
 def clean_sensor(gmp: Gmp) -> None:
@@ -35,8 +36,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     targets = gmp.get_targets(filter_string="rows=-1 not _owner=&quot;&quot;")
     try:
@@ -46,8 +48,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     configs = gmp.get_scan_configs(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -59,8 +62,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     port_lists = gmp.get_port_lists(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -72,8 +76,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     alerts = gmp.get_alerts(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -85,8 +90,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     schedules = gmp.get_schedules(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -98,8 +104,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     tags = gmp.get_tags(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -111,8 +118,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     filters = gmp.get_filters(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -124,8 +132,9 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass   
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     credentials = gmp.get_credentials(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -137,21 +146,23 @@ def clean_sensor(gmp: Gmp) -> None:
                 "@status_text"
             )[0]
             print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
     print("Emptying trash... ")
     try:
         status_text = gmp.empty_trashcan().xpath("@status_text")[0]
         print(status_text)
-    except:
-        pass
+    except GvmResponseError as gvmerr:
+        print(f"{gvmerr=}")
+        pass 
 
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
 
     print(
-        "This script removes all resources from a sensor, except active tasks."
+        "This script removes all resources from a sensor, except active tasks.\n"
     )
 
     clean_sensor(gmp)

@@ -137,7 +137,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args=args)
 
     print(
-        "Starting tasks"
+        "Starting tasks.\n"
     )
 
     numbertasks = start_tasks(

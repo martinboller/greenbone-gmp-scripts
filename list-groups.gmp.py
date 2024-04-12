@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing groups"
+        "Listing groups.\n"
     )
 
     for group in groups_xml:

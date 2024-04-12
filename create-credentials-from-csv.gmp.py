@@ -182,7 +182,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args=args)
 
     print(
-        "Creating credentials"
+        "Creating credentials.\n"
     )
 
     numberCredentials = create_credentials(
@@ -191,7 +191,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numberCredentials = str(numberCredentials)
-    print("   \n [" + numberCredentials + "] Credential(s) created!\n")
+    print("    [" + numberCredentials + "] Credential(s) created!\n")
 
 
 if __name__ == "__gmp__":

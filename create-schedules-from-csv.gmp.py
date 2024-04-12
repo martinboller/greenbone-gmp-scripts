@@ -133,7 +133,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args=args)
 
     print(
-        "Creating schedules"
+        "Creating schedules.\n"
     )
 
     numberschedules = create_schedules(
@@ -142,7 +142,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numberschedules = str(numberschedules)
-    print("   \n [" + numberschedules + "] schedule(s) created!\n")
+    print("    [" + numberschedules + "] schedule(s) created!\n")
 
 
 if __name__ == "__gmp__":

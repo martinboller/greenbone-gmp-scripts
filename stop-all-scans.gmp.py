@@ -44,7 +44,7 @@ def stop_tasks(gmp: Gmp) -> None:
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=undefined-variable
     print(
-        "This script stops all tasks on the system."
+        "This script stops all tasks on the system.\n"
     )
 
     stop_tasks(gmp)

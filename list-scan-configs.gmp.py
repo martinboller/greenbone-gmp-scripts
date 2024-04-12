@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing scan configurations"
+        "Listing scan configurations.\n"
     )
 
     for scan_config in scan_configs_xml:

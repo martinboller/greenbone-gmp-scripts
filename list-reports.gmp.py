@@ -140,7 +140,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args = args)
 
     print(
-        "Listing reports"
+        "Listing reports.\n"
     )
 
     list_reports (

@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing scanners"
+        "Listing scanners.\n"
     )
 
     for scanner in scanners_xml:

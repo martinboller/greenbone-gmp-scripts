@@ -179,7 +179,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     #port_list_id="4a4717fe-57d2-11e1-9a26-406186ea4fc5"
 
     print(
-        "Creating targets"
+        "Creating targets.\n"
     )
     
     numberTargets = create_targets(
@@ -189,7 +189,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numberTargets = str(numberTargets)
-    print("   \n [" + numberTargets + "] Target(s) created!\n")
+    print("    [" + numberTargets + "] Target(s) created!\n")
 
 
 if __name__ == "__gmp__":

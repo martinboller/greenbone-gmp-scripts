@@ -29,7 +29,16 @@ from gvmtools.helper import Table
 
 
 def main(gmp: Gmp, args: Namespace) -> None:
-    gmp.empty_trashcan()
+
+    print(
+        "Emptying Greenbone Trashcan.\n"
+    )
+
+    try:
+        status_text = gmp.empty_trashcan().xpath("@status_text")[0]
+        print(status_text)
+    except:
+        pass
 
 if __name__ == "__gmp__":
     main(gmp, args)

@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing portlists"
+        "Listing portlists.\n"
     )
 
     for portlist in portlists_xml:

@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing roles"
+        "Listing roles.\n"
     )
 
     for role in roles_xml:

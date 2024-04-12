@@ -260,7 +260,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     #port_list_id="4a4717fe-57d2-11e1-9a26-406186ea4fc5"
 
     print(
-        "Creating tasks"
+        "Creating tasks\n"
     )
 
     numberTasks = create_tasks(
@@ -270,7 +270,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numberTasks = str(numberTasks)
-    print("   \n [" + numberTasks + "] task(s) created!\n")
+    print("    [" + numberTasks + "] task(s) created!\n")
 
 
 if __name__ == "__gmp__":

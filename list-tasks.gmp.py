@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing tasks"
+        "Listing tasks.\n"
     )
 
     for task in tasks_xml:

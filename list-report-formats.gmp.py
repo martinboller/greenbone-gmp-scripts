@@ -39,7 +39,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing report-formats"
+        "Listing report formats.\n"
     )
 
     for report_format in report_formats_xml:

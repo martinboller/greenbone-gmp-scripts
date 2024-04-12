@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing alerts"
+        "Listing alerts.\n"
     )
 
     for alert in alerts_xml:

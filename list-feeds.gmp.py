@@ -41,7 +41,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
 #    pretty_print(feeds_xml)
 
     print(
-        "Listing feeds and their status"
+        "Listing feeds and their status.\n"
     )
 
     for feed in feeds_xml:

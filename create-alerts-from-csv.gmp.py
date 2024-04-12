@@ -216,7 +216,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     parsed_args = parse_args(args=args)
 
     print(
-        "Creating alerts"
+        "Creating alerts.\n"
     )
 
     numberalerts = create_alerts(
@@ -225,7 +225,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numberalerts = str(numberalerts)
-    print("   \n [" + numberalerts + "] alert(s) created!\n")
+    print("    [" + numberalerts + "] alert(s) created!\n")
 
 
 if __name__ == "__gmp__":

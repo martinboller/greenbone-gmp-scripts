@@ -40,7 +40,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     numberRows = 0
 
     print(
-        "Listing targets"
+        "Listing targets.\n"
     )
 
     for target in targets_xml:
