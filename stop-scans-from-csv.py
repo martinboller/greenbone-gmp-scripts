@@ -109,13 +109,16 @@ def stop_tasks(
             content = csv.reader(csvFile, delimiter=',')  #read the data
             try:
                 for row in content:   #loop through each row
-                    numbertasks = numbertasks + 1
                     task_stop = task_id(gmp, row[0])
-                    print("Stopping task: " + task_stop)
-                    status_text = gmp.stop_task(task_stop).xpath(
-                    "@status_text"
-                    )[0]
-                    print(status_text)
+                    if task_stop:
+                        numbertasks = numbertasks + 1
+                        print("Stopping task: " + task_stop)
+                        status_text = gmp.stop_task(task_stop).xpath(
+                        "@status_text"
+                        )[0]
+                        print(status_text)
+                    else:
+                        print("Task " + row[0] + " does not exist on this system.\n")
             except GvmResponseError as gvmerr:
                 print(f"{gvmerr=}, task: {task_stop}")
                 pass
