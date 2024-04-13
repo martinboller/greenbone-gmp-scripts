@@ -100,6 +100,8 @@ def create_schedules(
         with open(sched_file, encoding="utf-8") as csvFile:
             content = csv.reader(csvFile, delimiter=',')  #read the data
             for row in content:   #loop through each row
+                if len(row) == 0:
+                    continue
                 numberschedules = numberschedules + 1
                 sched_name = row[0]
                 sched_tz = row[1]

@@ -100,6 +100,8 @@ def create_credentials(
         with open(cred_file, encoding="utf-8") as csvFile:
             content = csv.reader(csvFile, delimiter=',')  #read the data
             for row in content:   #loop through each row
+                if len(row) == 0:
+                    continue
                 numberCredentials = numberCredentials + 1
                 cred_name = row[0]
                 cred_type = row[1]

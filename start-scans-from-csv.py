@@ -89,7 +89,10 @@ def task_id(
     gmp: Gmp,
     task_name: str,
 ):
-    response_xml = gmp.get_tasks(filter_string="rows=-1, name=" + task_name)
+    response_xml = gmp.get_tasks(filter_string="rows=-1, not status=Running and "
+        "not status=Requested and not "
+        "status=Queued "
+        "and name=" + task_name)
     tasks_xml = response_xml.xpath("task")
     task_id = ""
 
@@ -109,10 +112,9 @@ def start_tasks(
             content = csv.reader(csvFile, delimiter=',')  #read the data
             try:
                 for row in content:   #loop through each row
-                    try:
-                        task_start = task_id(gmp, row[0])
-                    except:
-                        pass
+                    if len(row) == 0:
+                        continue
+                    task_start = task_id(gmp, row[0])
                     if task_start:
                         numbertasks = numbertasks + 1
                         print("Starting task: " + task_start)
@@ -121,7 +123,7 @@ def start_tasks(
                         )[0]
                         print(status_text)
                     else:
-                        print("Task " + row[0] + " does not exist on this system.\n")
+                        print("Task " + row[0] + " is either in status Requested, Queued, Running, or does not exist on this system.\n")
             except GvmResponseError as gvmerr:
                 print(f"{gvmerr=}, task: {task_start}")
                 pass
@@ -129,9 +131,6 @@ def start_tasks(
 
     except IOError as e:
         error_and_exit(f"Failed to read task_file: {str(e)} (exit)")
-
-    if len(row) == 0:
-        error_and_exit("tasks file is empty (exit)")
     
     return numbertasks
     

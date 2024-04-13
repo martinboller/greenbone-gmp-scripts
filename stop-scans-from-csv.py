@@ -89,7 +89,10 @@ def task_id(
     gmp: Gmp,
     task_name: str,
 ):
-    response_xml = gmp.get_tasks(filter_string="rows=-1, name=" + task_name)
+    response_xml = gmp.get_tasks(filter_string="rows=-1, status=Running or "
+        "status=Requested "
+        "or status=Queued; "
+        "and name=" + task_name)
     tasks_xml = response_xml.xpath("task")
     task_id = ""
 
@@ -109,10 +112,9 @@ def stop_tasks(
             content = csv.reader(csvFile, delimiter=',')  #read the data
             try:
                 for row in content:   #loop through each row
-                    try:
-                        task_stop = task_id(gmp, row[0])
-                    except:
-                        pass
+                    if len(row) == 0:
+                        continue
+                    task_stop = task_id(gmp, row[0])
                     if task_stop:
                         numbertasks = numbertasks + 1
                         print("Stopping task: " + task_stop)
@@ -121,7 +123,7 @@ def stop_tasks(
                         )[0]
                         print(status_text)
                     else:
-                        print("Task " + row[0] + " does not exist on this system.\n")
+                        print("Task " + row[0] + " is either in status Stopped, Stop Requested, or does not exist on this system.\n")
             except GvmResponseError as gvmerr:
                 print(f"{gvmerr=}, task: {task_stop}")
                 pass

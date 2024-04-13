@@ -98,6 +98,8 @@ def create_filters(
         with open(filter_csv_file, encoding="utf-8") as csvFile:
             content = csv.reader(csvFile, delimiter=',')  #read the data
             for row in content:   #loop through each row
+                if len(row) == 0:
+                    continue
                 numberfilters = numberfilters + 1
                 filterType = row[0]
                 filterName = row[1]

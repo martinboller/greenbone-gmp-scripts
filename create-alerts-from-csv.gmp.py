@@ -132,6 +132,8 @@ def create_alerts(
         with open(alert_file, encoding="utf-8") as csvFile:
             content = csv.reader(csvFile, delimiter=',')  #read the data
             for row in content:   #loop through each row
+                if len(row) == 0:
+                    continue
                 numberalerts = numberalerts + 1
                 alert_name = row[0]
                 str_alert_type = row[1]

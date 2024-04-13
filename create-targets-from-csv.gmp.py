@@ -139,6 +139,8 @@ def create_targets(
         with open(target_csv_file, encoding="utf-8") as csvFile:
             content = csv.reader(csvFile, delimiter=',')  #read the data
             for row in content:   #loop through each row
+                if len(row) == 0:
+                    continue
                 numberTargets = numberTargets + 1
                 name = row[0]
                 hosts = [row[1]]
