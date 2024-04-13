@@ -109,7 +109,10 @@ def start_tasks(
             content = csv.reader(csvFile, delimiter=',')  #read the data
             try:
                 for row in content:   #loop through each row
-                    task_start = task_id(gmp, row[0])
+                    try:
+                        task_start = task_id(gmp, row[0])
+                    except:
+                        pass
                     if task_start:
                         numbertasks = numbertasks + 1
                         print("Starting task: " + task_start)

@@ -109,7 +109,10 @@ def stop_tasks(
             content = csv.reader(csvFile, delimiter=',')  #read the data
             try:
                 for row in content:   #loop through each row
-                    task_stop = task_id(gmp, row[0])
+                    try:
+                        task_stop = task_id(gmp, row[0])
+                    except:
+                        pass
                     if task_stop:
                         numbertasks = numbertasks + 1
                         print("Stopping task: " + task_stop)
