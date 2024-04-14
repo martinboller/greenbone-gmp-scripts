@@ -117,7 +117,7 @@ def start_tasks(
                     task_start = task_id(gmp, row[0])
                     if task_start:
                         numbertasks = numbertasks + 1
-                        print("Starting task: " + task_start)
+                        print(f"Starting task name: {row[0]} with uuid: {task_start} ...")
                         status_text = gmp.start_task(task_start).xpath(
                         "@status_text"
                         )[0]

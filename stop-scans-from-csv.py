@@ -89,9 +89,9 @@ def task_id(
     gmp: Gmp,
     task_name: str,
 ):
-    response_xml = gmp.get_tasks(filter_string="rows=-1, status=Running or "
-        "status=Requested "
-        "or status=Queued; "
+    response_xml = gmp.get_tasks(filter_string="rows=-1, status=Running "
+        "or status=Requested "
+        "or status=Queued "
         "and name=" + task_name)
     tasks_xml = response_xml.xpath("task")
     task_id = ""
@@ -117,7 +117,7 @@ def stop_tasks(
                     task_stop = task_id(gmp, row[0])
                     if task_stop:
                         numbertasks = numbertasks + 1
-                        print("Stopping task: " + task_stop)
+                        print(f"Stopping task name: {row[0]} with uuid: {task_stop} ...")
                         status_text = gmp.stop_task(task_stop).xpath(
                         "@status_text"
                         )[0]
