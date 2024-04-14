@@ -107,9 +107,11 @@ def create_filters(
                 filterNameFull = filterName + ":" + filterDescription + ":" + filterType
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 filterResources = []
-                if filterType.upper() == "ALERT":
+                if filterType == "FAIL":
+                    print(filterType.upper())
+                elif filterType.upper() == "ALERT":
                     resource_type=gmp.types.FilterType.ALERT
-                if filterType.upper() == "ASSET":
+                elif filterType.upper() == "ASSET":
                     resource_type=gmp.types.FilterType.ASSET
                 elif filterType.upper() == "CONFIG":
                     resource_type=gmp.types.FilterType.SCAN_CONFIG
@@ -140,22 +142,21 @@ def create_filters(
                 elif filterType.upper() == "SCHEDULE":
                     resource_type=gmp.types.FilterType.SCHEDULE
                 elif filterType.upper() == "TAG":
-                   resource_type=gmp.types.FilterType.TAG
+                    resource_type=gmp.types.FilterType.TAG
                 elif filterType.upper() == "TARGET":
-                   resource_type=gmp.types.FilterType.TARGET
+                    resource_type=gmp.types.FilterType.TARGET
                 elif filterType.upper() == "TASK":
                     resource_type=gmp.types.FilterType.TASK
                 elif filterType.upper() == "TICKET":
-                   resource_type=gmp.types.FilterType.TICKET
+                    resource_type=gmp.types.FilterType.TICKET
                 elif filterType.upper() == "TLS_CERTIFICATE":
-                   resource_type=gmp.types.FilterType.TLS_CERTIFICATE
+                    resource_type=gmp.types.FilterType.TLS_CERTIFICATE
                 elif filterType.upper() == "USER":
-                   resource_type=gmp.types.FilterType.USER
+                    resource_type=gmp.types.FilterType.USER
                 elif filterType.upper() == "VULNERABILITY":
-                   resource_type=gmp.types.FilterType.VULNERABILITY
-                else:
-                    print(filterType + " Not supported")
-                    exit()
+                    resource_type=gmp.types.FilterType.VULNERABILITY
+                else: 
+                    print("FilterType: " + filterType.upper() + " Not supported")
                 try:
                     gmp.create_filter(
                     name=filterNameFull, comment=comment, filter_type=resource_type, term=filterTerm,
