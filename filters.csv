@@ -3,3 +3,8 @@ report,company,internal,"~Labnet"
 task,company,internal,"~Labnet"
 alert,companyb,customer,"~companyb"
 config,company,customer,"~Full"
+os,windows,all,"Windows",
+result,smb,login,"""SMB Log in""",
+ticket,open,all,"Open",
+host,aboleth,all,"192.168.10.1",
+secinfo,FreeBSD,internal,"~FreeBSD",

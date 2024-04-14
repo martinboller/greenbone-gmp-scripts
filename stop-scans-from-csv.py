@@ -99,7 +99,7 @@ def task_id(
     for task in tasks_xml:
         name = "".join(task.xpath("name/text()"))
         task_id = task.get("id")
-        #print("Requesting start of task: " + task_name + " Task UUID: " + task_id)
+        #print("Requesting stop of task: " + task_name + " Task UUID: " + task_id)
     return task_id
 
 def stop_tasks(   
@@ -154,7 +154,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
 
     numbertasks = str(numbertasks)
-    print("   \n [" + numbertasks + "] task(s)/scan(s) started!\n")
+    print("   \n [" + numbertasks + "] task(s)/scan(s) stopped!\n")
 
 if __name__ == "__gmp__":
     main(gmp, args)

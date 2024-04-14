@@ -100,7 +100,6 @@ def create_filters(
             for row in content:   #loop through each row
                 if len(row) == 0:
                     continue
-                numberfilters = numberfilters + 1
                 filterType = row[0]
                 filterName = row[1]
                 filterDescription = row[2]
@@ -110,27 +109,59 @@ def create_filters(
                 filterResources = []
                 if filterType.upper() == "ALERT":
                     resource_type=gmp.types.FilterType.ALERT
+                if filterType.upper() == "ASSET":
+                    resource_type=gmp.types.FilterType.ASSET
                 elif filterType.upper() == "CONFIG":
                     resource_type=gmp.types.FilterType.SCAN_CONFIG
                 elif filterType.upper() == "CREDENTIAL":
                     resource_type=gmp.types.FilterType.CREDENTIAL
+                elif filterType.upper() == "HOST":
+                    resource_type=gmp.types.FilterType.HOST 
+                elif filterType.upper() == "SECINFO":
+                    resource_type=gmp.types.FilterType.ALL_SECINFO 
+                elif filterType.upper() == "NOTE":
+                    resource_type=gmp.types.FilterType.NOTE
+                elif filterType.upper() == "OS":
+                    resource_type=gmp.types.FilterType.OPERATING_SYSTEM
+                elif filterType.upper() == "OVERRIDE":
+                    resource_type=gmp.types.FilterType.OVERRIDE 
+                elif filterType.upper() == "PERMISSION":
+                    resource_type=gmp.types.FilterType.PERMISSION
+                elif filterType.upper() == "PORT_LIST":
+                    resource_type=gmp.types.FilterType.PORT_LIST    
                 elif filterType.upper() == "REPORT":
                     resource_type=gmp.types.FilterType.REPORT 
-                elif filterType.upper() == "SCANNER":
-                    resource_type=gmp.types.FilterType.SCANNER
+                elif filterType.upper() == "REPORT_FORMAT":
+                    resource_type=gmp.types.FilterType.REPORT_FORMAT 
+                elif filterType.upper() == "RESULT":
+                    resource_type=gmp.types.FilterType.RESULT 
+                elif filterType.upper() == "ROLE":
+                    resource_type=gmp.types.FilterType.ROLE
                 elif filterType.upper() == "SCHEDULE":
                     resource_type=gmp.types.FilterType.SCHEDULE
+                elif filterType.upper() == "TAG":
+                   resource_type=gmp.types.FilterType.TAG
                 elif filterType.upper() == "TARGET":
                    resource_type=gmp.types.FilterType.TARGET
                 elif filterType.upper() == "TASK":
                     resource_type=gmp.types.FilterType.TASK
+                elif filterType.upper() == "TICKET":
+                   resource_type=gmp.types.FilterType.TICKET
+                elif filterType.upper() == "TLS_CERTIFICATE":
+                   resource_type=gmp.types.FilterType.TLS_CERTIFICATE
+                elif filterType.upper() == "USER":
+                   resource_type=gmp.types.FilterType.USER
+                elif filterType.upper() == "VULNERABILITY":
+                   resource_type=gmp.types.FilterType.VULNERABILITY
                 else:
-                    print("Only alert, config, credential, report, scanner, schedule, target, and task supported")
+                    print(filterType + " Not supported")
                     exit()
                 try:
                     gmp.create_filter(
                     name=filterNameFull, comment=comment, filter_type=resource_type, term=filterTerm,
                     )
+                    print("Creating filter: " + filterNameFull)
+                    numberfilters = numberfilters + 1
                 except GvmResponseError as gvmerr:
                     print(f"{gvmerr=}, name: {filterNameFull}")
                     pass
