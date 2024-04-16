@@ -129,6 +129,19 @@ def credential_id(
         cred_id = credential.get("id")
     return cred_id
 
+def target_id(
+    gmp: Gmp,
+    targetName: str,
+):
+    response_xml = gmp.get_targets(filter_string="rows=-1, name=" + targetName)
+    targets_xml = response_xml.xpath("target")
+    target_id = ""
+
+    for target in targets_xml:
+        name = "".join(target.xpath("name/text()"))
+        target_id = target.get("id")
+    return target_id
+
 def create_targets(   
     gmp: Gmp,
     target_csv_file: Path,
@@ -141,7 +154,6 @@ def create_targets(
             for row in content:   #loop through each row
                 if len(row) == 0:
                     continue
-                numberTargets = numberTargets + 1
                 name = row[0]
                 hosts = [row[1]]
                 smbCred = credential_id(gmp, row[2])
@@ -155,11 +167,16 @@ def create_targets(
                     (aliveTest)
                 )
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
-
                 try:
+                    if target_id(gmp, name):
+                        print(f"Target: {name} exist, not creating...")
+                        continue
+
+                    print("Creating target: " + name)
                     gmp.create_target(
                     name=name, comment=comment, hosts=hosts, port_list_id=port_list_id, smb_credential_id=smbCred, ssh_credential_id=sshCred, alive_test=alive_test
                     )
+                    numberTargets = numberTargets + 1
                 except GvmResponseError as gvmerr:
                     print(f"{gvmerr=}, name: {name}")
                     pass

@@ -186,6 +186,19 @@ def schedule_id(
         schedule_id = schedule.get("id")
     return schedule_id
 
+def task_id(
+    gmp: Gmp,
+    taskName: str,
+):
+    response_xml = gmp.get_tasks(filter_string="rows=-1, name=" + taskName)
+    tasks_xml = response_xml.xpath("task")
+    task_id = ""
+
+    for task in tasks_xml:
+        name = "".join(task.xpath("name/text()"))
+        task_id = task.get("id")
+    return task_id
+
 def create_tasks(   
     gmp: Gmp,
     task_csv_file: Path,
@@ -198,7 +211,6 @@ def create_tasks(
             for row in content:   #loop through each row
                 if len(row) == 0:
                     continue
-                numberTasks = numberTasks + 1
                 name = row[0]
                 targetId = target_id(gmp, row[1])
                 scannerId = scanner_id(gmp, row[2])
@@ -235,11 +247,16 @@ def create_tasks(
 
                 scanOrder = order # Use SEQUENTIAL, REVERSE, or RANDOM
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
-                
+              
                 try:
+                    if task_id(gmp, name):
+                        print(f"Task: {name} exist already")
+                        continue
+                    print("Creating task: " + name)
                     gmp.create_task(
                     name=name, comment=comment, config_id=configId, target_id=targetId, hosts_ordering=scanOrder, scanner_id=scannerId, alterable=alterable, schedule_id=scheduleId, alert_ids=alerts
                     )
+                    numberTasks = numberTasks + 1
                 except GvmResponseError as gvmerr:
                     print(f"{gvmerr=}, name: {name}")
                     pass

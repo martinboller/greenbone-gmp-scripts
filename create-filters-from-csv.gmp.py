@@ -89,12 +89,24 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
+def filter_id(
+    gmp: Gmp,
+    filter_name: str,
+):
+    response_xml = gmp.get_filters(filter_string="rows=-1, name=" + filter_name)
+    filters_xml = response_xml.xpath("filter")
+    filter_id = ""
+
+    for filter in filters_xml:
+        name = "".join(filter.xpath("name/text()"))
+        filter_id = filter.get("id")
+    return filter_id
+
 def create_filters(   
     gmp: Gmp,
     filter_csv_file: Path,
 ):
     try:
-        numberfilters = 0
         with open(filter_csv_file, encoding="utf-8") as csvFile:
             content = csv.reader(csvFile, delimiter=',')  #read the data
             for row in content:   #loop through each row
@@ -105,9 +117,10 @@ def create_filters(
                 filterDescription = row[2]
                 filterTerm = row[3]
                 filterNameFull = filterName + ":" + filterDescription + ":" + filterType
+                numberfilters = 0
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 filterResources = []
-                if filterType == "FAIL":
+                if filterType == "FAIL!":
                     print(filterType.upper())
                 elif filterType.upper() == "ALERT":
                     resource_type=gmp.types.FilterType.ALERT
@@ -158,10 +171,14 @@ def create_filters(
                 else: 
                     print("FilterType: " + filterType.upper() + " Not supported")
                 try:
+                    if filter_id(gmp, filterNameFull):
+                        print(f"Filter: {filterNameFull} exist, not creating...")
+                        continue
+
+                    print("Creating filter: " + filterNameFull)
                     gmp.create_filter(
                     name=filterNameFull, comment=comment, filter_type=resource_type, term=filterTerm,
                     )
-                    print("Creating filter: " + filterNameFull)
                     numberfilters = numberfilters + 1
                 except GvmResponseError as gvmerr:
                     print(f"{gvmerr=}, name: {filterNameFull}")

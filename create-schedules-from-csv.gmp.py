@@ -102,18 +102,19 @@ def create_schedules(
             for row in content:   #loop through each row
                 if len(row) == 0:
                     continue
-                numberschedules = numberschedules + 1
                 sched_name = row[0]
                 sched_tz = row[1]
                 sched_ical = row[2]
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 try:
+                    print("Creating schedule: " + sched_name)
                     gmp.create_schedule(
                             name=sched_name,
                             timezone=sched_tz,
                             icalendar=sched_ical,
                             comment=comment
                     )
+                    numberschedules = numberschedules + 1
                 except GvmResponseError as gvmerr:
                     print(f"{gvmerr=}, name: {sched_name}")
                     pass

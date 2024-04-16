@@ -153,6 +153,19 @@ def task_id(
         task_id = task.get("id")
     return task_id
 
+def tag_id(
+    gmp: Gmp,
+    tagName: str,
+):
+    response_xml = gmp.get_tags(filter_string="rows=-1, name=" + tagName)
+    tags_xml = response_xml.xpath("tag")
+    tag_id = ""
+
+    for tag in tags_xml:
+        name = "".join(tag.xpath("name/text()"))
+        tag_id = tag.get("id")
+    return tag_id
+
 def scanner_id(
     gmp: Gmp,
     scanner_name: str,
@@ -190,14 +203,18 @@ def create_tags(
             for row in content:   #loop through each row
                 if len(row) == 0:
                     continue
-                numbertags = numbertags + 1
                 tagType = row[0]
                 tagName = row[1]
                 tagDescription = row[2]
                 tagNameFull = tagName + ":" + tagDescription + ":" + tagType
+                if tag_id(gmp, tagNameFull):
+                    print(f"Tag: {tagNameFull} already exist")
+                    continue
                 # Up to ten resources (rows 3 - 12)
                 tagResources = []
-                if tagType.upper() == "ALERT":
+                if tagType.upper() == "FAIL!":
+                    print("Failed!")
+                elif tagType.upper() == "ALERT":
                     getUUID=alert_id
                     resource_type=gmp.types.EntityType.ALERT
                 elif tagType.upper() == "CONFIG":
@@ -259,17 +276,21 @@ def create_tags(
 
                 if tagType.upper() == "REPORT":
                     try:
+                        print("Creating tag: " + tagNameFull)
                         gmp.create_tag(
                             name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_filter=filter,
                         )
+                        numbertags = numbertags + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {tagNameFull}")
                         pass
                 else:
                     try:
+                        print("Creating tag: " + tagNameFull)
                         gmp.create_tag(
                             name=tagNameFull, comment=comment, value=tagName, resource_type=resource_type, resource_ids=tagResources,
                         )
+                        numbertags = numbertags + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {tagNameFull}")
                         pass

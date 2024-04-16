@@ -92,6 +92,19 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
+def alert_id(
+    gmp: Gmp,
+    alert_name: str,
+):
+    response_xml = gmp.get_alerts(filter_string="rows=-1, name=" + alert_name)
+    alerts_xml = response_xml.xpath("alert")
+    alert_id = ""
+
+    for alert in alerts_xml:
+        name = "".join(alert.xpath("name/text()"))
+        alert_id = alert.get("id")
+    return alert_id
+
 def credential_id(
     gmp: Gmp,
     credential_name: str,
@@ -134,7 +147,6 @@ def create_alerts(
             for row in content:   #loop through each row
                 if len(row) == 0:
                     continue
-                numberalerts = numberalerts + 1
                 alert_name = row[0]
                 str_alert_type = row[1]
                 strRow2 = row[2]
@@ -147,6 +159,10 @@ def create_alerts(
 
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 alert_type=getattr(gmp.types.AlertMethod, str_alert_type)
+
+                if alert_id(gmp, alert_name):
+                    print(f"Alert: {alert_name} exist, not creating...")
+                    continue
                 
                 if str_alert_type == "EMAIL":
                     sender_email = strRow2
@@ -155,6 +171,7 @@ def create_alerts(
                     message = strRow5
                     notice_type = strRow6
                     try:
+                        print("Creating alert: " + alert_name)
                         gmp.create_alert(
                             name=alert_name,
                             comment=comment,
@@ -172,6 +189,7 @@ def create_alerts(
                                 "to_address": recipient_email,
                             },
                         )
+                        numberalerts = numberalerts + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {alert_name}")
                         pass 
@@ -183,6 +201,7 @@ def create_alerts(
                     smb_file_path = smb_folder + "/" + smb_report_name
 
                     try:
+                        print("Creating alert: " + alert_name)
                         gmp.create_alert(
                         name=alert_name,
                         comment=comment,
@@ -197,6 +216,7 @@ def create_alerts(
                             "smb_file_path": smb_file_path,
                         },
                         )
+                        numberalerts = numberalerts + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {alert_name}")
                         pass 

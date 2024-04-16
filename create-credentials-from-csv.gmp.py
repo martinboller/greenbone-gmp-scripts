@@ -91,6 +91,19 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
+def credential_id(
+    gmp: Gmp,
+    credName: str,
+):
+    response_xml = gmp.get_credentials(filter_string="rows=-1, name=" + credName)
+    credentials_xml = response_xml.xpath("credential")
+    cred_id = ""
+
+    for credential in credentials_xml:
+        name = "".join(credential.xpath("name/text()"))
+        cred_id = credential.get("id")
+    return cred_id
+
 def create_credentials(   
     gmp: Gmp,
     cred_file: Path,
@@ -102,15 +115,19 @@ def create_credentials(
             for row in content:   #loop through each row
                 if len(row) == 0:
                     continue
-                numberCredentials = numberCredentials + 1
                 cred_name = row[0]
                 cred_type = row[1]
                 userName = row[2]
                 userPW = row[3]
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
 
+                if credential_id(gmp, cred_name):
+                    print(f"Credential: {cred_name} exist, not creating...")
+                    continue
+
                 if cred_type == "UP":
                     try:
+                        print("Creating credential: " + cred_name)
                         gmp.create_credential(
                         name=cred_name,
                         credential_type=gmp.types.CredentialType.USERNAME_PASSWORD,
@@ -118,6 +135,7 @@ def create_credentials(
                         password=userPW,
                         comment=comment,
                         )
+                        numberCredentials = numberCredentials + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {cred_name}")
                         pass
@@ -126,6 +144,7 @@ def create_credentials(
                         key = key_file.read()
 
                     try:                    
+                        print("Creating credential: " + cred_name)
                         gmp.create_credential(
                             name=cred_name,
                             credential_type=gmp.types.CredentialType.USERNAME_SSH_KEY,
@@ -134,12 +153,14 @@ def create_credentials(
                             private_key=key,
                             comment=comment,
                             )
+                        numberCredentials = numberCredentials + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {cred_name}")
                         pass
                 elif cred_type == "SNMP":
                         # Unfinished, copy of UP for now
                     try:
+                        print("Creating credential: " + cred_name)
                         gmp.create_credential(
                         name=cred_name,
                         credential_type=gmp.types.CredentialType.USERNAME_SSH_KEY,
@@ -148,6 +169,7 @@ def create_credentials(
                         private_key=key,
                         comment=comment,
                         )
+                        numberCredentials = numberCredentials + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {cred_name}")
                         pass
@@ -155,6 +177,7 @@ def create_credentials(
                 elif cred_type == "ESX":
                         # Unfinished, copy of UP for now
                     try:
+                        print("Creating credential: " + cred_name)
                         gmp.create_credential(
                         name=cred_name,
                         credential_type=gmp.types.CredentialType.USERNAME_SSH_KEY,
@@ -163,6 +186,7 @@ def create_credentials(
                         private_key=key,
                         comment=comment,
                         )
+                        numberCredentials = numberCredentials + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {cred_name}")
                         pass
