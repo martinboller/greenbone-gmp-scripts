@@ -28,10 +28,11 @@ from gvm.protocols.gmp import Gmp
 from gvmtools.helper import Table
 
 
+
 def main(gmp: Gmp, args: Namespace) -> None:
 
     print(
-        "Emptying Greenbone Trashcan.\n"
+        "Emptying Trash...\n"
     )
 
     try:
