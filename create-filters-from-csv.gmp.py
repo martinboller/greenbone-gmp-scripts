@@ -107,6 +107,7 @@ def create_filters(
     filter_csv_file: Path,
 ):
     try:
+        numberfilters = 0
         with open(filter_csv_file, encoding="utf-8") as csvFile:
             content = csv.reader(csvFile, delimiter=',')  #read the data
             for row in content:   #loop through each row
@@ -117,7 +118,6 @@ def create_filters(
                 filterDescription = row[2]
                 filterTerm = row[3]
                 filterNameFull = filterName + ":" + filterDescription + ":" + filterType
-                numberfilters = 0
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 filterResources = []
                 if filterType == "FAIL!":

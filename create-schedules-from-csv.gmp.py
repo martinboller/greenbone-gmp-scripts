@@ -91,6 +91,20 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
+def schedule_id(
+    gmp: Gmp,
+    schedule_name: str,
+):
+    response_xml = gmp.get_schedules(filter_string="rows=-1, name=" + schedule_name)
+    schedules_xml = response_xml.xpath("schedule")
+    schedule_id = ""
+
+    for schedule in schedules_xml:
+        name = "".join(schedule.xpath("name/text()"))
+        schedule_id = schedule.get("id")
+    return schedule_id
+
+
 def create_schedules(   
     gmp: Gmp,
     sched_file: Path,
@@ -107,6 +121,9 @@ def create_schedules(
                 sched_ical = row[2]
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
                 try:
+                    if schedule_id(gmp, sched_name):
+                        print(f"Schedule: {sched_name} exist, not creating...")
+                        continue
                     print("Creating schedule: " + sched_name)
                     gmp.create_schedule(
                             name=sched_name,
