@@ -34,7 +34,7 @@ import csv
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
 from typing import List
-from gvm.protocols.gmpv208.entities.hosts import HostsOrdering #Only available in version 20.8
+from gvm.protocols.gmp.requests.v225 import HostsOrdering
 from gvm.protocols.gmp import Gmp
 from gvm.errors import GvmResponseError
 from gvmtools.helper import error_and_exit
