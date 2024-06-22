@@ -89,17 +89,13 @@ def task_id(
     gmp: Gmp,
     task_name: str,
 ):
-    response_xml = gmp.get_tasks(filter_string="rows=-1, not status=Running and "
-        "not status=Requested and not "
-        "status=Queued "
-        "and name=" + task_name)
+    response_xml = gmp.get_tasks(filter_string="rows=-1, and not status=Running and not status=Requested and not status=Queued and name= " + task_name)
     tasks_xml = response_xml.xpath("task")
     task_id = ""
 
     for task in tasks_xml:
         name = "".join(task.xpath("name/text()"))
         task_id = task.get("id")
-        #print("Requesting start of task: " + task_name + " Task UUID: " + task_id)
     return task_id
 
 def start_tasks(   

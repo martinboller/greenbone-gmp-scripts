@@ -99,7 +99,6 @@ def task_id(
     for task in tasks_xml:
         name = "".join(task.xpath("name/text()"))
         task_id = task.get("id")
-        #print("Requesting stop of task: " + task_name + " Task UUID: " + task_id)
     return task_id
 
 def stop_tasks(   
