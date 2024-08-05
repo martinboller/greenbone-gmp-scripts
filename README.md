@@ -222,7 +222,7 @@ in other words if it is referenced in tasks.csv it must already exist.
 ### list-scanners.gmp.py ###
 **Lists all scanners currently configured.**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-scanners.gmp.py
-- Returns the scanners Name, uuid, & the host on which it resides (note CVE scanner does not return a host and sockets are local)
+- Returns the scanners Name, uuid, the host on which it resides, port used, creation and modification time (note CVE scanner does not return a host and sockets are local)
 
 ## list-schedules.gmp.py ###
 **Lists all schedules configured with name, uuid, timezone, and iCalendar information.**

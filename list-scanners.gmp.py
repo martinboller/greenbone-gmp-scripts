@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_scanners(filter_string="rows=-1")
     scanners_xml = response_xml.xpath("scanner")
 
-    heading = ["#", "Name", "Id", "host"]
+    heading = ["#", "Name", "Id", "Host", "Port", "Created", "Modified"]
 
     rows = []
     numberRows = 0
@@ -52,8 +52,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
         name = "".join(scanner.xpath("name/text()"))
         scanner_id = scanner.get("id")
         host = "".join(scanner.xpath("host/text()"))
-
-        rows.append([rowNumber, name, scanner_id, host])
+        created = "".join(scanner.xpath("creation_time/text()"))
+        modified = "".join(scanner.xpath("modification_time/text()"))
+        port = "".join(scanner.xpath("port/text()"))
+        rows.append([rowNumber, name, scanner_id, host, port, created])
 
     print(Table(heading=heading, rows=rows))
 
