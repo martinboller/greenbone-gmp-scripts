@@ -248,7 +248,7 @@ in other words if it is referenced in tasks.csv it must already exist.
 ### list-tickets.gmp.py ###
 **Lists all tickets created**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-tickets.gmp.py
-- Returns the tickets name, Host, Associated Task, Status, and Note (depending on status either Open-, Fixed-, or Closed note).
+- Returns the tickets name, Status, Open Time, Host, Associated Task, and Note (depending on status either Open-, Fixed-, or Closed note).
 
 ### list-users.gmp.py ###
 **Lists all users**

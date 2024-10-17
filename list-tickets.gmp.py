@@ -34,7 +34,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     response_xml = gmp.get_tickets(filter_string="rows=-1")
     tickets_xml = response_xml.xpath("ticket")
 
-    heading = ["#", "Name", "Host", "Task", "Status", "Note"]
+    heading = ["#", "Name", "Status", "Open Time", "Host", "Task", "Note"]
 
     rows = []
     numberRows = 0
@@ -54,6 +54,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         ticket_status = "".join(ticket.xpath("status/text()"))
         ticket_task = "".join(ticket.xpath("task/name/text()"))
         ticket_host = "".join(ticket.xpath("host/text()"))
+        ticket_open = "".join(ticket.xpath("open_time/text()"))
         if ticket_status.upper() == "OPEN":
             ticket_note = "".join(ticket.xpath("open_note/text()"))
         elif ticket_status.upper() == "FIXED":
@@ -61,7 +62,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         elif ticket_status.upper() == "CLOSED":
             ticket_note = "".join(ticket.xpath("closed_note/text()"))
 
-        rows.append([rowNumber, name, ticket_host, ticket_task, ticket_status, ticket_note])
+        rows.append([rowNumber, name, ticket_status, ticket_open, ticket_host, ticket_task, ticket_note])
 
     print(Table(heading=heading, rows=rows))
 
