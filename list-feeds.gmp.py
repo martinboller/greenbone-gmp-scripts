@@ -53,8 +53,15 @@ def main(gmp: Gmp, args: Namespace) -> None:
         version = "".join(feed.xpath("version/text()"))
         type = "".join(feed.xpath("type/text()"))
         status = "".join(feed.xpath("currently_syncing/timestamp/text()"))
+        nvt_status = "".join(feed.xpath("sync_not_available/error/text()"))
+
         if not status:
-            status = "Up-to-date..."
+            if not nvt_status:
+                status = "Up-to-date."
+            else:
+                status = nvt_status
+                name = "NVT/Greenbone Community Feed"
+                version = "Loading..."
         else:
             status = "Update in progress..."
 
@@ -62,7 +69,6 @@ def main(gmp: Gmp, args: Namespace) -> None:
         rows.append([rowNumber, name, version, status])
 
     print(Table(heading=heading, rows=rows))
-
 
 if __name__ == "__gmp__":
     main(gmp, args)
