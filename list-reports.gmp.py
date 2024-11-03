@@ -82,7 +82,7 @@ def list_reports (
     gmp: Gmp,
     status: str,
 ):
-    str_status = status
+    str_status = "All"
     if status.upper() == "ALL":
         status = "All"
     elif status.upper() == "REQUESTED":

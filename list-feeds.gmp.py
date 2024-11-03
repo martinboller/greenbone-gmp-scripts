@@ -57,11 +57,11 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
         if not status:
             if not nvt_status:
-                status = "Up-to-date."
+                status = "Up-to-date..."
             else:
                 status = nvt_status
                 name = "NVT/Greenbone Community Feed"
-                version = "Loading..."
+                version = "Sync issue"
         else:
             status = "Update in progress..."
 
