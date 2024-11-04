@@ -1,4 +1,9 @@
 #! /bin/bash
+# SPDX-FileCopyrightText: 2024 Martin Boller
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Run with ./prepare-scanner.sh admin-user password
 
 if [[ -z $1 ]]; then
 	echo -e "\e[1;31mNo GMP Username supplied, use prepare-scanner.sh gmp-username gmp-password\e[1;0m"
