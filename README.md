@@ -276,6 +276,12 @@ in other words if it is referenced in tasks.csv it must already exist.
 - Stops the tasks specified in the file (example startscan.csv works for both scripts)
 - Returns the number of tasks stopped.
 
+### verify-scanners.gmp.py ###
+**Verifies configured scanners checking their openvas version**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket verify-scanners.gmp.py
+- Verifies configured scanners and gets their current installed version (openvas)
+- Returns \*No Response\* if the scanner doesn't reply, for a secondary scanner it could be down, have connectivity issues, etc.
+
 ----
 
 ## Other files
