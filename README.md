@@ -3,7 +3,7 @@
 ## Python scripts that can be used to configure your Greenbone Source Edition (OpenVAS) Scanner ###
 I hope these will make your life a little easier managing Greenbone/OpenVAS.
 
-[API Reference for GVM 22.5](https://docs.greenbone.net/API/GMP/gmp-22.5.html)
+[API Reference for GVM 22.6](https://docs.greenbone.net/API/GMP/gmp-22.6.html)
 
 [Python GVM API](https://greenbone.github.io/python-gvm/api/api.html)
 
@@ -189,6 +189,11 @@ in other words if it is referenced in tasks.csv it must already exist.
 **Lists all groups**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-groups.gmp.py
 - Returns Group Name, uuid, members
+
+### list-hosts.gmp.py ###
+**Lists hosts (asses)**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-hosts.gmp.py
+- Returns hostname, IP-Address, MAC, OS, Last Seen, and Severity for the host
 
 ### list-policies.gmp.py ###
 **Lists compliance policies.**
