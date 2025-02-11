@@ -1,8 +1,10 @@
-# SPDX-FileCopyrightText: 2024 Martin Boller
+# SPDX-FileCopyrightText: 2025 Martin Boller
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Run with gvm-script --gmp-username admin-user --gmp-password password socket list-scanners.gmp.py
+# Loosely based on other greenbone scripts
+#
+# Run with: gvm-script --gmp-username admin-user --gmp-password password socket verify-scanners.gmp.py
 
 from argparse import Namespace
 
