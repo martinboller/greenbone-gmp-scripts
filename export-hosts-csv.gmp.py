@@ -82,43 +82,65 @@ def list_hosts(gmp: Gmp, from_date: date, to_date: date, csvfilename) -> None:
         f"and modified<{to_date.isoformat()}"
     )
 
-    try:
-        # Get the XML of hosts
-        hosts_xml = gmp.get_hosts(filter_string=host_filter)
-        host_info=[]
+    # Get the XML of hosts
+    hosts_xml = gmp.get_hosts(filter_string=host_filter)
+    host_info=[]
 
-        for host in hosts_xml.xpath("asset"):
-            # IP and modification time will be there
+    for host in hosts_xml.xpath("asset"):
+        try:
+            # ip will always be there            
             ip = host.xpath("name/text()")[0]
             host_seendates = host.xpath("modification_time/text()")
             host_lastseen = host_seendates[0]
+        
+            try:
+                # hostnames and other attributes may not be there  
+                hostnames = host.xpath('identifiers/identifier/name[text()="hostname"]/../value/text()')
+                if len(hostnames) == 0:
+                    hostname = ""
+                    pass
+                else:
+                    hostname = hostnames[0]
+            except GvmResponseError as gvmerr:
+                continue    
             
-            hostnames = host.xpath('identifiers/identifier/name[text()="hostname"]/../value/text()')
-            if len(hostnames) == 0:
+            try:
+                host_macs = host.xpath('identifiers/identifier/name[text()="MAC"]/../value/text()')
+                if len(host_macs) == 0:
+                    host_mac = ""
+                    pass
+                else:
+                    host_mac = host_macs[0]
+            except GvmResponseError as gvmerr:
                 continue
-            hostname = hostnames[0]
-            
-            host_macs = host.xpath('identifiers/identifier/name[text()="MAC"]/../value/text()')
-            if len(host_macs) == 0:
+          
+            try:
+                host_severity = host.xpath('host/severity/value/text()')
+                if len(host_severity) == 0:
+                    host_severity = ""
+                    pass
+                else:
+                    host_severity = host_severity[0]
+            except GvmResponseError as gvmerr:
                 continue
-            host_mac = host_macs[0]
-            
-            host_severity = host.xpath('host/severity/value/text()')[0]
-            if len(host_severity) == 0:
-                continue
-            
-            host_os = host.xpath('host/detail/name[text()="best_os_txt"]/../value/text()')[0]
-            if len(host_os) == 0:
-                continue
-            
-            host_info.append([hostname, ip, host_mac, host_os, host_lastseen, host_severity])
-    except GvmResponseError as gvmerr:
-        print(f"{gvmerr=}, name: {ip}")
-        pass
+          
+            try:
+                host_os = host.xpath('host/detail/name[text()="best_os_txt"]/../value/text()')
+                if len(host_os) == 0:
+                    host_os = ""
+                    pass
+                else:
+                    host_os = host_os[0]
+            except GvmResponseError as gvmerr:
+                continue            
+        
+        except GvmResponseError as gvmerr:
+            continue
+
+        host_info.append([hostname, ip, host_mac, host_os, host_lastseen, host_severity])
     # Write the list host_info to csv file
     writecsv(csvfilename, host_info)
-
-    #print('Done. CSV created: ' + str(csv_path))
+    print("Done. CSV created.\nFilename: " + str(csvfilename) + "\nFrom " + str(from_date) + " To: " + str(to_date))
 
 def writecsv(csv_filename, hostinfo: dict):
     field_names = ["hostname", "ip", "host_mac", "host_os", "host_lastseen", "host_severity"]
