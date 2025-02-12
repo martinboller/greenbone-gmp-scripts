@@ -8,7 +8,6 @@
 from argparse import Namespace
 
 from gvm.protocols.gmp import Gmp
-
 from gvmtools.helper import Table
 
 
@@ -33,7 +32,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         name = "".join(report_format.xpath("name/text()"))
         report_format_id = report_format.get("id")
         report_format_summary = "".join(report_format.xpath("summary/text()"))
-        report_format_description = "".join(report_format.xpath("description/text()"))
+        #report_format_description = "".join(report_format.xpath("description/text()"))
 
         rows.append([rowNumber, name, report_format_id, report_format_summary])
 

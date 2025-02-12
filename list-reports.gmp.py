@@ -4,11 +4,11 @@
 #
 # Run with gvm-script --gmp-username admin-user --gmp-password password socket list-reports.gmp.py
 
-from gvm.protocols.gmp import Gmp
-
-from gvmtools.helper import Table
-
+import sys
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
+
+from gvm.protocols.gmp import Gmp
+from gvmtools.helper import Table
 
 HELP_TEXT = (
     "This script list reports with the status "

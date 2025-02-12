@@ -7,18 +7,14 @@
 # Information on Variables to be used in alerts: https://docs.greenbone.net/GSM-Manual/gos-22.04/en/scanning.html#using-alerts
 # Example script: https://forum.greenbone.net/t/working-example-of-creating-an-alert-using-script/7511/2
 
+import csv
 import sys
 import time
-import csv
-import json
-
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from pathlib import Path
-from typing import List
+
 from gvm.errors import GvmResponseError
-
 from gvm.protocols.gmp import Gmp
-
 from gvmtools.helper import error_and_exit
 
 HELP_TEXT = (

@@ -7,7 +7,6 @@
 from argparse import Namespace
 
 from gvm.protocols.gmp import Gmp
-
 from gvmtools.helper import Table
 
 
@@ -36,7 +35,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         scanner_id = scanner.get("id")
         host = "".join(scanner.xpath("host/text()"))
         created = "".join(scanner.xpath("creation_time/text()"))
-        modified = "".join(scanner.xpath("modification_time/text()"))
+        #modified = "".join(scanner.xpath("modification_time/text()"))
         port = "".join(scanner.xpath("port/text()"))
         rows.append([rowNumber, name, scanner_id, host, port, created])
 

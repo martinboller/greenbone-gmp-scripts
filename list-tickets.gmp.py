@@ -7,7 +7,6 @@
 from argparse import Namespace
 
 from gvm.protocols.gmp import Gmp
-
 from gvmtools.helper import Table
 
 
@@ -33,7 +32,6 @@ def main(gmp: Gmp, args: Namespace) -> None:
         rowNumber = str(numberRows)
 
         name = "".join(ticket.xpath("name/text()"))
-        ticket_id = ticket.get("id")
         ticket_status = "".join(ticket.xpath("status/text()"))
         ticket_task = "".join(ticket.xpath("task/name/text()"))
         ticket_host = "".join(ticket.xpath("host/text()"))

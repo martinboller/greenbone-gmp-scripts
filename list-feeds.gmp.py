@@ -7,7 +7,6 @@
 from argparse import Namespace
 
 from gvm.protocols.gmp import Gmp
-
 from gvmtools.helper import Table
 
 #from gvm.xml import pretty_print
@@ -33,7 +32,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         rowNumber = str(numberRows)
         name = "".join(feed.xpath("name/text()"))
         version = "".join(feed.xpath("version/text()"))
-        type = "".join(feed.xpath("type/text()"))
+        #type = "".join(feed.xpath("type/text()"))
         status = "".join(feed.xpath("currently_syncing/timestamp/text()"))
         nvt_status = "".join(feed.xpath("sync_not_available/error/text()"))
 
