@@ -5,6 +5,9 @@
 #
 # Run with ./prepare-scanner.sh admin-user password
 
+# Starting
+echo -e "\e[1;33mStarting at: $(date)\e[1;0m"
+
 if [[ -z $1 ]]; then
 	echo -e "\e[1;31mNo GMP Username supplied, use prepare-scanner.sh gmp-username gmp-password\e[1;0m"
 	echo -e
@@ -23,28 +26,40 @@ else
 	GMPPASSWORD=$2
 fi
 
-# Create Tasks
+## Check that we can authenticate
+AUTHN_TEST=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep "Could not authenticate")
+if [[ $AUTHN_TEST ]]; then
+	echo -e "\e[1;31m$AUTHN_TEST Please verify the credentials provided\e[1;0m"
+	exit
+else
+	echo -e "\e[1;32mAuthentication successful, now checking if scan configs are available before continuing\e[1;0m\n"
+fi
+
 ## Make sure that the required Scan Configurations are available before creating tasks
 SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
-if [[ -z $SCANCONFIGS ]]; then
-    echo -e "\e[1;31mNo scan configs. Waiting 60 seconds, then trying again\e[1;0m"
-    sleep 60;
-    ./$(basename $0) $GMPUSERNAME $GMPPASSWORD && exit
-else
-    ## Prepares scanner
-    echo -e "\e[1;32mScan Configs now available, preparing scanner\e[1;0m"
-	# Create Credentials
-	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-credentials-from-csv.gmp.py credentials.csv
-	# Create Schedules
-	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-schedules-from-csv.gmp.py schedules.csv
-	# Create Alerts
-	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-alerts-from-csv.gmp.py alerts.csv
-	# Create Targets
-	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-targets-from-csv.gmp.py targets.csv
-	## Now create the Tasks
-	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tasks-from-csv.gmp.py tasks.csv
-    
-	## Create Filters and Tags
-	gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-filters-from-csv.gmp.py filters.csv
-    gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tags-from-csv.gmp.py tags.csv
-fi
+TEST_COUNT=1
+until [ $SCANCONFIGS ]
+        do
+			echo -e "\e[1;31mNo scan configs run #$TEST_COUNT. Waiting 60 seconds, then trying again\e[1;0m"
+    		sleep 60;
+			TEST_COUNT=($TEST_COUNT+1)
+			SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
+        done
+
+## Prepares scanner
+echo -e "\e[1;32mScan Configs now available, preparing scanner\e[1;0m"
+# Create Credentials
+gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-credentials-from-csv.gmp.py credentials.csv
+# Create Schedules
+gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-schedules-from-csv.gmp.py schedules.csv
+# Create Alerts
+gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-alerts-from-csv.gmp.py alerts.csv
+# Create Targets
+gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-targets-from-csv.gmp.py targets.csv
+## Now create the Tasks
+gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tasks-from-csv.gmp.py tasks.csv
+# Create Filters and Tags
+gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-filters-from-csv.gmp.py filters.csv
+gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket create-tags-from-csv.gmp.py tags.csv
+
+echo -e "\e[1;32mFinished at: $(date)\e[1;0m"
