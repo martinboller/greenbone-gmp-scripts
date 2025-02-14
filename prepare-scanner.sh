@@ -8,6 +8,8 @@
 # Starting
 echo -e "\e[1;33mStarting at: $(date)\e[1;0m"
 
+WAIT_TIME=30
+
 if [[ -z $1 ]]; then
 	echo -e "\e[1;31mNo GMP Username supplied, use prepare-scanner.sh gmp-username gmp-password\e[1;0m"
 	echo -e
@@ -38,12 +40,12 @@ fi
 ## Make sure that the required Scan Configurations are available before creating tasks
 SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
 TEST_COUNT=1
-until [ $SCANCONFIGS ]
+until [[ $SCANCONFIGS ]]
         do
-			echo -e "\e[1;31mNo scan configs run #$TEST_COUNT. Waiting 60 seconds, then trying again\e[1;0m"
-    		sleep 60;
-			TEST_COUNT=($TEST_COUNT+1)
-			SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
+		echo -e "\e[1;31mNo scan configs run #$TEST_COUNT. Waiting $WAIT_TIME seconds, then trying again\e[1;0m"
+ 		sleep $WAIT_TIME;
+		TEST_COUNT=$((TEST_COUNT + 1))
+		SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
         done
 
 ## Prepares scanner
