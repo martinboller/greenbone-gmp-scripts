@@ -79,7 +79,7 @@ def list_operating_systems(gmp: Gmp, from_date: date, to_date: date) -> None:
     )
     heading = [
         "#",
-        "Title",
+        "OS CPE",
         "Latest Severity",
         "Count",
     ]

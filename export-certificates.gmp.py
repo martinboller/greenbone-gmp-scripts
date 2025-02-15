@@ -74,41 +74,45 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     return script_args
 
 
-def list_operating_systems(
+def list_tls_certificates(
     gmp: Gmp, from_date: date, to_date: date, csvfilename: str
 ) -> None:
-    operating_system_filter = (
-        f"rows=-1 "
-        f"and modified>{from_date.isoformat()} "
-        f"and modified<{to_date.isoformat()}"
+    tls_certificate_filter = "rows=-1 "
+
+    certificate_info = []
+
+    tls_certificates_xml = gmp.get_tls_certificates(
+        filter_string=tls_certificate_filter
     )
+    # pretty_print(tls_certificates_xml)
 
-    os_info = []
+    for tls_certificate in tls_certificates_xml.xpath("tls_certificate"):
 
-    operating_systems_xml = gmp.get_operating_systems(
-        filter_string=operating_system_filter
-    )
+        certificate_seen = tls_certificate.xpath("last_seen/text()")[0]
 
-    for operating_system in operating_systems_xml.xpath("asset"):
-        # title will always be there
-        os_title = operating_system.xpath("name/text()")[0]
+        certificate_from = tls_certificate.xpath("activation_time/text()")[0]
 
-        os_latest_severity = operating_system.xpath(
-            "os/latest_severity/value/text()"
-        )[0]
+        certificate_to = tls_certificate.xpath("expiration_time/text()")[0]
 
-        os_host_count = operating_system.xpath("os/installs/text()")[0]
+        certificate_subject = tls_certificate.xpath("subject_dn/text()")[0]
 
-        os_info.append(
+        certificate_issuer = tls_certificate.xpath("issuer_dn/text()")[0]
+
+        certificate_serial = tls_certificate.xpath("serial/text()")[0]
+
+        certificate_info.append(
             [
-                os_title,
-                os_latest_severity,
-                os_host_count,
+                certificate_subject,
+                certificate_issuer,
+                certificate_serial,
+                certificate_seen,
+                certificate_from,
+                certificate_to,
             ]
         )
 
     # Write the list host_info to csv file
-    writecsv(csvfilename, os_info)
+    writecsv(csvfilename, certificate_info)
     print(
         f"CSV file: {csvfilename}\n"
         f"From:     {from_date}\n"
@@ -118,12 +122,12 @@ def list_operating_systems(
 
 def writecsv(csv_filename, hostinfo: list) -> None:
     field_names = [
-        "IP Address",
-        "Hostname",
-        "MAC Address",
-        "Operating System",
-        "Last Seen",
-        "CVSS",
+        "Subject",
+        "Issuer",
+        "Serial",
+        "last_seen",
+        "Valid From",
+        "Valid To",
     ]
     try:
         with open(csv_filename, "w") as csvfile:
@@ -150,7 +154,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     )
     to_date = datetime.now()
     # get the hosts
-    list_operating_systems(gmp, from_date, to_date, parsed_args.csv_filename)
+    list_tls_certificates(gmp, from_date, to_date, parsed_args.csv_filename)
 
 
 if __name__ == "__gmp__":
