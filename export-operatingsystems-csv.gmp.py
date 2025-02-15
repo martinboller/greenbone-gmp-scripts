@@ -86,11 +86,6 @@ def list_operating_systems(
     os_info=[]
 
     operating_systems_xml = gmp.get_operating_systems(filter_string=operating_system_filter)
-    heading = [
-        "Title",
-        "Latest Severity",
-        "Count",
-    ]
 
     for operating_system in operating_systems_xml.xpath("asset"):
         # title will always be there   

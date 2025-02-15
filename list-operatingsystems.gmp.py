@@ -58,11 +58,14 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "delta_days",
         type=int,
-        help=("Number of days in the past to pull operating_systems information"),
+        help=(
+            "Number of days in the past to pull operating_systems information"
+        ),
     )
 
     script_args, _ = parser.parse_known_args(args)
     return script_args
+
 
 def list_operating_systems(gmp: Gmp, from_date: date, to_date: date) -> None:
     operating_system_filter = (
@@ -71,7 +74,9 @@ def list_operating_systems(gmp: Gmp, from_date: date, to_date: date) -> None:
         f"and modified<{to_date.isoformat()}"
     )
 
-    operating_systems_xml = gmp.get_operating_systems(filter_string=operating_system_filter)
+    operating_systems_xml = gmp.get_operating_systems(
+        filter_string=operating_system_filter
+    )
     heading = [
         "#",
         "Title",
@@ -81,21 +86,21 @@ def list_operating_systems(gmp: Gmp, from_date: date, to_date: date) -> None:
     rows = []
     numberRows = 0
 
-    print("Listing operating_systems.\n" f"From: {from_date}\n" f"To:   {to_date}\n")
+    print(
+        "Listing operating_systems.\n"
+        f"From: {from_date}\n"
+        f"To:   {to_date}\n"
+    )
 
     for operating_system in operating_systems_xml.xpath("asset"):
-        # title will always be there   
-        os_title = operating_system.xpath(
-            "name/text()"
-        )[0]
+        # title will always be there
+        os_title = operating_system.xpath("name/text()")[0]
 
         os_latest_severity = operating_system.xpath(
             "os/latest_severity/value/text()"
         )[0]
 
-        os_host_count = operating_system.xpath(
-            "os/installs/text()"
-        )[0]
+        os_host_count = operating_system.xpath("os/installs/text()")[0]
 
         # Count number of operating_systems
         numberRows = numberRows + 1
@@ -111,6 +116,7 @@ def list_operating_systems(gmp: Gmp, from_date: date, to_date: date) -> None:
         )
 
     print(Table(heading=heading, rows=rows))
+
 
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=undefined-variable
