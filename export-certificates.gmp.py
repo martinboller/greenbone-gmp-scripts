@@ -17,10 +17,10 @@ from gvm.protocols.gmp import Gmp
 from gvmtools.helper import error_and_exit
 
 HELP_TEXT = (
-    "This script generates a csv file with hosts (assets) "
+    "This script generates a csv file with certificates "
     "from Greenbone Vulnerability Manager.\n\n"
     "csv file will contain:\n"
-    "IP Address, Hostname, MAC Address, Operating System, last seen, and severity\n"
+    "Subject, Issuer, Serial, SHA256 Fingerprint, MD5 Fingerprint, last_seen, Valid From, Valid To"
 )
 
 
@@ -35,11 +35,10 @@ def check_args(args: Namespace) -> None:
         
         Examples:
             $ gvm-script --gmp-username username --gmp-password password socket export-hosts-csv.gmp.py <csv_file> <days>
-            $ gvm-script --gmp-username admin --gmp-password 0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00 socket export-hosts-csv.gmp.py hosts.csv 4
+            $ gvm-script --gmp-username admin --gmp-password 0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00 socket export-hosts-csv.gmp.py certs.csv 4
         """
         print(message)
         sys.exit()
-
 
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     """Parsing args ..."""
@@ -61,7 +60,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "csv_filename",
         type=str,
-        help=("CSV File containing credentials"),
+        help=("CSV File with certificate information"),
     )
 
     parser.add_argument(
@@ -77,7 +76,10 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 def list_tls_certificates(
     gmp: Gmp, from_date: date, to_date: date, csvfilename: str
 ) -> None:
-    tls_certificate_filter = "rows=-1 "
+    tls_certificate_filter = (
+        f"rows=-1 and modified>{from_date.isoformat()} "
+        f"and modified<{to_date.isoformat()}"
+    )
 
     certificate_info = []
 

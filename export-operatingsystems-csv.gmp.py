@@ -17,10 +17,10 @@ from gvm.protocols.gmp import Gmp
 from gvmtools.helper import error_and_exit
 
 HELP_TEXT = (
-    "This script generates a csv file with hosts (assets) "
+    "This script generates a csv file with Operating System "
     "from Greenbone Vulnerability Manager.\n\n"
     "csv file will contain:\n"
-    "IP Address, Hostname, MAC Address, Operating System, last seen, and severity\n"
+    "IP Address, Hostname, MAC Address, Operating System, Last Seen, CVSS\n"
 )
 
 
@@ -35,7 +35,7 @@ def check_args(args: Namespace) -> None:
         
         Examples:
             $ gvm-script --gmp-username username --gmp-password password socket export-hosts-csv.gmp.py <csv_file> <days>
-            $ gvm-script --gmp-username admin --gmp-password 0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00 socket export-hosts-csv.gmp.py hosts.csv 4
+            $ gvm-script --gmp-username admin --gmp-password 0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00 socket export-hosts-csv.gmp.py operatingsystems.csv 4
         """
         print(message)
         sys.exit()
