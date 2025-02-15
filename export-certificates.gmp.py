@@ -100,11 +100,19 @@ def list_tls_certificates(
 
         certificate_serial = tls_certificate.xpath("serial/text()")[0]
 
+        certificate_sha256 = tls_certificate.xpath("sha256_fingerprint/text()")[
+            0
+        ]
+
+        certificate_md5 = tls_certificate.xpath("md5_fingerprint/text()")[0]
+
         certificate_info.append(
             [
                 certificate_subject,
                 certificate_issuer,
                 certificate_serial,
+                certificate_sha256,
+                certificate_md5,
                 certificate_seen,
                 certificate_from,
                 certificate_to,
@@ -125,7 +133,9 @@ def writecsv(csv_filename, hostinfo: list) -> None:
         "Subject",
         "Issuer",
         "Serial",
-        "last_seen",
+        "SHA256 Fingerprint",
+        "MD5 Fingerprint",
+        "la1st_seen",
         "Valid From",
         "Valid To",
     ]
