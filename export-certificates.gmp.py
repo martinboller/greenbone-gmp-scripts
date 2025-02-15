@@ -137,7 +137,7 @@ def writecsv(csv_filename, hostinfo: list) -> None:
         "Serial",
         "SHA256 Fingerprint",
         "MD5 Fingerprint",
-        "la1st_seen",
+        "Last seen",
         "Valid From",
         "Valid To",
     ]
