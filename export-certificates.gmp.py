@@ -43,9 +43,9 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "csv_filename",
         nargs='?',
-        default="certificates.csv",
+        default="gvm_certificates.csv",
         type=str,
-        help=("Optional: CSV File with certificate information - Default: certificates.csv"),
+        help=("Optional: CSV File with certificate information - Default: gvm_certificates.csv"),
     )
 
     parser.add_argument(

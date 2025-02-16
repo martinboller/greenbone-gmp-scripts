@@ -43,9 +43,9 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     parser.add_argument(
         "csv_filename",
         nargs='?',
-        default='gvmoperatingsystems.csv',
+        default='gvm_operatingsystems.csv',
         type=str,
-        help=("Optional: CSV File containing credentials - Default: gvmoperatingsystems.csv"),
+        help=("Optional: CSV File containing credentials - Default: gvm_operatingsystems.csv"),
     )
 
     parser.add_argument(
@@ -53,7 +53,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
         nargs='?',
         default='1',
         type=int,
-        help=("Optional: Number of days in the past to pull hosts information - Default: 1 day"),
+        help=("Optional: Number of days in the past to pull information - Default: 1 day"),
     )
 
     script_args, _ = parser.parse_known_args(args)
@@ -133,7 +133,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         days=delta_days
     )
     to_date = datetime.now()
-    # get the hosts
+    # get the operating systems
     list_operating_systems(gmp, from_date, to_date, parsed_args.csv_filename)
 
 
