@@ -22,23 +22,6 @@ HELP_TEXT = (
     "operating_systemname, IP Address, MAC Address, Operating System, last seen, and severity\n"
 )
 
-
-def check_args(args: Namespace) -> None:
-    len_args = len(args.script) - 1
-    if len_args < 1:
-        message = """
-        This script requests information about all operating_systems <days> days prior to today (included) and 
-        displays it as a table. It requires one parameter after the script name:
-        1. days -- number of days prior to today to pull operating_systems information from
-
-        Examples:
-            $ gvm-script --gmp-username username --gmp-password password socket list-operating_systems.gmp.py <days>
-            $ gvm-script --gmp-username admin --gmp-password 0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00 socket list-operating_systems.gmp.py 4
-        """
-        print(message)
-        sys.exit()
-
-
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     """Parsing args ..."""
 
@@ -57,6 +40,8 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "delta_days",
+        nargs='?',
+        default='1',
         type=int,
         help=(
             "Number of days in the past to pull operating_systems information"
@@ -117,12 +102,9 @@ def list_operating_systems(gmp: Gmp, from_date: date, to_date: date) -> None:
 
     print(Table(heading=heading, rows=rows))
 
-
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=undefined-variable
-    check_args(args)
-    if args.script:
-        args = args.script[1:]
+    args = args.script[1:]
     parsed_args = parse_args(args=args)
     delta_days = parsed_args.delta_days
     # simply getting yesterday from midnight to today (now)
@@ -133,7 +115,6 @@ def main(gmp: Gmp, args: Namespace) -> None:
     # print(from_date, to_date)
 
     list_operating_systems(gmp, from_date, to_date)
-
 
 if __name__ == "__gmp__":
     main(gmp, args)
