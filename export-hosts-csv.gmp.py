@@ -23,24 +23,6 @@ HELP_TEXT = (
     "IP Address, Hostname, MAC Address, Operating System, last seen, and severity\n"
 )
 
-
-def check_args(args: Namespace) -> None:
-    len_args = len(args.script) - 1
-    if len_args < 2:
-        message = """
-        This script requests all hosts <days> prior to today and exports it as a csv file.
-        It requires two parameter after the script name:
-        1. filename -- name of the csv file of the report
-        2. days     -- number of days before and until today to pull hosts information from
-        
-        Examples:
-            $ gvm-script --gmp-username username --gmp-password password socket export-hosts-csv.gmp.py <csv_file> <days>
-            $ gvm-script --gmp-username admin --gmp-password 0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00 socket export-hosts-csv.gmp.py hosts.csv 4
-        """
-        print(message)
-        sys.exit()
-
-
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     """Parsing args ..."""
 
@@ -60,14 +42,18 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "csv_filename",
+        nargs='?',
+        default="gvmhosts.csv",
         type=str,
-        help=("CSV File containing credentials"),
+        help=("Optional: CSV File for hosts information - Default: gvmhosts.csv"),
     )
 
     parser.add_argument(
         "delta_days",
+        nargs='?',
+        default='1',
         type=int,
-        help=("Number of days in the past to pull hosts information"),
+        help=("Optional: Number of days in the past to pull hosts information - Default: 1 day"),
     )
 
     script_args, _ = parser.parse_known_args(args)
@@ -160,10 +146,7 @@ def writecsv(csv_filename, hostinfo: list) -> None:
 
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=undefined-variable
-    # argv[0] contains the csv file name
-    check_args(args)
-    if args.script:
-        args = args.script[1:]
+    args = args.script[1:]
     parsed_args = parse_args(args=args)
 
     delta_days = parsed_args.delta_days
