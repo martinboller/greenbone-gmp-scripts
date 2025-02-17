@@ -38,9 +38,9 @@ else
 fi
 
 ## Make sure that the required Scan Configurations are available before creating tasks
-SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
+SCANCONFIGS=$(gvm-script --gmp-username admin --gmp-password 7c603b91-e8e0-4f02-bd34-1c5c7fab5a11 socket list-feeds.gmp.py | grep SCAP | grep -i 'in Progress')
 TEST_COUNT=1
-until [[ $SCANCONFIGS ]]
+until [[ ! $SCANCONFIGS ]]
         do
 		echo -e "\e[1;31mNo scan configs run #$TEST_COUNT. Waiting $WAIT_TIME seconds, then trying again\e[1;0m"
  		sleep $WAIT_TIME;
