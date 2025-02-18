@@ -8,7 +8,7 @@
 # Starting
 echo -e "\e[1;33mStarting at: $(date)\e[1;0m"
 
-WAIT_TIME=30
+WAIT_TIME=60
 
 if [[ -z $1 ]]; then
 	echo -e "\e[1;31mNo GMP Username supplied, use prepare-scanner.sh gmp-username gmp-password\e[1;0m"
@@ -38,16 +38,24 @@ else
 fi
 
 ## Make sure that the required Scan Configurations are available before creating tasks
-SCANCONFIGS=$(gvm-script --gmp-username admin --gmp-password 7c603b91-e8e0-4f02-bd34-1c5c7fab5a11 socket list-feeds.gmp.py | grep SCAP | grep -i 'in Progress')
+FEEDS_UPTODATE=$(gvm-script --gmp-username admin --gmp-password $GMPPASSWORD socket list-feeds.gmp.py | grep SCAP | grep -i 'Up-to-date...')
+SCANCONFIGS=$(gvm-script --gmp-username admin --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
 TEST_COUNT=1
-until [[ ! $SCANCONFIGS ]]
-        do
-		echo -e "\e[1;31mNo scan configs run #$TEST_COUNT. Waiting $WAIT_TIME seconds, then trying again\e[1;0m"
- 		sleep $WAIT_TIME;
+	until [[ $FEEDS_UPTODATE ]]
+	do
+		echo -e "\e[1;31mFeeds not up-to-date yes, run #$TEST_COUNT. Waiting $WAIT_TIME seconds, then trying again\e[1;0m"
+		sleep $WAIT_TIME;
 		TEST_COUNT=$((TEST_COUNT + 1))
-		SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
-        done
-
+		FEEDS_UPTODATE=$(gvm-script --gmp-username admin --gmp-password $GMPPASSWORD socket list-feeds.gmp.py | grep SCAP | grep -i 'Up-to-date...')
+		
+		until [[ $SCANCONFIGS ]]
+		do
+			echo -e "\e[1;31mNo scan configs run #$TEST_COUNT. Waiting $WAIT_TIME seconds, then trying again\e[1;0m"
+			sleep $WAIT_TIME;
+			TEST_COUNT=$((TEST_COUNT + 1))
+			SCANCONFIGS=$(gvm-script --gmp-username $GMPUSERNAME --gmp-password $GMPPASSWORD socket list-scan-configs.gmp.py | grep Full)
+		done
+	done
 ## Prepares scanner
 echo -e "\e[1;32mScan Configs now available, preparing scanner\e[1;0m"
 # Create Credentials
