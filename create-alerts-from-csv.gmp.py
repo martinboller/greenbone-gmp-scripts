@@ -25,6 +25,7 @@ HELP_TEXT = (
     "It should be rather self explanatory."
 )
 
+
 def check_args(args):
     len_args = len(args.script) - 1
     if len_args != 2:
@@ -69,6 +70,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
+
 def alert_id(
     gmp: Gmp,
     alert_name: str,
@@ -78,50 +80,56 @@ def alert_id(
     alert_id = ""
 
     for alert in alerts_xml:
-        name = "".join(alert.xpath("name/text()"))
         alert_id = alert.get("id")
     return alert_id
+
 
 def credential_id(
     gmp: Gmp,
     credential_name: str,
 ):
-    response_xml = gmp.get_credentials(filter_string="rows=-1, name=" + credential_name)
+    response_xml = gmp.get_credentials(
+        filter_string="rows=-1, name=" + credential_name
+    )
     credentials_xml = response_xml.xpath("credential")
     credential_id = ""
 
     for credential in credentials_xml:
-        name = "".join(credential.xpath("name/text()"))
+        "".join(credential.xpath("name/text()"))
         credential_id = credential.get("id")
     return credential_id
+
 
 def report_format_id(
     gmp: Gmp,
     report_format_name: str,
 ):
-    response_xml = gmp.get_report_formats(details=True, filter_string="rows=-1, name=" + report_format_name)
+    response_xml = gmp.get_report_formats(
+        details=True, filter_string="rows=-1, name=" + report_format_name
+    )
     report_formats_xml = response_xml.xpath("report_format")
     report_format_id = ""
 
     for report_format in report_formats_xml:
-        name = "".join(report_format.xpath("name/text()"))
+        "".join(report_format.xpath("name/text()"))
         report_format_id = report_format.get("id")
     return report_format_id
+
 
 def event_list(string):
     event_list = list(string.split(" "))
     return event_list
- 
 
-def create_alerts(   
+
+def create_alerts(
     gmp: Gmp,
     alert_file: Path,
 ):
     try:
         numberalerts = 0
         with open(alert_file, encoding="utf-8") as csvFile:
-            content = csv.reader(csvFile, delimiter=',')  #read the data
-            for row in content:   #loop through each row
+            content = csv.reader(csvFile, delimiter=",")  # read the data
+            for row in content:  # loop through each row
                 if len(row) == 0:
                     continue
                 alert_name = row[0]
@@ -135,12 +143,12 @@ def create_alerts(
                 event_data = row[8]
 
                 comment = f"Created: {time.strftime('%Y/%m/%d-%H:%M:%S')}"
-                alert_type=getattr(gmp.types.AlertMethod, str_alert_type)
+                alert_type = getattr(gmp.types.AlertMethod, str_alert_type)
 
                 if alert_id(gmp, alert_name):
                     print(f"Alert: {alert_name} exist, not creating...")
                     continue
-                
+
                 if str_alert_type == "EMAIL":
                     sender_email = strRow2
                     recipient_email = strRow3
@@ -169,7 +177,7 @@ def create_alerts(
                         numberalerts = numberalerts + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {alert_name}")
-                        pass 
+                        pass
                 else:
                     smb_credential = credential_id(gmp, strRow2)
                     smb_share_path = strRow3
@@ -180,33 +188,34 @@ def create_alerts(
                     try:
                         print("Creating alert: " + alert_name)
                         gmp.create_alert(
-                        name=alert_name,
-                        comment=comment,
-                        event=gmp.types.AlertEvent.TASK_RUN_STATUS_CHANGED,
-                        event_data={"status": event_data},
-                        condition=gmp.types.AlertCondition.ALWAYS,
-                        method=alert_type,
-                        method_data={
-                            "smb_credential": smb_credential,
-                            "smb_share_path": smb_share_path,
-                            "smb_report_format": report_format,
-                            "smb_file_path": smb_file_path,
-                        },
+                            name=alert_name,
+                            comment=comment,
+                            event=gmp.types.AlertEvent.TASK_RUN_STATUS_CHANGED,
+                            event_data={"status": event_data},
+                            condition=gmp.types.AlertCondition.ALWAYS,
+                            method=alert_type,
+                            method_data={
+                                "smb_credential": smb_credential,
+                                "smb_share_path": smb_share_path,
+                                "smb_report_format": report_format,
+                                "smb_file_path": smb_file_path,
+                            },
                         )
                         numberalerts = numberalerts + 1
                     except GvmResponseError as gvmerr:
                         print(f"{gvmerr=}, name: {alert_name}")
-                        pass 
-        csvFile.close()   #close the csv file
+                        pass
+        csvFile.close()  # close the csv file
 
     except IOError as e:
         error_and_exit(f"Failed to read alert_file: {str(e)} (exit)")
 
     if len(row) == 0:
         error_and_exit("alerts file is empty (exit)")
-    
+
     return numberalerts
-    
+
+
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=undefined-variable
     if args.script:
@@ -214,9 +223,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     parsed_args = parse_args(args=args)
 
-    print(
-        "Creating alerts.\n"
-    )
+    print("Creating alerts.\n")
 
     numberalerts = create_alerts(
         gmp,

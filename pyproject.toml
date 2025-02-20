@@ -1,0 +1,79 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "greenbone-gmp-scripts"
+version = "1.0.1"
+authors = ["Martin Boller <martin@bollers.dk>"]
+description = "gmp scripts for managing Greenbone Community Edition Masters and Scanners"
+license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/martinboller/greenbone-gmp-scripts/"
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'Intended Audience :: System Administrators',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Operating System :: OS Independent',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+]
+packages = [
+    { include = "tests", format = "sdist" },
+    { include = "scripts", format = "sdist" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python-gvm = ">=23.4.2"
+
+[tool.poetry.group.dev.dependencies]
+autohooks = ">=22.8.0"
+autohooks-plugin-ruff = ">=23.6.1"
+autohooks-plugin-black = ">=22.8.1"
+pontos = ">=22.8.1"
+sphinx = ">=5.3.0"
+coverage = ">=7.2"
+rope = ">=1.9.0"
+furo = ">=2023.3.27"
+sphinx-autobuild = ">=2021.3.14"
+myst-parser = ">=2.0.0"
+
+[tool.black]
+line-length = 80
+target-version = ['py39', 'py310', 'py311', 'py312']
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | \.github
+  | \.vscode
+  | _build
+  | build
+  | dist
+  | docs
+)/
+'''
+
+[tool.autohooks]
+mode = "poetry"
+pre-commit = ['autohooks.plugins.black', 'autohooks.plugins.ruff']
+
+[tool.ruff]
+line-length = 80
+target-version = "py39"
+
+[tool.ruff.lint]
+extend-select = ["I", "PLE", "PLW"]
+
+[tool.coverage.run]
+omit = ["tests/*"]
+source = ["gvmtools", "scripts"]
+
+[tool.pontos.version]
+version-module-file = "gvmtools/__version__.py"

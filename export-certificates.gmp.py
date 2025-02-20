@@ -10,6 +10,7 @@
 import csv
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from datetime import date, datetime, time, timedelta
+
 # GVM Specific
 from gvm.protocols.gmp import Gmp
 from gvmtools.helper import error_and_exit
@@ -22,6 +23,7 @@ HELP_TEXT = (
     "csv file will contain:\n"
     "Subject, Issuer, Serial, SHA256 Fingerprint, MD5 Fingerprint, last_seen, Valid From, Valid To"
 )
+
 
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     """Parsing args ..."""
@@ -42,73 +44,74 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "csv_filename",
-        nargs='?',
+        nargs="?",
         default="gvm_certificates.csv",
         type=str,
-        help=("Optional: CSV File with certificate information - Default: gvm_certificates.csv"),
+        help=(
+            "Optional: CSV File with certificate information - Default: gvm_certificates.csv"
+        ),
     )
 
     parser.add_argument(
         "delta_days",
-        nargs='?',
-        default='1',
+        nargs="?",
+        default="1",
         type=int,
-        help=("Optional: Number of days in the past to pull information - Default: 1 day"),
+        help=(
+            "Optional: Number of days in the past to pull information - Default: 1 day"
+        ),
     )
 
     script_args, _ = parser.parse_known_args(args)
     return script_args
 
+
 def list_tls_certificates(
     gmp: Gmp, from_date: date, to_date: date, csvfilename: str
 ) -> None:
-    tls_certificate_filter = (
+    tls_cert_filter = (
         f"rows=-1 and modified>{from_date.isoformat()} "
         f"and modified<{to_date.isoformat()}"
     )
 
-    certificate_info = []
+    cert_info = []
 
-    tls_certificates_xml = gmp.get_tls_certificates(
-        filter_string=tls_certificate_filter
-    )
-    # pretty_print(tls_certificates_xml)
+    tls_cert_xml = gmp.get_tls_certificates(filter_string=tls_cert_filter)
+    # pretty_print(tls_cert_xml)
 
-    for tls_certificate in tls_certificates_xml.xpath("tls_certificate"):
+    for tls_cert in tls_cert_xml.xpath("tls_certificate"):
 
-        certificate_seen = tls_certificate.xpath("last_seen/text()")[0]
+        cert_seen = tls_cert.xpath("last_seen/text()")[0]
 
-        certificate_from = tls_certificate.xpath("activation_time/text()")[0]
+        cert_from = tls_cert.xpath("activation_time/text()")[0]
 
-        certificate_to = tls_certificate.xpath("expiration_time/text()")[0]
+        cert_to = tls_cert.xpath("expiration_time/text()")[0]
 
-        certificate_subject = tls_certificate.xpath("subject_dn/text()")[0]
+        cert_subject = tls_cert.xpath("subject_dn/text()")[0]
 
-        certificate_issuer = tls_certificate.xpath("issuer_dn/text()")[0]
+        cert_issuer = tls_cert.xpath("issuer_dn/text()")[0]
 
-        certificate_serial = tls_certificate.xpath("serial/text()")[0]
+        cert_serial = tls_cert.xpath("serial/text()")[0]
 
-        certificate_sha256 = tls_certificate.xpath("sha256_fingerprint/text()")[
-            0
-        ]
+        cert_sha256 = tls_cert.xpath("sha256_fingerprint/text()")[0]
 
-        certificate_md5 = tls_certificate.xpath("md5_fingerprint/text()")[0]
+        cert_md5 = tls_cert.xpath("md5_fingerprint/text()")[0]
 
-        certificate_info.append(
+        cert_info.append(
             [
-                certificate_subject,
-                certificate_issuer,
-                certificate_serial,
-                certificate_sha256,
-                certificate_md5,
-                certificate_seen,
-                certificate_from,
-                certificate_to,
+                cert_subject,
+                cert_issuer,
+                cert_serial,
+                cert_sha256,
+                cert_md5,
+                cert_seen,
+                cert_from,
+                cert_to,
             ]
         )
 
     # Write the list host_info to csv file
-    writecsv(csvfilename, certificate_info)
+    writecsv(csvfilename, cert_info)
     print(
         f"CSV file: {csvfilename}\n"
         f"From:     {from_date}\n"
@@ -116,7 +119,7 @@ def list_tls_certificates(
     )
 
 
-def writecsv(csv_filename, hostinfo: list) -> None:
+def writecsv(csv_filename: str, hostinfo: list) -> None:
     field_names = [
         "Subject",
         "Issuer",
@@ -151,6 +154,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     to_date = datetime.now()
     # get the certs
     list_tls_certificates(gmp, from_date, to_date, csv_filename)
+
 
 if __name__ == "__gmp__":
     main(gmp, args)
