@@ -1,12 +1,9 @@
-# SPDX-FileCopyrightText: 2024 Martin Boller
+# SPDX-FileCopyrightText: 2014 Martin Boller
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-#
-# Run with gvm-script --gmp-username admin-user --gmp-password password socket empty-trash.gmp.py
 
 from argparse import Namespace
 
-from gvm.errors import GvmResponseError
 from gvm.protocols.gmp import Gmp
 
 
@@ -17,9 +14,8 @@ def main(gmp: Gmp, args: Namespace) -> None:
     try:
         status_text = gmp.empty_trashcan().xpath("@status_text")[0]
         print(status_text)
-    except GvmResponseError as gvmerr:
-        print(f"{gvmerr=}")
-        pass
+    except Exception as e:
+        print(f"{e=}")
 
 
 if __name__ == "__gmp__":

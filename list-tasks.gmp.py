@@ -4,7 +4,6 @@
 #
 # Run with gvm-script --gmp-username admin-user --gmp-password password socket list-tasks.gmp.py
 
-import sys
 
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 
@@ -14,9 +13,10 @@ from gvmtools.helper import Table
 HELP_TEXT = (
     "This script returns tasks "
     "from Greenbone Vulnerability Manager.\n\n"
-    "specify trash as first script parameter to"
+    "specify trash as first script parameter to "
     "return tasks in the GVM trashcan. No parameters show default tasks\n"
 )
+
 
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     """Parsing args ..."""
@@ -37,7 +37,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "trashed",
-        nargs='?',
+        nargs="?",
         default="Default",
         type=str,
         help=("trash or default"),
@@ -50,7 +50,7 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 def list_tasks(gmp: Gmp, trashed: str) -> None:
     # pylint: disable=unused-argument
 
-    if trashed == "trash":    
+    if trashed == "trash":
         response_xml = gmp.get_tasks(trash=True, filter_string="rows=-1")
     else:
         response_xml = gmp.get_tasks(details=True, filter_string="rows=-1")
@@ -62,9 +62,7 @@ def list_tasks(gmp: Gmp, trashed: str) -> None:
     rows = []
     numberRows = 0
 
-    print(
-        "Listing tasks.\n"
-    )
+    print("Listing tasks.\n")
 
     for task in tasks_xml:
         # Count number of reports
@@ -78,20 +76,20 @@ def list_tasks(gmp: Gmp, trashed: str) -> None:
         scanner = "".join(task.xpath("scanner/name/text()"))
         severity = "".join(task.xpath("last_report/report/severity/text()"))
         order = "".join(task.xpath("hosts_ordering/text()"))
- 
-        rows.append([rowNumber, name, task_id, targetname, scanner, order, severity])
+
+        rows.append(
+            [rowNumber, name, task_id, targetname, scanner, order, severity]
+        )
 
     print(Table(heading=heading, rows=rows))
 
+
 def main(gmp: Gmp, args: Namespace) -> None:
-    # pylint: disable=undefined-variable
-    # argv[0] contains the csv file name
-    if args.script:
-        args = args.script[1:]
+    args = args.script[1:]
     parsed_args = parse_args(args=args)
-    print(parsed_args.trashed)
     # get the tasks
     list_tasks(gmp, parsed_args.trashed)
+
 
 if __name__ == "__gmp__":
     main(gmp, args)

@@ -8,7 +8,6 @@
 # example: gvm-script --gmp-username admin --gmp-password top$ecret socket list-operating_systems.gmp.py 2
 
 
-import sys
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from datetime import date, datetime, time, timedelta
 
@@ -21,6 +20,7 @@ HELP_TEXT = (
     "table will contain:\n"
     "operating_systemname, IP Address, MAC Address, Operating System, last seen, and severity\n"
 )
+
 
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     """Parsing args ..."""
@@ -40,8 +40,8 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "delta_days",
-        nargs='?',
-        default='1',
+        nargs="?",
+        default="1",
         type=int,
         help=(
             "Number of days in the past to pull operating_systems information"
@@ -102,6 +102,7 @@ def list_operating_systems(gmp: Gmp, from_date: date, to_date: date) -> None:
 
     print(Table(heading=heading, rows=rows))
 
+
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=undefined-variable
     args = args.script[1:]
@@ -115,6 +116,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
     # print(from_date, to_date)
 
     list_operating_systems(gmp, from_date, to_date)
+
 
 if __name__ == "__gmp__":
     main(gmp, args)

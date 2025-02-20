@@ -8,7 +8,6 @@
 # example: gvm-script --gmp-username admin --gmp-password top$ecret socket list-hosts.gmp.py 2
 
 
-import sys
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from datetime import date, datetime, time, timedelta
 
@@ -21,22 +20,6 @@ HELP_TEXT = (
     "table will contain:\n"
     "Hostname, IP Address, MAC Address, Operating System, last seen, and severity\n"
 )
-
-
-def check_args(args: Namespace) -> None:
-    len_args = len(args.script) - 1
-    if len_args < 1:
-        message = """
-        This script requests information about all hosts <days> days prior to today (included) and 
-        displays it as a table. It requires one parameter after the script name:
-        1. days -- number of days prior to today to pull hosts information from
-
-        Examples:
-            $ gvm-script --gmp-username username --gmp-password password socket list-hosts.gmp.py <days>
-            $ gvm-script --gmp-username admin --gmp-password 0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00 socket list-hosts.gmp.py 4
-        """
-        print(message)
-        sys.exit()
 
 
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
@@ -57,6 +40,8 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "delta_days",
+        nargs="?",
+        default="1",
         type=int,
         help=("Number of days in the past to pull hosts information"),
     )
@@ -149,9 +134,7 @@ def list_hosts(gmp: Gmp, from_date: date, to_date: date) -> None:
 
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=undefined-variable
-    check_args(args)
-    if args.script:
-        args = args.script[1:]
+    args = args.script[1:]
     parsed_args = parse_args(args=args)
     delta_days = parsed_args.delta_days
     # simply getting yesterday from midnight to today (now)

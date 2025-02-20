@@ -9,7 +9,8 @@ from argparse import Namespace
 from gvm.protocols.gmp import Gmp
 from gvmtools.helper import Table
 
-#from gvm.xml import pretty_print
+# from gvm.xml import pretty_print
+
 
 def main(gmp: Gmp, args: Namespace) -> None:
     # pylint: disable=unused-argument
@@ -19,11 +20,9 @@ def main(gmp: Gmp, args: Namespace) -> None:
     heading = ["#", "Name", "Version", "Status"]
     rows = []
     numberRows = 0
-#    pretty_print(feeds_xml)
+    #    pretty_print(feeds_xml)
 
-    print(
-        "Listing feeds and their status.\n"
-    )
+    print("Listing feeds and their status.\n")
 
     for feed in feeds_xml:
         # Count number of reports
@@ -32,7 +31,7 @@ def main(gmp: Gmp, args: Namespace) -> None:
         rowNumber = str(numberRows)
         name = "".join(feed.xpath("name/text()"))
         version = "".join(feed.xpath("version/text()"))
-        #type = "".join(feed.xpath("type/text()"))
+        # type = "".join(feed.xpath("type/text()"))
         status = "".join(feed.xpath("currently_syncing/timestamp/text()"))
         nvt_status = "".join(feed.xpath("sync_not_available/error/text()"))
 
@@ -46,10 +45,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
         else:
             status = "Update in progress..."
 
-
         rows.append([rowNumber, name, version, status])
 
     print(Table(heading=heading, rows=rows))
+
 
 if __name__ == "__gmp__":
     main(gmp, args)
