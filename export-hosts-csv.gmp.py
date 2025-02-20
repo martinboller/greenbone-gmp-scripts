@@ -9,7 +9,6 @@
 
 
 import csv
-import sys
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 from datetime import date, datetime, time, timedelta
 
@@ -22,6 +21,7 @@ HELP_TEXT = (
     "csv file will contain:\n"
     "IP Address, Hostname, MAC Address, Operating System, last seen, and severity\n"
 )
+
 
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
     """Parsing args ..."""
@@ -42,18 +42,22 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "csv_filename",
-        nargs='?',
+        nargs="?",
         default="gvm_hosts.csv",
         type=str,
-        help=("Optional: CSV File for hosts information - Default: gvm_hosts.csv"),
+        help=(
+            "Optional: CSV File for hosts information - Default: gvm_hosts.csv"
+        ),
     )
 
     parser.add_argument(
         "delta_days",
-        nargs='?',
-        default='1',
+        nargs="?",
+        default="1",
         type=int,
-        help=("Optional: Number of days in the past to pull hosts information - Default: 1 day"),
+        help=(
+            "Optional: Number of days in the past to pull hosts information - Default: 1 day"
+        ),
     )
 
     script_args, _ = parser.parse_known_args(args)

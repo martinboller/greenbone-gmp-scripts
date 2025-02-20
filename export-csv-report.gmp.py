@@ -5,13 +5,13 @@
 # Run with gvm-script --gmp-username admin-user --gmp-password password socket export-csv-report.gmp.py report-UUID outputfile
 #
 # Added ignore_pagination=True, details=True to get the full report
- 
+
 
 import sys
-
+from argparse import Namespace
 from base64 import b64decode
 from pathlib import Path
-from argparse import Namespace
+
 from gvm.protocols.gmp import Gmp
 
 
@@ -49,7 +49,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
     csv_report_format_id = "c1645568-627a-11e3-a660-406186ea4fc5"
 
     response = gmp.get_report(
-        report_id=report_id, report_format_id=csv_report_format_id, ignore_pagination=True, details=True
+        report_id=report_id,
+        report_format_id=csv_report_format_id,
+        ignore_pagination=True,
+        details=True,
     )
 
     report_element = response.find("report")
@@ -58,15 +61,15 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     if not content:
         print(
-            'Requested report is empty. Either the report does not contain any '
-            ' results or the necessary tools for creating the report are '
-            'not installed.',
+            "Requested report is empty. Either the report does not contain any "
+            " results or the necessary tools for creating the report are "
+            "not installed.",
             file=sys.stderr,
         )
         sys.exit(1)
 
     # convert content to 8-bit ASCII bytes
-    binary_base64_encoded_csv = content.encode('ascii')
+    binary_base64_encoded_csv = content.encode("ascii")
 
     # decode base64
     binary_csv = b64decode(binary_base64_encoded_csv)
@@ -76,9 +79,8 @@ def main(gmp: Gmp, args: Namespace) -> None:
 
     csv_path.write_bytes(binary_csv)
 
-    print('Done. CSV created: ' + str(csv_path))
+    print("Done. CSV created: " + str(csv_path))
 
 
-if __name__ == '__gmp__':
+if __name__ == "__gmp__":
     main(gmp, args)
-

@@ -1,14 +1,13 @@
-# SPDX-FileCopyrightText: 2024 Martin Boller
+# SPDX-FileCopyrightText: 2025 Martin Boller
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-
 # Run with gvm-script --gmp-username admin-user --gmp-password password socket clean-sensor.gmp.py
 
 from argparse import Namespace
 
-from gvm.protocols.gmp import Gmp
 from gvm.errors import GvmResponseError
+from gvm.protocols.gmp import Gmp
 
 
 def clean_sensor(gmp: Gmp) -> None:
@@ -27,7 +26,7 @@ def clean_sensor(gmp: Gmp) -> None:
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
     targets = gmp.get_targets(filter_string="rows=-1 not _owner=&quot;&quot;")
     try:
@@ -39,7 +38,7 @@ def clean_sensor(gmp: Gmp) -> None:
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
     configs = gmp.get_scan_configs(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -47,13 +46,13 @@ def clean_sensor(gmp: Gmp) -> None:
     try:
         for config_id in configs.xpath("config/@id"):
             print(f"Removing config {config_id} ... ")
-            status_text = gmp.delete_scan_config(config_id, ultimate=True).xpath(
-                "@status_text"
-            )[0]
+            status_text = gmp.delete_scan_config(
+                config_id, ultimate=True
+            ).xpath("@status_text")[0]
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
     port_lists = gmp.get_port_lists(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -61,17 +60,15 @@ def clean_sensor(gmp: Gmp) -> None:
     try:
         for port_list_id in port_lists.xpath("port_list/@id"):
             print(f"Removing port_list {port_list_id} ... ")
-            status_text = gmp.delete_port_list(port_list_id, ultimate=True).xpath(
-                "@status_text"
-            )[0]
+            status_text = gmp.delete_port_list(
+                port_list_id, ultimate=True
+            ).xpath("@status_text")[0]
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
-    alerts = gmp.get_alerts(
-        filter_string="rows=-1 not _owner=&quot;&quot;"
-    )
+    alerts = gmp.get_alerts(filter_string="rows=-1 not _owner=&quot;&quot;")
     try:
         for alert_id in alerts.xpath("alert/@id"):
             print(f"Removing alert {alert_id} ... ")
@@ -81,7 +78,7 @@ def clean_sensor(gmp: Gmp) -> None:
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
     schedules = gmp.get_schedules(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -95,11 +92,9 @@ def clean_sensor(gmp: Gmp) -> None:
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
-    tags = gmp.get_tags(
-        filter_string="rows=-1 not _owner=&quot;&quot;"
-    )
+    tags = gmp.get_tags(filter_string="rows=-1 not _owner=&quot;&quot;")
     try:
         for tag_id in tags.xpath("tag/@id"):
             print(f"Removing tag {tag_id} ... ")
@@ -109,11 +104,9 @@ def clean_sensor(gmp: Gmp) -> None:
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
-    filters = gmp.get_filters(
-        filter_string="rows=-1 not _owner=&quot;&quot;"
-    )
+    filters = gmp.get_filters(filter_string="rows=-1 not _owner=&quot;&quot;")
     try:
         for filter_id in filters.xpath("filter/@id"):
             print(f"Removing filter {filter_id} ... ")
@@ -123,7 +116,7 @@ def clean_sensor(gmp: Gmp) -> None:
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
     credentials = gmp.get_credentials(
         filter_string="rows=-1 not _owner=&quot;&quot;"
@@ -137,7 +130,7 @@ def clean_sensor(gmp: Gmp) -> None:
             print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
 
     print("Emptying trash... ")
     try:
@@ -145,11 +138,10 @@ def clean_sensor(gmp: Gmp) -> None:
         print(status_text)
     except GvmResponseError as gvmerr:
         print(f"{gvmerr=}")
-        pass 
+        pass
+
 
 def main(gmp: Gmp, args: Namespace) -> None:
-    # pylint: disable=unused-argument
-
     print(
         "This script removes all resources from a sensor, except active tasks.\n"
     )

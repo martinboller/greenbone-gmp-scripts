@@ -47,7 +47,10 @@ def main(gmp: Gmp, args: Namespace) -> None:
     pdf_report_format_id = "c402cc3e-b531-11e1-9163-406186ea4fc5"
 
     response = gmp.get_report(
-        report_id=report_id, report_format_id=pdf_report_format_id, ignore_pagination=True, details=True
+        report_id=report_id,
+        report_format_id=pdf_report_format_id,
+        ignore_pagination=True,
+        details=True,
     )
 
     report_element = response.find("report")
