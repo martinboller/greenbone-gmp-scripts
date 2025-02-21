@@ -1,5 +1,5 @@
 #! /bin/bash
-# SPDX-FileCopyrightText: 2024 Martin Boller
+# SPDX-FileCopyrightText: 2025 Martin Boller
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 #

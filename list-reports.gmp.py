@@ -1,10 +1,9 @@
-# SPDX-FileCopyrightText: 2024 Martin Boller
+# SPDX-FileCopyrightText: 2025 Martin Boller
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Run with gvm-script --gmp-username admin-user --gmp-password password socket list-reports.gmp.py
 
-import sys
 from argparse import ArgumentParser, Namespace, RawTextHelpFormatter
 
 from gvm.protocols.gmp import Gmp
@@ -13,26 +12,9 @@ from gvmtools.helper import Table
 HELP_TEXT = (
     "This script list reports with the status "
     "defined on the commandline. Status can be: \n"
-    "Requested, Queued, Interrupted, Running, or Done \n"
-    "Note: Case matters. E.g.  - done - won't work, but - Done - will"
+    "All, Queued, Requested, Interrupted, Running, Stop Requested, Stopped, or Done \n"
+    "Default: All"
 )
-
-
-def check_args(args):
-    len_args = len(args.script) - 1
-    if len_args != 1:
-        message = """
-        This script lists all reports depending on status.
-        One parameter after the script name is required.
-
-        1. Status -- Either \"All\", \"Requested\", \"Queued\", \"Interrupted\", \"Running\", \"StopRequested\", \"Stopped\", or \"Done\"
-
-        Example:
-            $ gvm-script --gmp-username name --gmp-password pass \
-socket list-reports.gmp.py Done \n
-        """
-        print(message)
-        sys.exit()
 
 
 def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
@@ -54,9 +36,11 @@ def parse_args(args: Namespace) -> Namespace:  # pylint: disable=unused-argument
 
     parser.add_argument(
         "status_cmd",
+        nargs="?",
+        default="All",
         type=str,
         help=(
-            'Status: "All", "Queued", "Requested", "Interrupted", "Running", "Stop Requested", "Stopped" or "Done"'
+            'Status: "All", "Queued", "Requested", "Interrupted", "Running", "Stop Requested", "Stopped", or "Done"'
         ),
     )
     script_args, _ = parser.parse_known_args(args)
@@ -94,6 +78,14 @@ def list_reports(
     if str_status == "All":
         response_xml = gmp.get_reports(
             ignore_pagination=True, details=True, filter_string="rows=-1"
+        )
+    elif str_status == "trash":
+        response_xml = gmp.get_reports(
+            trash=True,
+            ignore_pagination=True,
+            filter_string="status="
+            + str_status
+            + "  and sort-reverse=name and rows=-1",
         )
     else:
         response_xml = gmp.get_reports(
@@ -147,12 +139,8 @@ def list_reports(
 
 
 def main(gmp: Gmp, args: Namespace) -> None:
-    # pylint: disable=unused-argument
-    if args.script:
-        args = args.script[1:]
-
+    args = args.script[1:]
     parsed_args = parse_args(args=args)
-
     print("Listing reports.\n")
 
     list_reports(gmp, parsed_args.status_cmd)
