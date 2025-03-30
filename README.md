@@ -8,6 +8,9 @@ I hope these will make your life a little easier managing Greenbone/OpenVAS.
 [Python GVM API](https://greenbone.github.io/python-gvm/api/api.html)
 
 ----
+### 2025-03-30
+- list-last-reports.gmp.py and number of reports per task.
+
 ### 2024-04-06 - stop scans from csv or stop all running or requested scans
 - stop-all-scans.gmp.py, stop-scans-from-csv.gmp.py.
 - GvmResponseErrors handled in those scripts + start-scans-from-csv.gmp.py
@@ -194,6 +197,11 @@ in other words if it is referenced in tasks.csv it must already exist.
 **Lists hosts (asses)**
 - Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-hosts.gmp.py
 - Returns hostname, IP-Address, MAC, OS, Last Seen, and Severity for the host
+
+### list-last-reports.gmp.py
+**Lists latest completed reports**
+- Usage: gvm-script --gmp-username *admin-user* --gmp-password *password* socket list-last-report.gmp.py
+- Returns Task Name, Task Id, Report Id, and Report Time of last report
 
 ### list-policies.gmp.py ###
 **Lists compliance policies.**

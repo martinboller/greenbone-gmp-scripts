@@ -57,7 +57,7 @@ def list_tasks(gmp: Gmp, trashed: str) -> None:
 
     tasks_xml = response_xml.xpath("task")
 
-    heading = ["#", "Name", "Id", "Target", "Scanner", "Scan Order", "Severity", "Report Count"]
+    heading = ["#", "Name", "Task Id", "Report Id", "Report Time"]
 
     rows = []
     numberRows = 0
@@ -76,9 +76,10 @@ def list_tasks(gmp: Gmp, trashed: str) -> None:
         scanner = "".join(task.xpath("scanner/name/text()"))
         severity = "".join(task.xpath("last_report/report/severity/text()"))
         order = "".join(task.xpath("hosts_ordering/text()"))
-        report_count = "".join(task.xpath("report_count/text()"))
+        last_report_id = "".join(task.xpath("last_report/report/@id"))
+        last_report_timestamp = "".join(task.xpath("last_report/report/timestamp/text()"))
         rows.append(
-            [rowNumber, name, task_id, targetname, scanner, order, severity, report_count]
+            [rowNumber, name, task_id, last_report_id, last_report_timestamp]
         )
 
     print(Table(heading=heading, rows=rows))
