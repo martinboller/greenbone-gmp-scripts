@@ -1,0 +1,126 @@
+# SPDX-FileCopyrightText: 2025 Martin Boller
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Run with gvm-script --gmp-username admin-user --gmp-password password socket export-csv-report.gmp.py report-UUID outputfile
+#
+# Added ignore_pagination=True, details=True to get the full report
+
+
+import sys
+from argparse import Namespace
+from base64 import b64decode
+from pathlib import Path
+import csv
+import io
+import re
+from gvm.protocols.gmp import Gmp
+
+
+def check_args(args):
+    len_args = len(args.script) - 1
+    if len_args < 1:
+        message = """
+        This script requests the given report and exports it as a csv 
+        file locally. It requires one parameter after the script name.
+
+        1. <report_id>     -- ID of the report
+        
+        Optional a file name to save the csv in.
+
+        Examples:
+            $ gvm-script --gmp-username name --gmp-password pass \
+ssh --hostname <gsm> scripts/export-csv-report.gmp.py <report_id> <csv_file>
+            $ gvm-script --gmp-username admin --gmp-password '0f6fa69b-32bb-453a-9aa4-b8c9e56b3d00' socket export-csv-report.gmp.py b26229cd-94c8-44f8-9cb6-27486a3dedad ./test.csv
+        """
+        print(message)
+        sys.exit()
+
+
+def clean_csv_file(file_path):
+    """removes superfluous newlines/carriage returns, and writes the cleaned data back to the original file."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            csv_string = file.read()
+    except FileNotFoundError:
+        return f"Error: File not found at {file_path}"
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+    cleaned_rows = []
+    csv_file_io = io.StringIO(csv_string)
+    reader = csv.reader(csv_file_io)
+
+    for row in reader:
+        cleaned_row = []
+        for cell in row:
+            #cleaned_cell = cell.replace('\r\n', '_orig_')
+            cleaned_cell = re.sub(r'[\n\r\"\,\'\t\|\\]+', ' ', cell).strip()
+            #.replace('"', '')
+            cleaned_row.append(cleaned_cell)
+        cleaned_rows.append(cleaned_row)
+
+    output_string = io.StringIO()
+    writer = csv.writer(output_string, quoting=csv.QUOTE_NONE, escapechar="_")
+    writer.writerows(cleaned_rows)
+    cleaned_csv_result = output_string.getvalue()
+
+    try:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(cleaned_csv_result)
+        return f"CSV file cleaned and overwritten successfully at {file_path}"
+    except Exception as e:
+        return f"Error writing to file: {e}"
+
+
+def main(gmp: Gmp, args: Namespace) -> None:
+    # check if report id and CSV filename are provided to the script
+    # argv[0] contains the script name
+    check_args(args)
+
+    report_id = args.argv[1]
+    if len(args.argv) == 3:
+        csv_filename = args.argv[2] + ".csv"
+    else:
+        csv_filename = args.argv[1] + ".csv"
+
+    csv_report_format_id = "c1645568-627a-11e3-a660-406186ea4fc5"
+
+    response = gmp.get_report(
+        report_id=report_id,
+        report_format_id=csv_report_format_id,
+        ignore_pagination=True,
+        details=True,
+    )
+
+    report_element = response.find("report")
+    # get the full content of the report element
+    content = report_element.find("report_format").tail
+
+    if not content:
+        print(
+            "Requested report is empty. Either the report does not contain any "
+            " results or the necessary tools for creating the report are "
+            "not installed.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    # convert content to 8-bit ASCII bytes
+    binary_base64_encoded_csv = content.encode("ascii")
+
+    # decode base64
+    binary_csv = b64decode(binary_base64_encoded_csv)
+
+    # write to file and support ~ in filename path
+    csv_path = Path(csv_filename).expanduser()
+
+    csv_path.write_bytes(binary_csv)
+
+    result = clean_csv_file(csv_path)
+    print(result)
+    print("Done. CSV created: " + str(csv_path))
+
+
+if __name__ == "__gmp__":
+    main(gmp, args)

@@ -250,7 +250,7 @@ def create_tasks(
                         comment=comment,
                         config_id=configId,
                         target_id=targetId,
-                        hosts_ordering=scanOrder,
+                        #hosts_ordering=scanOrder,
                         scanner_id=scannerId,
                         alterable=alterable,
                         schedule_id=scheduleId,
